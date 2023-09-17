@@ -1,9 +1,44 @@
-<mxfile host="app.diagrams.net" modified="2023-09-17T14:33:43.731Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" version="21.6.6" etag="HMAahUT0sO1FYb_YHazW" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-17T14:48:19.680Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="Wh35-hSiuQYlx182lam5" version="21.6.6" type="github">
   <diagram name="Page-1" id="cER_2Mx2eGCEB7N7shnE">
-    <mxGraphModel>
+    <mxGraphModel dx="1653" dy="1571" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1RtOy5xZr4oWQtpDuO4s-1" target="1RtOy5xZr4oWQtpDuO4s-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-1" value="&lt;font style=&quot;font-size: 40px;&quot;&gt;Create a task specific branch&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="533" y="320" width="589" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1RtOy5xZr4oWQtpDuO4s-2" target="1RtOy5xZr4oWQtpDuO4s-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="827" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-2" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;Do all the changes needed in your branch&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="537" y="650" width="580" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="1RtOy5xZr4oWQtpDuO4s-4" target="1RtOy5xZr4oWQtpDuO4s-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-4" value="&lt;font style=&quot;font-size: 30px;&quot;&gt;push changes to remote&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="544" y="1230" width="566.25" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1RtOy5xZr4oWQtpDuO4s-6" target="1RtOy5xZr4oWQtpDuO4s-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-6" value="&lt;span style=&quot;font-size: 30px;&quot;&gt;Create a pull request&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="544" y="1520" width="566.25" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="1RtOy5xZr4oWQtpDuO4s-11" target="1RtOy5xZr4oWQtpDuO4s-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-11" value="&lt;span style=&quot;font-size: 30px;&quot;&gt;Merge main to your branch&lt;br&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="544.38" y="940" width="566.25" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="1RtOy5xZr4oWQtpDuO4s-13" value="&lt;span style=&quot;font-size: 30px;&quot;&gt;Wait for Review and merge&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="544.38" y="1810" width="566.25" height="120" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
