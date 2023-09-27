@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:02:12 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/28 00:02:42 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/09/27 23:05:47 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	call_debug(int argc, char **argv, char **envs)
+void	print_argv(int argc, char **argv)
 {
-	print_argv(argc, argv);
-	print_envs(envs);
+	int	i;
+
+	i = 0;
+	printf("argc: %d\n", argc);
+	while (i < argc)
+	{
+		printf("argv[%d]: %s\n", i, argv[i]);
+		i++;
+	}
 }
 
-int	main(int argc, char **argv, char **envs)
+void	print_envs(char **envp)
 {
-	char	*input;
+	int	i;
 
-	if (false)
-		call_debug(argc, argv, envs);
-	init_readline();
-	while (true)
+	i = 0;
+	while (envp[i])
 	{
-		input = readaline();
-		handle_input(input);
-		free(input);
+		printf("envp[%d]: %s\n", i, envp[i]);
+		i++;
 	}
-	close_readline();
-	return (0);
 }

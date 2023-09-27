@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   inputs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:02:12 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/28 00:02:42 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/09/28 00:03:09 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	call_debug(int argc, char **argv, char **envs)
+void	init_readline(void)
 {
-	print_argv(argc, argv);
-	print_envs(envs);
+	rl_initialize();
+	rl_bind_key('\t', rl_complete);
 }
 
-int	main(int argc, char **argv, char **envs)
+void	close_readline(void)
 {
-	char	*input;
+	clear_history();
+}
 
-	if (false)
-		call_debug(argc, argv, envs);
-	init_readline();
-	while (true)
-	{
-		input = readaline();
-		handle_input(input);
-		free(input);
-	}
-	close_readline();
-	return (0);
+char	*readaline(void)
+{
+	char	*line;
+
+	line = readline("minishell (⌘ ↩︎) $ ");
+	if (line && *line)
+		add_history(line);
+	return (line);
+}
+
+void	handle_input(char *input)
+{
+	lexer(input);
 }
