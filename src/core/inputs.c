@@ -6,16 +6,17 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/28 00:03:09 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/09/28 00:19:41 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_readline(void)
+int	init_readline(void)
 {
 	rl_initialize();
 	rl_bind_key('\t', rl_complete);
+	return (1);
 }
 
 void	close_readline(void)

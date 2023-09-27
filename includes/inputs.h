@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/28 00:03:13 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/09/28 00:20:07 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <readline/history.h>
 
 char	*readaline(void);
-void	init_readline(void);
+int     init_readline(void);
 void	close_readline(void);
 void	handle_input(char *input);
 
