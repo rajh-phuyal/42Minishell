@@ -4,9 +4,9 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <string.h>
 # include <errno.h>
+# include <sys/types.h>
 # include "../libft/libft.h"
 
 # define STDIN  0
@@ -22,9 +22,10 @@ typedef struct s_args
 
 typedef struct s_data
 {
-	char	*cmd1_path;
 	char	*cmd1;
+	char	*cmd1_path;
 	char	*cmd2;
+	char	*cmd2_path;
 	char	**path;
 	int		pipe_fd[2];
 	int		infile_fd;
@@ -34,5 +35,9 @@ typedef struct s_data
 t_data	*data(void);
 t_args	*args(void);
 void	open_infile(void);
+void	open_outfile(void);
+void	find_cmd1(void);
+void	find_cmd2(void);
+void	pipex(void);
 
 #endif

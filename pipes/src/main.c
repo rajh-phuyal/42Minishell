@@ -28,41 +28,19 @@ void initialize_vars(int ac, char **av, char **env)
 	args()->ac = ac - 1;
 	args()->av = av + 1;
 	args()->env = env;
-	data()->cmd1 = ft_strdup(av[1]); // this has to be changed
+	data()->cmd1 = ft_strdup(args()->av[1]); // this has to be changed
 	data()->cmd1_path = NULL;
-
+	data()->cmd2 = ft_strdup(args()->av[2]); // this has to be changed
+	data()->cmd2_path = NULL;
 }
 
 void	check_args(void)
 {
 	if (args()->ac != 4) // this has to change for multiple pipes
 	{
-		printf("Error: %s\n", strerror(EINVAL));
+		printf("Usage: ./pipex filein cmd1 cmd2 fileout\n");
+		printf("Error 1: %s\n", strerror(EINVAL));
 		exit(1);
-	}
-	if (pipe(data()->pipe_fd) < 0)
-	{
-		printf("Error: %s\n", strerror(errno));
-		exit(1);
-	}
-}
-
-void	find_cmd()
-{
-	char *temp;
-	int i = 0;
-
-	while(data()->path[i])
-	{
-		temp = ft_strjoin(data()->path[i], "/");
-		temp = ft_strjoin(temp, data()->cmd1);
-		if (access(temp, F_OK) == 0)
-		{
-			data()->cmd1_path = temp;
-			return ;
-		}
-		free(temp);
-		i++;
 	}
 }
 
@@ -71,6 +49,7 @@ int main(int ac, char **av, char **env)
 	initialize_vars(ac, av, env);
 	check_args();
 	get_path();
-	open_infile();
-	find_cmd();
+	find_cmd1();
+	find_cmd2();
+	pipex();
 }
