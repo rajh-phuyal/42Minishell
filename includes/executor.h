@@ -1,37 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:27:09 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/09/30 15:32:50 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/09/30 21:33:31 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-# include "../libft/libft.h"
-# include "inputs.h"
+# include "minishell.h"
 
-// the minieverything
-typedef struct s_minishell
-{
-	char		**envp;
-	char		*input;
-	t_token		*token;
-	t_baobab	*tree;
-}	t_minishell;
-
-t_minishell	*minishell(void);
-
-// parsing gate
-void		lexer(char *input);
-
-// debug functions
-void		print_envs(char **envp);
-void		print_argv(int argc, char **argv);
+void	executor();
 
 #endif

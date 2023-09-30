@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/28 00:19:41 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/09/30 21:33:10 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*readaline(void)
 {
 	char	*line;
 
-	line = readline("minishell (⌘ ↩︎) $ ");
+	line = readline("minibaiters (⌘ ↩︎) $ ");
 	if (line && *line)
 		add_history(line);
 	return (line);
@@ -37,4 +37,7 @@ char	*readaline(void)
 void	handle_input(char *input)
 {
 	lexer(input);
+	// parser();
+	// executor();
+	// liberation();
 }
