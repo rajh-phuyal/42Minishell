@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 15:32:50 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:33:31 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/09/30 21:34:42 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "minishell.h"
 
-void	executor();
+void	executor(void);
 
 #endif

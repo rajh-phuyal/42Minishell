@@ -6,11 +6,11 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/27 23:05:47 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/09/30 21:42:19 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	print_argv(int argc, char **argv)
 {
