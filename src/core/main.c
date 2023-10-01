@@ -6,38 +6,30 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:02:12 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:42:09 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/02 00:20:53 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_minishell	*minishell(void)
-{
-	static t_minishell	minishell;
-
-	return (&minishell);
-}
-
-void	call_debug(int argc, char **argv, char **envs)
+/* call the debug functions to check the state of the program variables*/
+void	call_debug(int argc, char **argv, char **envs, t_minivault *minivault)
 {
 	print_argv(argc, argv);
 	print_envs(envs);
+	print_tokens(minivault->tokens);
 }
 
 int	main(int argc, char **argv, char **envs)
 {
-	char	*input;
+	t_minivault	minivault;
 
 	if (false)
-		call_debug(argc, argv, envs);
-	(init_readline() && init_minishell());
+		call_debug(argc, argv, envs, &minivault);
+	(init_readline() && init_minivault(&minivault));
 	while (true)
-	{
-		input = readaline();
-		handle_input(input);
-		free(input);
-	}
+		handle_input(&minivault, readaline()); // need a specific way when to exit
+	liberation(&minivault);
 	close_readline();
 	return (0);
 }

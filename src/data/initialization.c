@@ -6,18 +6,18 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:42:04 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/02 00:32:40 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_minishell(void)
+int	init_minivault(t_minivault *minivault)
 {
-	minishell()->envp = NULL;
-	minishell()->tree = NULL;
-	minishell()->token = NULL;
-	minishell()->input = NULL;
+	minivault->envp = NULL;
+	minivault->input = NULL;
+	minivault->tokens = NULL;
+	minivault->baobab = NULL;
 	printf("Minishell initialized\n");
 	return (0);
 }
