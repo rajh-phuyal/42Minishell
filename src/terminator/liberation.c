@@ -1,6 +1,7 @@
 
 #include "minishell.h"
 
+// liberates the memory allocated for the tokens
 void    liberate_tokens(t_token *head)
 {
     t_token *temp;
@@ -26,6 +27,7 @@ void    liberate_tokens(t_token *head)
 //     }
 // }
 
+// liberates the memory allocated for the tokens and the baobab tree
 void    liberation(t_minivault *minivault)
 {
     liberate_tokens(minivault->tokens);

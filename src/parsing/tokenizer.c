@@ -13,6 +13,7 @@ t_token *create_new(char *token)
     return (new);
 }
 
+// add tokens to the list of tokens
 void    add_token(t_minivault *minivault, char *token)
 {
     t_token *head;
@@ -35,6 +36,7 @@ void    add_token(t_minivault *minivault, char *token)
     head->next = token_node;
 }
 
+// remove the token from the list of tokens
 void    remove_token(t_token *head, t_token *node)
 {
     t_token *temp;
