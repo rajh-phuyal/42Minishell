@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:42:04 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/09/30 15:32:50 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/09/30 21:34:42 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-int	init_minishell(void)
-{
-	minishell()->envp = NULL;
-	minishell()->tree = NULL;
-	minishell()->token = NULL;
-	minishell()->input = NULL;
-	printf("Minishell initialized\n");
-	return (0);
-}
+# include "minishell.h"
+
+void	executor(void);
+
+#endif

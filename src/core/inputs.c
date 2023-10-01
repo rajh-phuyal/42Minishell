@@ -1,23 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   inputs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:42:04 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/09/30 21:42:14 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_minishell(void)
+int	init_readline(void)
 {
-	minishell()->envp = NULL;
-	minishell()->tree = NULL;
-	minishell()->token = NULL;
-	minishell()->input = NULL;
-	printf("Minishell initialized\n");
-	return (0);
+	rl_initialize();
+	rl_bind_key('\t', rl_complete);
+	return (1);
+}
+
+void	close_readline(void)
+{
+	clear_history();
+}
+
+char	*readaline(void)
+{
+	char	*line;
+
+	line = readline("minibaiters (⌘ ↩︎) $ ");
+	if (line && *line)
+		add_history(line);
+	return (line);
+}
+
+void	handle_input(char *input)
+{
+	lexer(input);
+	// parser();
+	// executor();
+	// liberation();
 }

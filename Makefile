@@ -2,9 +2,15 @@ NAME  = minishell
 
 CC    = @cc
 
-FLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address -fsanitize-address-use-after-scope
 
-SRC = src/core/main.c
+INC = -I./includes
+
+SRC = src/core/main.c \
+	src/core/inputs.c \
+	src/parsing/scanner.c \
+	src/data/initialization.c \
+	src/helpers/debug.c
 
 OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -20,7 +26,7 @@ all: obj $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "$(CBOLD)$(YELLOW)    Compiling $(NAME)   $(RESET)"
-	$(CC) $(FLAGS) -o $@ $^
+	$(CC) $(FLAGS) $(INC) -lreadline -o $@ $^
 	@echo "$(CBOLD)$(GREEN)      $(NAME) ready!    $(RESET)"
 
 obj:
