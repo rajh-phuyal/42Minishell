@@ -2,15 +2,20 @@ NAME  = minishell
 
 CC    = @cc
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address -fsanitize-address-use-after-scope
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 INC = -I./includes
 
+LFT   = libft/libft.a
+
 SRC = src/core/main.c \
 	src/core/inputs.c \
-	src/parsing/scanner.c \
+	src/helpers/debug.c \
+	src/parsing/lexer.c \
+	src/parsing/farmer.c \
+	src/parsing/tokenizer.c \
 	src/data/initialization.c \
-	src/helpers/debug.c
+	src/terminator/liberation.c \
 
 OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -22,12 +27,19 @@ BLUE   = \033[0;44m
 YELLOW  = \033[0;43m
 RESET   = \033[0m
 
-all: obj $(NAME)
+all: $(LFT) obj $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "$(CBOLD)$(YELLOW)    Compiling $(NAME)   $(RESET)"
-	$(CC) $(FLAGS) $(INC) -lreadline -o $@ $^
+	$(CC) $(FLAGS) $(INC) -o $@ $^ $(LFT) -lreadline
 	@echo "$(CBOLD)$(GREEN)      $(NAME) ready!    $(RESET)"
+
+
+$(LFT):
+	@echo "$(CBOLD)$(YELLOW)     Compiling Libft      $(RESET)"
+	@make -sC ./libft > /dev/null 2>&1
+	@echo "$(CBOLD)$(GREEN)       Libft ready!       $(RESET)\n ↪"
+
 
 obj:
 	@mkdir -p obj
@@ -36,11 +48,14 @@ obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@
 
+
 clean:
+	@make -sC libft clean
 	@rm -rf $(OBJ) obj
 	@echo "$(CBOLD)$(BLUE)      Objects removed!    $(RESET)"
 
 fclean: clean
+	@make -sC libft fclean
 	@rm -rf $(NAME)
 	@echo "$(CBOLD)$(BLUE)      Binaries removed!   $(RESET)\n"
 

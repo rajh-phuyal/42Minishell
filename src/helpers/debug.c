@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/09/30 21:42:19 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/01 16:15:13 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,13 @@ void	print_envs(char **envp)
 		printf("envp[%d]: %s\n", i, envp[i]);
 		i++;
 	}
+}
+
+void    print_tokens(t_token *head)
+{
+    while (head)
+    {
+        printf("TOKEN: %s\n", head->token);
+        head = head->next;
+    }
 }
