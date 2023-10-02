@@ -1,10 +1,10 @@
-NAME	= pipes
-CC		= @cc
-FLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
-LFT		= libft/libft.a
-INC		= -I./libft
-LIB		= -L./libft -lft
-OBJ  	= $(patsubst src/%.c, obj/%.o, $(SRC))
+NAME	=	pipes
+CC		=	@cc
+FLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
+LFT		=	libft/libft.a
+INC		=	-I./libft
+LIB		=	-L./libft -lft
+OBJ		=	$(patsubst src/%.c, obj/%.o, $(SRC))
 SRC		:=	$(wildcard src/*.c) \
 
 # COLORS
