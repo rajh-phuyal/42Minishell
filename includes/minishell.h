@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 00:32:19 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/02 18:21:08 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void		lexer(t_minivault *minivault, char *input);
 // debug functions
 void		print_envs(char **envp);
 void		print_argv(int argc, char **argv);
+void		print_baobab(t_baobab *root);
 
 // the liberator
 void    	liberation(t_minivault *minivault);

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 00:40:34 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/02 20:06:35 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <readline/readline.h>
 
 // token types
-# define PIPE 1
-# define WORD 2
+# define CMD 1
+# define PIPE 2
 # define REDIRECT 3
 # define SEMICOLON 4
 
@@ -37,24 +37,28 @@ typedef struct s_token
 // abstract syntax tree
 typedef struct s_baobab
 {
+	int				level;
 	struct s_token	*token;
 	struct s_baobab	*left;
 	struct s_baobab	*right;
+	struct s_baobab	*parent;
 }	t_baobab;
 
 // input functions
-char	*readaline(void);
-int		init_readline(void);
-void	close_readline(void);
-void	handle_input(t_minivault *minivault, char *input);
+char		*readaline(void);
+int			init_readline(void);
+void		close_readline(void);
+void		handle_input(t_minivault *minivault, char *input);
 
 // tokenizer
-void    print_tokens(t_token *head);
-void    add_token(t_minivault *minivault, char *token);
-void    remove_token(t_token *head, t_token *node);
+void    	print_tokens(t_token *head);
+void    	add_token(t_minivault *minivault, char *token, int type);
+void    	remove_token(t_token *head, t_token *node);
 
 // parser
-void    build_baobab(t_minivault *minivault);
-
+t_baobab	*search(t_baobab *root, char *token);
+t_baobab    *create_baobab_node(t_token *token);
+void    	grow_baobab(t_minivault *minivault);
+void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 
 #endif

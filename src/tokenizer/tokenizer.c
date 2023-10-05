@@ -1,26 +1,27 @@
 
 #include "minishell.h"
 
-t_token *create_new(char *token)
+t_token *create_new(char *token, int type)
 {
     t_token *new;
 
     new = (t_token *)malloc(sizeof(t_token));
     if (!new)
         return (NULL);
-    new->token = ft_strdup(token);
     new->next = NULL;
+    new->type = type;
+    new->token = ft_strdup(token);
     return (new);
 }
 
 // add tokens to the list of tokens
-void    add_token(t_minivault *minivault, char *token)
+void    add_token(t_minivault *minivault, char *token, int type)
 {
     t_token *head;
     t_token *token_node;
 
     head = minivault->tokens;
-    token_node = create_new(token);
+    token_node = create_new(token, type);
     if (!head)
     {
         minivault->tokens = token_node;

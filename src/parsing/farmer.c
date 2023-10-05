@@ -3,8 +3,9 @@
 
 
 // this function tries to build the abstract syntax tree
-void    build_baobab(t_minivault *minivault)
+void    grow_baobab(t_minivault *minivault)
 {
-    minivault->baobab = NULL;
+    minivault->baobab = create_baobab_node(minivault->tokens);
+    print_baobab(minivault->baobab);
     printf("Building the baobab tree...\n");
 }

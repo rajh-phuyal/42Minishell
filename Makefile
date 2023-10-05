@@ -11,9 +11,10 @@ LFT   = libft/libft.a
 SRC = src/core/main.c \
 	src/core/inputs.c \
 	src/helpers/debug.c \
-	src/parsing/lexer.c \
 	src/parsing/farmer.c \
-	src/parsing/tokenizer.c \
+	src/parsing/tools.c \
+	src/tokenizer/lexer.c \
+	src/tokenizer/tokenizer.c \
 	src/data/initialization.c \
 	src/terminator/liberation.c \
 

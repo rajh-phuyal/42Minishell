@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/01 16:15:13 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/02 19:01:18 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,15 @@ void    print_tokens(t_token *head)
 {
     while (head)
     {
-        printf("TOKEN: %s\n", head->token);
+        printf("TOKEN: %s | TYPE: %d\n", head->token, head->type);
         head = head->next;
     }
+}
+
+void	print_baobab(t_baobab *root)
+{
+	if (root)
+	{
+		printf("TREE NODE : %s\n", root->token->token);
+	}
 }
