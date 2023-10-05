@@ -11,6 +11,9 @@ int	token_type(char *token)
 /* add a token to the linked list of tokens */
 void	check_for_tokens(t_minivault *minivault, char *input)
 {
+	// ls   -l    |    grep  -i "hello world" |    wc  -l
+	// CMD  ARG  PIPE   CMD  ARG     ARG     PIPE  CMD  ARG
+
 	add_token(minivault, input, token_type(input));
 }
 

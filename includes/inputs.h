@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 20:06:35 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/05 17:20:27 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,15 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-// token types
-# define CMD 1
-# define PIPE 2
-# define REDIRECT 3
-# define SEMICOLON 4
+// type of tokens
+enum	t_type
+{
+	CMD,
+	ARG,
+	PIPE,
+	REDIRECT,
+	SEMICOLON
+};
 
 // some functions can't live without the minvault, so ...
 typedef struct s_minivault t_minivault;
@@ -28,9 +32,9 @@ typedef struct s_minivault t_minivault;
 // the token list
 typedef struct s_token
 {
-	int				type;
 	int				index;
 	char			*token;
+	enum t_type		type;
 	struct s_token	*next;
 }	t_token;
 
