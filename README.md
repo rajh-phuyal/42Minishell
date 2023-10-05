@@ -33,4 +33,4 @@ $> ./minishell
 - [**Joao Mirinda**]() - [**Github**]("https://github.com/joaodibba")
 
 ## Acknowledgments
-- [**42**](https://www.42.fr/)
+- [**42**](https://42lisboa.com/)
