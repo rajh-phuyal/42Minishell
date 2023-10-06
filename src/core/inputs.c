@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   inputs.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 00:47:21 by rajphuyal        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -37,7 +26,15 @@ char	*readaline(void)
 	return (line);
 }
 
+t_readlinedata *readlinedata(void)
+{
+	static t_readlinedata readlinedata;
+
+	return (&readlinedata);
+}
+
 void	handle_input(t_minivault *minivault, char *input)
 {
+	readlinedata()->line = input;
 	lexer(minivault, input);
 }

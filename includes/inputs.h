@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 00:40:34 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/06 16:58:26 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ typedef struct s_baobab
 	struct s_baobab	*right;
 }	t_baobab;
 
+typedef struct s_readlinedata
+{
+	char *line;
+}			t_readlinedata;
+
 // input functions
 char	*readaline(void);
 int		init_readline(void);
@@ -56,5 +61,7 @@ void    remove_token(t_token *head, t_token *node);
 // parser
 void    build_baobab(t_minivault *minivault);
 
+// global structure kinda
+t_readlinedata *readlinedata(void);
 
 #endif

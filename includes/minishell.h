@@ -3,18 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 00:32:19 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/04 19:34:32 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// custom
 # include "../libft/libft.h"
 # include "inputs.h"
+# include "executor.h"
+# include "signals.h"
+
+// system
+# include <stdbool.h>
 
 // the minieverything
 typedef struct s_minivault

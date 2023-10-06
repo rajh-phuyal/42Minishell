@@ -8,6 +8,9 @@ INC = -I./includes
 
 LFT   = libft/libft.a
 
+# Add the path to the readline library and specify -lreadline
+LDFLAGS = -L/opt/homebrew/Cellar/readline/8.1.2/lib -lreadline
+
 SRC = src/core/main.c \
 	src/core/inputs.c \
 	src/helpers/debug.c \
@@ -16,8 +19,9 @@ SRC = src/core/main.c \
 	src/parsing/tokenizer.c \
 	src/data/initialization.c \
 	src/terminator/liberation.c \
+	src/signals/signals.c
 
-OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
+OBJ   = $(patsysbtem src/%.c, obj/%.o, $(SRC))
 
 # COLORS
 CBOLD   = \033[0;1m
@@ -31,15 +35,13 @@ all: $(LFT) obj $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "$(CBOLD)$(YELLOW)    Compiling $(NAME)   $(RESET)"
-	$(CC) $(FLAGS) $(INC) -o $@ $^ $(LFT) -lreadline
+	$(CC) $(FLAGS) $(INC) -o $@ $^ $(LFT) $(LDFLAGS)
 	@echo "$(CBOLD)$(GREEN)      $(NAME) ready!    $(RESET)"
-
 
 $(LFT):
 	@echo "$(CBOLD)$(YELLOW)     Compiling Libft      $(RESET)"
 	@make -sC ./libft > /dev/null 2>&1
-	@echo "$(CBOLD)$(GREEN)       Libft ready!       $(RESET)\n ↪"
-
+	@echo "$(CBOLD)$(GREEN)       Libft ready!       $(RESET)\n"
 
 obj:
 	@mkdir -p obj
@@ -47,7 +49,6 @@ obj:
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@
-
 
 clean:
 	@make -sC libft clean
@@ -60,5 +61,8 @@ fclean: clean
 	@echo "$(CBOLD)$(BLUE)      Binaries removed!   $(RESET)\n"
 
 re: fclean all
+
+run:
+	@make re -s && ./$(NAME)
 
 .PHONY: all
