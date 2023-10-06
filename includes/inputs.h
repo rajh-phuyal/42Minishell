@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/05 17:20:27 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/06 16:06:52 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_minivault t_minivault;
 // the token list
 typedef struct s_token
 {
-	int				index;
 	char			*token;
 	enum t_type		type;
 	struct s_token	*next;
@@ -60,9 +59,9 @@ void    	add_token(t_minivault *minivault, char *token, int type);
 void    	remove_token(t_token *head, t_token *node);
 
 // parser
+void    	grow_baobab(t_minivault *minivault);
 t_baobab	*search(t_baobab *root, char *token);
 t_baobab    *create_baobab_node(t_token *token);
-void    	grow_baobab(t_minivault *minivault);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 
 #endif
