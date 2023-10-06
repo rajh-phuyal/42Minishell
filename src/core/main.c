@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:02:12 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 00:45:44 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/06 15:49:10 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	main(int argc, char **argv, char **envs)
 
 	if (false)
 		call_debug(argc, argv, envs, &minivault);
-	(init_readline() && init_minivault(&minivault));
+	init_readline();
+	init_minivault(&minivault);
 	while (true)
 		handle_input(&minivault, readaline());
 	liberation(&minivault);
