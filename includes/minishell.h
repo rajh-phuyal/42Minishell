@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 18:21:08 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/07 20:19:57 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 typedef struct s_minivault
 {
 	char		**envp;
-	char		*input;
+	char		**input;
 	t_baobab	*baobab;
 	t_token		*tokens;
 }	t_minivault;
@@ -32,6 +32,7 @@ int			init_minivault(t_minivault *minivault);
 
 // parsing gate
 void		lexer(t_minivault *minivault, char *input);
+void		strextract(t_minivault *minivault, char *input);
 
 // debug functions
 void		print_envs(char **envp);

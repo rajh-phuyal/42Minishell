@@ -15,11 +15,9 @@ int	main(int argc, char **argv, char **envs)
 
 	if (argc != 1)
 		return (ft_printf("Minishell doesn't support arguments\n") - 36);
-	init_readline();
 	init_minivault(&minivault);
 	if (false)
 		call_debug(argc, argv, envs, &minivault);
-	init_readline();
 	init_minivault(&minivault);
 	while (true)
 		handle_input(&minivault, readaline());

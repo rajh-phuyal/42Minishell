@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extras.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 23:50:16 by rphuyal           #+#    #+#             */
-/*   Updated: 2023/04/23 23:50:19 by rphuyal          ###   ########.fr       */
+/*   Updated: 2023/10/07 20:38:33 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ int	ft_putstr(char *str)
 	while (str[len])
 		ft_putcharprintf(str[len++]);
 	return (len);
-}
-
-char	*ft_strchr(const char *str, int c)
-{
-	while (*str && (char)c != *str)
-		str++;
-	if (*str == (char)c)
-		return ((char *)str);
-	return (0);
 }
 
 char	*ft_strrev(char *str)

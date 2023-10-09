@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/06 16:06:52 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/06 18:00:19 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_baobab
 
 // input functions
 char		*readaline(void);
-int			init_readline(void);
 void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
