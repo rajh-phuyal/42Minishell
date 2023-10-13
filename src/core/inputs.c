@@ -36,5 +36,6 @@ t_readlinedata *readlinedata(void)
 void	handle_input(t_minivault *minivault, char *input)
 {
 	readlinedata()->line = input;
-	lexer(minivault, input);
+	// lexer(minivault, input);
+	(void)minivault;
 }

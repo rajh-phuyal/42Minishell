@@ -6,5 +6,5 @@
 void    build_baobab(t_minivault *minivault)
 {
     minivault->baobab = NULL;
-    printf("Building the baobab tree...\n");
+    write(1, "Building the baobab tree...\n", 28);
 }

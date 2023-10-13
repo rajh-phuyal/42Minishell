@@ -7,6 +7,6 @@ int	init_minivault(t_minivault *minivault)
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
-	printf("Minishell initialized\n");
+	write(1, "Minishell initialized\n", 22);
 	return (0);
 }
