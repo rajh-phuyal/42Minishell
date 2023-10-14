@@ -40,7 +40,7 @@ void	lexer(t_minivault *minivault, char *input)
 	else
 	{
 		printf("INPUT: %s\n", input);
-		strextract(minivault, input);
+		strextract(minivault, input); // TODO: Fix this
 		check_for_tokens(minivault, input, 0); // 0 = name is the sequence number for recognizing the order of the tokens
 	}
 	print_tokens(minivault->tokens);
