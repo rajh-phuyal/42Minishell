@@ -16,13 +16,21 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
-# include "macros.h"
+// # include "macros.h"
+
+// the env list
+typedef struct s_envs
+{
+	char			*key;
+	char			*value;
+	struct s_envs	*next;
+}	t_envs;
 
 // the minieverything
 typedef struct s_minivault
 {
-	char		**envp;
 	char		**input;
+	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
 }	t_minivault;
@@ -30,7 +38,7 @@ typedef struct s_minivault
 t_minivault	*minishell(void);
 
 // minishell
-int			init_minivault(t_minivault *minivault);
+int			init_minivault(t_minivault *minivault, char **envs);
 
 // parsing gate
 void		lexer(t_minivault *minivault, char *input);
@@ -38,8 +46,8 @@ void		strextract(t_minivault *minivault, char *input);
 
 // debug functions
 void		print_envs(char **envp);
-void		print_argv(int argc, char **argv);
 void		print_baobab(t_baobab *root);
+void		print_argv(int argc, char **argv);
 
 // the liberator
 void    	liberation(t_minivault *minivault);
