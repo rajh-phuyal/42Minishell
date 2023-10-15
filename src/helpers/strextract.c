@@ -1,83 +1,61 @@
 
 #include "minishell.h"
 
-// this function receives a string and what characters to look for
-// and skip those characters and returns the addr of th first char
-// after the skipped characters
-char    *strskip(char *str, char *garbage)
+bool	is_space(char c)
 {
-    while (str && *str && ft_strchr(garbage, *str))
-        str++;
-    return (str);
+	return (c == '\t' || c == ' ' || c == '\n' || c == '\v');
 }
 
-void    strcompact(char **str)
+bool	is_quote(char c)
 {
-    char    *compact;
-
-    ft_printf("STR in compact: %s\n", *str);
-    compact = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-    if (!compact)
-        return ;
-    while (*str)
-        *compact++ = *(*str)++;
-    *compact = '\0';
-    free(*str);
-    *str = compact;
+	return (c == '"' || c == '\'');
 }
 
-// this function receives a string and seperates them with a special seperator
-char    *strmodify(char *str)
+char	*strmodify(char* input)
 {
-    char    *prev;
-    char    *modified;
+    char		*modified;
+	char		*dst;
+	bool		inside_quotes = false;
 
-    modified = malloc(sizeof(char) * (ft_strlen(str) * 2));
-    if (!modified)
-        return (NULL);
-    prev = str;
-    str = strskip(str, " \t");
-    while (str && *str)
-    {
-        str = strskip(str, " \t");
-        if (prev == (str - 1))
-        {
-            ft_printf("in if\n");
-            *modified++ = *str;
-            if (*modified == '|')
-                *modified++ = ' ';
-        }
-        else
-        {
-            str++;
-            *modified++ = ' ';
-            ft_printf("in else\n");
-            // printf("MODIFIED: %s\n", modified);
-        }
+	modified = malloc(strlen(input) + 1);
+	if (!modified)
+		return (NULL);
+
+	dst = modified;
+    while (*input) 
+	{
+        if (is_quote(*input)) 
+            inside_quotes = !inside_quotes;
+        if (!inside_quotes && is_space(*input))
+		{
+			if (!is_space(*(input - 1)))
+				*(dst++) = '\x1F';
+        } 
+		else 
+            *(dst++) = *input;
+        input++;
     }
-    *modified = '\0';
-    printf("MODIFIED: %s\n", modified);
-    strcompact(&modified); // modified still have some memory after the \0
+
+    *dst = '\0';
     return (modified);
 }
 
 // prints the splitted string with index
-void    print_split(char **split)
+void	print_split(char **split)
 {
-    int     i;
+	int	i;	
+	i = 0;
 
-    i = 0;
-    while (split[i])
-    {
-        printf("%d: %s\n", i, split[i]);
-        i++;
-    }
+	while (split[i])
+	{
+		printf("%d: %s\n", i, split[i]);
+		i++;
+	}
 }
 
 void    strextract(t_minivault *minivault, char *input)
 {
-    input = strmodify(input);
-    minivault->input = ft_split(input, ' '); // later do a better version of the split
-    printf("SPLITED:\n");
-    print_split(minivault->input);
+	input = strmodify(input); // cleaning spaces
+	minivault->input = ft_split(input, '\x1F'); // \x1F is an UNIT SEPARATOR 31 in ascii
+	free(input);
 }
