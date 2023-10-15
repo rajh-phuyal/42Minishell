@@ -8,12 +8,6 @@ int	token_type(char *token)
 	return (1);
 }
 
-// int	temp_token_recon(char *token)
-// {
-// 	// ls   -l
-
-// }
-
 /* add a token to the linked list of tokens */
 void	check_for_tokens(t_minivault *minivault, int seq)
 {
@@ -58,7 +52,7 @@ void	lexer(t_minivault *minivault, char *input)
 	if (!ft_strncmp(input, "build tree", 11))
 		grow_baobab(minivault);
 	else if (!ft_strncmp(input, "var", 3))
-		printf("VAL: %s\n", get_env_val(minivault, "PATH"));
+		printf("VAL: %s\n", get_env(minivault, "PATH"));
 	else
 	{
 		strextract(minivault, input);
