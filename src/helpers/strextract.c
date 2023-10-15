@@ -17,21 +17,21 @@ char	*strmodify(char* input)
 	char		*dst;
 	bool		inside_quotes = false;
 
-	modified = malloc(strlen(input) + 1);
+	modified = malloc(ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
 
 	dst = modified;
-    while (*input) 
+    while (*input)
 	{
-        if (is_quote(*input)) 
+        if (is_quote(*input))
             inside_quotes = !inside_quotes;
         if (!inside_quotes && is_space(*input))
 		{
 			if (!is_space(*(input - 1)))
 				*(dst++) = '\x1F';
-        } 
-		else 
+        }
+		else
             *(dst++) = *input;
         input++;
     }
@@ -43,7 +43,7 @@ char	*strmodify(char* input)
 // prints the splitted string with index
 void	print_split(char **split)
 {
-	int	i;	
+	int	i;
 	i = 0;
 
 	while (split[i])

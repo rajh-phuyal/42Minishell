@@ -23,7 +23,7 @@ void	check_for_tokens(t_minivault *minivault, int seq)
 
 	while (minivault->input[i])
 	{
-		add_token(minivault, minivault->input[i], seq);
+		add_token(minivault, minivault->input[i], seq + i);
 		i++;
 	}
 }
@@ -57,6 +57,8 @@ void	lexer(t_minivault *minivault, char *input)
 	// try building the baobab tree, only while testings
 	if (!ft_strncmp(input, "build tree", 11))
 		grow_baobab(minivault);
+	else if (!ft_strncmp(input, "var", 3))
+		printf("VAL: %s\n", get_env_val(minivault, "PATH"));
 	else
 	{
 		strextract(minivault, input);

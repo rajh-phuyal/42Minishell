@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/14 17:55:46 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/10/15 21:57:18 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ t_minivault	*minishell(void);
 
 // minishell
 int			init_minivault(t_minivault *minivault, char **envs);
+
+// environment functions
+char		*get_env(t_minivault *minivault, char *key);
+void		unset_env(t_minivault *minivault, char *key);
+t_envs		*add_env_node(t_envs *envs, char *key, char *value);
+void		set_env(t_minivault *minivault, char *key, char *value);
 
 // parsing gate
 void		lexer(t_minivault *minivault, char *input);
