@@ -16,7 +16,7 @@ void	print_env_list(t_envs *envs)
 {
 	while (envs->next)
 	{
-		ft_printf("ENVS [ (key): %s | (value): %s ]\n", envs->key, envs->value);
+		ft_printf("[ (key): %s ****|**** (value): %s ]\n", envs->key, envs->value);
 		envs = envs->next;
 	}
 }
