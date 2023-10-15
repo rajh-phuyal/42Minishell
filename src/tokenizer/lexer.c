@@ -15,17 +15,37 @@ int	token_type(char *token)
 // }
 
 /* add a token to the linked list of tokens */
-void	check_for_tokens(t_minivault *minivault, char *input, int seq)
+void	check_for_tokens(t_minivault *minivault, int seq)
 {
 	// ls   -l    |    grep  -i "hello world" |    wc  -l
 	// CMD  ARG  PIPE   CMD  ARG     ARG     PIPE  CMD  ARG
+	int i = 0;
 
-	add_token(minivault, input, seq);
+	while (minivault->input[i])
+	{
+		add_token(minivault, minivault->input[i], seq);
+		i++;
+	}
 }
+
+void	free_vector(char **vector)
+{
+	int	i;
+
+	i = 0;
+	if (!vector)
+		return ;
+	while (vector[i])
+		free(vector[i++]);
+	free(vector);
+}
+
 
 /* atempting to create tokens based on the received input str for the readline */
 void	lexer(t_minivault *minivault, char *input)
 {
+	if (!input)
+		return ;
 	// jsut a exit command for testing purposes
 	if (!ft_strncmp(input, "exit", 5))
 	{
@@ -39,9 +59,10 @@ void	lexer(t_minivault *minivault, char *input)
 		grow_baobab(minivault);
 	else
 	{
-		printf("INPUT: %s\n", input);
 		strextract(minivault, input);
-		check_for_tokens(minivault, input, 0); // 0 = name is the sequence number for recognizing the order of the tokens
+		check_for_tokens(minivault, 0); // 0 = name is the sequence number for recognizing the order of the tokens
+		free_vector(minivault->input);
 	}
 	print_tokens(minivault->tokens);
 }
+

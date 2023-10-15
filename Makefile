@@ -63,4 +63,7 @@ fclean: clean
 
 re: fclean all
 
+run:
+	@make re -s && ./minishell
+
 .PHONY: all
