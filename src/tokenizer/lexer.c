@@ -60,9 +60,9 @@ void	lexer(t_minivault *minivault, char *input)
 	else
 	{
 		strextract(minivault, input);
-		check_for_tokens(minivault, 0); // 0 = name is the sequence number for recognizing the order of the tokens
-		free_vector(minivault->input);
+		// check_for_tokens(minivault, 0); // 0 = name is the sequence number for recognizing the order of the tokens
+		// free_vector(minivault->input);
 	}
-	print_tokens(minivault->tokens);
+	// print_tokens(minivault->tokens);
 }
 
