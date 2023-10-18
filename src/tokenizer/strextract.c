@@ -146,20 +146,16 @@ char	*isolate_compound(char *input, char *target)
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
-		if (*input == target[0] && *(input + 1) == target[1] && inside_double_quotes == false && inside_single_quotes == false)
+		if (*input == target[0] && *(input + 1) == target[1] \
+			&& inside_double_quotes == false && inside_single_quotes == false)
 		{
 			modified[i++] = '\"';
-			modified[i++] = target[0];
-			modified[i++] = target[1];
-			modified[i++] = '\"';
-			input++;
-			input++;
+			modified[i++] = *(input++);
+			modified[i++] = *(input++);
+			modified[i++] = '\"'; // this has to change, because input: echo ">>" will be the same as echo >>
 		}
 		else
-		{
-			modified[i++] = *input;
-			input++;
-		}
+			modified[i++] = *(input++);
 	}
 	modified[i] = '\0';
 	return (modified);
@@ -180,7 +176,6 @@ char 	*isolate_special_chars(char *input)
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input);
-	input = isolate_quotes(input);
 	input = isolate_special_chars(input);
 	input = isolate_quotes(input);
 	printf(YELLOW"------------OUTPUT_STRING-----------\n%s\n", input);
