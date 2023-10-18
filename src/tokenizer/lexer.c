@@ -31,34 +31,35 @@ void	free_vector(char **vector)
 	free(vector);
 }
 
-void look_for_compound(t_token *token, char target)
+void	trim_string(char *str, int len) 
 {
-	t_token *current;
-
-	current = token;
-	while (current && current->next)
+	if (len >= 2) 
 	{
-		if (current->token[0] == target)
+		str[len - 1] = '\0';
+		ft_memmove(str, str + 1, len);
+    }
+}
+
+// removes quotes from the end and the begginig of each token
+void remove_quotes(t_minivault *minivault)
+{
+	t_token	*current;
+	size_t	len;
+
+	current = minivault->tokens;
+	while (current)
+	{
+		len = ft_strlen(current->token);
+		if (len >= 2)
 		{
-			if (ft_strlen(current->token) == 1 && ft_strlen(current->next->token) == 1)
-			{
-				if (current->token[0] == current->next->token[0])
-				{
-					current->token = ft_strjoin(current->token, current->next->token);
-					remove_token(token, current->next);
-					return ;
-				}
-			}
+			if (is_double_quote(current->token[0]) && is_double_quote(current->token[len - 1]))
+				trim_string(current->token, len);
+			if (is_single_quote(current->token[0]) && is_single_quote(current->token[len - 1]))
+				trim_string(current->token, len);
 		}
 		current = current->next;
 	}
 }
-
-void look_for_compounds(t_token *token)
-{
-	look_for_compound(token, '<');
-}
-
 /* atempting to create tokens based on the received input str for the readline */
 void	lexer(t_minivault *minivault, char *input)
 {
@@ -78,8 +79,8 @@ void	lexer(t_minivault *minivault, char *input)
 	else
 	{
 		strextract(minivault, input);
-		tokenizer(minivault, 0); // 0 = name is the sequence number for recognizing the order of the tokens
-		look_for_compounds(minivault->tokens); // compounds <<, >>, and later ... &&, ||
+		tokenizer(minivault, 0);
+		remove_quotes(minivault); // 0 = name is the sequence number for recognizing the order of the tokens
 		free_vector(minivault->input);
 	}
 	printf(GREEN"------------OUTPUT_LIST-------------\n");

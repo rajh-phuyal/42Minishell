@@ -6,7 +6,6 @@ bool	is_space(char c)
 	return (c == '\t' || c == ' ' || c == '\n' || c == '\v');
 }
 
-
 bool	is_double_quote(char c)
 {
 	return (c == '"');
