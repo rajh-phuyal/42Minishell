@@ -59,3 +59,14 @@ void    remove_token(t_token *head, t_token *node)
     node->next = temp->next;
     free(temp);
 }
+
+void	tokenizer(t_minivault *minivault, int seq)
+{
+	int i = 0;
+
+	while (minivault->input[i])
+	{
+		add_token(minivault, minivault->input[i], seq);
+		i++;
+	}
+}

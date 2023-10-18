@@ -14,7 +14,7 @@ SRC = src/core/main.c \
 	src/parsing/farmer.c \
 	src/parsing/tools.c \
 	src/tokenizer/lexer.c \
-	src/helpers/strextract.c \
+	src/tokenizer/strextract.c \
 	src/tokenizer/tokenizer.c \
 	src/data/initialization.c \
 	src/terminator/liberation.c \
