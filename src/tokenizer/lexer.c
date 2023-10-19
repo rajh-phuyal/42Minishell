@@ -10,23 +10,14 @@ int	token_type(char *token)
 
 // int	temp_token_recon(char *token)
 // {
-// 	// ls   -l
 
 // }
 
-/* add a token to the linked list of tokens */
-void	check_for_tokens(t_minivault *minivault, int seq)
-{
-	// ls   -l    |    grep  -i "hello world" |    wc  -l
-	// CMD  ARG  PIPE   CMD  ARG     ARG     PIPE  CMD  ARG
-	int i = 0;
-
-	while (minivault->input[i])
-	{
-		add_token(minivault, minivault->input[i], seq);
-		i++;
-	}
-}
+// void	check_for_tokens(t_minivault *minivault, int seq)
+// {
+// 	// ls   -l    |    grep  -i "hello world" |    wc  -l
+// 	// CMD  ARG  PIPE   CMD  ARG     ARG     PIPE  CMD  ARG
+// }
 
 void	free_vector(char **vector)
 {
@@ -40,7 +31,35 @@ void	free_vector(char **vector)
 	free(vector);
 }
 
+void	trim_string(char *str, int len) 
+{
+	if (len >= 2) 
+	{
+		str[len - 1] = '\0';
+		ft_memmove(str, str + 1, len);
+    }
+}
 
+// removes quotes from the end and the begginig of each token
+void remove_quotes(t_minivault *minivault)
+{
+	t_token	*current;
+	size_t	len;
+
+	current = minivault->tokens;
+	while (current)
+	{
+		len = ft_strlen(current->token);
+		if (len >= 2)
+		{
+			if (is_double_quote(current->token[0]) && is_double_quote(current->token[len - 1]))
+				trim_string(current->token, len);
+			if (is_single_quote(current->token[0]) && is_single_quote(current->token[len - 1]))
+				trim_string(current->token, len);
+		}
+		current = current->next;
+	}
+}
 /* atempting to create tokens based on the received input str for the readline */
 void	lexer(t_minivault *minivault, char *input)
 {
@@ -60,9 +79,12 @@ void	lexer(t_minivault *minivault, char *input)
 	else
 	{
 		strextract(minivault, input);
-		check_for_tokens(minivault, 0); // 0 = name is the sequence number for recognizing the order of the tokens
+		tokenizer(minivault, 0);
+		remove_quotes(minivault); // 0 = name is the sequence number for recognizing the order of the tokens
 		free_vector(minivault->input);
 	}
+	printf(GREEN"------------OUTPUT_LIST-------------\n");
 	print_tokens(minivault->tokens);
+	printf(RESET_COLOR);
 }
 

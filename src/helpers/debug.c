@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 19:01:18 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/17 17:57:35 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,17 @@ void	print_baobab(t_baobab *root)
 	if (root)
 	{
 		printf("TREE NODE : %s\n", root->token->token);
+	}
+}
+
+void	print_vector(char **vector)
+{
+	int	i;
+
+	i = 0;
+	while (vector[i])
+	{
+		printf("%d: %s\n", i, vector[i]);
+		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/06 18:00:01 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/18 15:53:26 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ char	*readaline(void)
 void	handle_input(t_minivault *minivault, char *input)
 {
 	lexer(minivault, input);
+	
 }

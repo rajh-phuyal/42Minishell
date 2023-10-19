@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/02 19:03:57 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/17 19:32:16 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@ t_envs	*add_env_node(t_envs *envs, char *key, char *value)
 	return (head);
 }
 
-void	init_envs(t_minivault *minivault, char **envs)
-{
-	int		i;
-	char	**splitted;
+// void	init_envs(t_minivault *minivault, char **envs)
+// {
+// 	int		i;
+// 	char	**splitted;
 
-	i = -1;
-	while (envs[++i])
-	{
-		splitted = ft_split(envs[i], '='); // asume it only sends two strings, key and value
-		minivault->envs = add_env_node(minivault->envs, splitted[0], splitted[1]);
-		free(splitted);
-	}
-	ft_printf("ENV LIST:\n");
-	print_env_list(minivault->envs);
-}
+// 	i = -1;
+// 	while (envs[++i])
+// 	{
+// 		splitted = ft_split(envs[i], '='); // asume it only sends two strings, key and value
+// 		minivault->envs = add_env_node(minivault->envs, splitted[0], splitted[1]);
+// 		free(splitted);
+// 	}
+// 	ft_printf("ENV LIST:\n");
+// 	print_env_list(minivault->envs);
+// }
 
 int	init_minivault(t_minivault *minivault, char **envs)
 {
@@ -63,6 +63,7 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
-	init_envs(minivault, envs);
+	(void)envs;
+	// init_envs(minivault, envs);
 	return (0);
 }
