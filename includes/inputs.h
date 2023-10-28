@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/15 21:48:52 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/29 00:39:23 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
 // tokenizer
+void		tokenizer(t_minivault *minivault, int seq);
 void    	print_tokens(t_token *head);
 void    	add_token(t_minivault *minivault, char *token, int type);
 void    	remove_token(t_token *head, t_token *node);

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 00:33:32 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/29 00:39:46 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,14 @@ void		set_env(t_minivault *minivault, char *key, char *value);
 // parsing gate
 void		lexer(t_minivault *minivault, char *input);
 void		strextract(t_minivault *minivault, char *input);
+bool		is_single_quote(char c);
+bool		is_double_quote(char c);
 
 // debug functions
 void		print_envs(char **envp);
 void		print_baobab(t_baobab *root);
 void		print_argv(int argc, char **argv);
+void		print_vector(char **vector);
 
 // the liberator
 void    	liberation(t_minivault *minivault);
