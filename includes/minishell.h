@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/15 21:57:18 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/29 00:33:32 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include "inputs.h"
 # include "executor.h"
 // # include "macros.h"
+
+// handy macros
+# define GET 0
+# define PUT 1
 
 // the env list
 typedef struct s_envs
@@ -41,6 +45,7 @@ t_minivault	*minishell(void);
 int			init_minivault(t_minivault *minivault, char **envs);
 
 // environment functions
+void 		envsort(t_envs *envs);
 char		*get_env(t_minivault *minivault, char *key);
 void		unset_env(t_minivault *minivault, char *key);
 t_envs		*add_env_node(t_envs *envs, char *key, char *value);
