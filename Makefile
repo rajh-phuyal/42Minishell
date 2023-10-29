@@ -16,7 +16,6 @@ SRC = src/core/main.c \
 	src/helpers/envsort.c \
 	src/tokenizer/lexer.c \
 	src/data/environment.c \
-	src/helpers/strextract.c \
 	src/tokenizer/strextract.c \
 	src/tokenizer/tokenizer.c \
 	src/data/initialization.c \

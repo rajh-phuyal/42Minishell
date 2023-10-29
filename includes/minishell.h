@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 00:39:46 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/10/29 15:00:05 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 
 // debug functions
-void		print_envs(char **envp);
+void		print_envs(t_envs *envs);
 void		print_baobab(t_baobab *root);
 void		print_argv(int argc, char **argv);
 void		print_vector(char **vector);
