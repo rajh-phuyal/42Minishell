@@ -31,9 +31,9 @@ void	free_vector(char **vector)
 	free(vector);
 }
 
-void	trim_string(char *str, int len) 
+void	trim_string(char *str, int len)
 {
-	if (len >= 2) 
+	if (len >= 2)
 	{
 		str[len - 1] = '\0';
 		ft_memmove(str, str + 1, len);
@@ -76,6 +76,8 @@ void	lexer(t_minivault *minivault, char *input)
 	// try building the baobab tree, only while testings
 	if (!ft_strncmp(input, "build tree", 11))
 		grow_baobab(minivault);
+	else if (!ft_strncmp(input, "var", 3))
+		printf("VAL: %s\n", get_env(minivault, "PATH"));
 	else
 	{
 		strextract(minivault, input);

@@ -2,10 +2,10 @@
 #include "minishell.h"
 
 /* call the debug functions to check the state of the program variables*/
-void	call_debug(int argc, char **argv, char **envs, t_minivault *minivault)
+void	call_debug(int argc, char **argv, t_minivault *minivault)
 {
 	print_argv(argc, argv);
-	print_envs(envs);
+	print_envs(minivault->envs);
 	print_tokens(minivault->tokens);
 }
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envs)
 		return (ft_printf("Minishell doesn't support arguments\n") - 36);
 	init_minivault(&minivault, envs);
 	if (false)
-		call_debug(argc, argv, envs, &minivault);
+		call_debug(argc, argv, &minivault);
 	while (true)
 		handle_input(&minivault, readaline());
 	liberation(&minivault);

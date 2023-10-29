@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/17 17:57:35 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/10/29 14:59:27 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,12 @@ void	print_argv(int argc, char **argv)
 	}
 }
 
-void	print_envs(char **envp)
+void	print_envs(t_envs *envs)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
+	while (envs->next)
 	{
-		printf("envp[%d]: %s\n", i, envp[i]);
-		i++;
+		printf("[ (key): %s | (value): %s ]\n", envs->key, envs->value);
+		envs = envs->next;
 	}
 }
 

@@ -15,6 +15,20 @@ void    liberate_tokens(t_token *head)
     }
 }
 
+void    liberate_envs(t_envs *head)
+{
+    t_envs *temp;
+
+    while (head)
+    {
+        temp = head->next;
+        free(head->key);
+        free(head->value);
+        free(head);
+        head = temp;
+    }
+}
+
 // void    liberate_baobab(t_baobab *head)
 // {
 //     t_baobab *temp;
@@ -30,6 +44,7 @@ void    liberate_tokens(t_token *head)
 // liberates the memory allocated for the tokens and the baobab tree
 void    liberation(t_minivault *minivault)
 {
+    liberate_envs(minivault->envs);
     liberate_tokens(minivault->tokens);
     // liberate_baobab(minivault->baobab);
 }
