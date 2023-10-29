@@ -8,29 +8,6 @@ int	token_type(char *token)
 	return (1);
 }
 
-// int	temp_token_recon(char *token)
-// {
-
-// }
-
-// void	check_for_tokens(t_minivault *minivault, int seq)
-// {
-// 	// ls   -l    |    grep  -i "hello world" |    wc  -l
-// 	// CMD  ARG  PIPE   CMD  ARG     ARG     PIPE  CMD  ARG
-// }
-
-void	free_vector(char **vector)
-{
-	int	i;
-
-	i = 0;
-	if (!vector)
-		return ;
-	while (vector[i])
-		free(vector[i++]);
-	free(vector);
-}
-
 void	trim_string(char *str, int len)
 {
 	if (len >= 2)
@@ -65,7 +42,7 @@ void	lexer(t_minivault *minivault, char *input)
 {
 	if (!input)
 		return ;
-	// jsut a exit command for testing purposes
+	// just a exit command for testing purposes
 	if (!ft_strncmp(input, "exit", 5))
 	{
 		free(input);
@@ -83,7 +60,7 @@ void	lexer(t_minivault *minivault, char *input)
 		strextract(minivault, input);
 		tokenizer(minivault, 0);
 		remove_quotes(minivault); // 0 = name is the sequence number for recognizing the order of the tokens
-		free_vector(minivault->input);
+		liberate_vector(minivault->input);
 	}
 	printf(GREEN"------------OUTPUT_LIST-------------\n");
 	print_tokens(minivault->tokens);

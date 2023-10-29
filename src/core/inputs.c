@@ -18,19 +18,18 @@ void	close_readline(void)
 	clear_history();
 }
 
-// just reads a line form the terminal
 char	*readaline(void)
 {
 	char	*line;
 
 	line = readline("minibaiters $ ");
 	if (line && *line)
-		add_history(line); // doing it for later user
+		add_history(line);
 	return (line);
 }
 
 void	handle_input(t_minivault *minivault, char *input)
 {
+	// TODO? If not much shit remove
 	lexer(minivault, input);
-	
 }

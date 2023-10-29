@@ -51,7 +51,7 @@ void	set_env(t_minivault *minivault, char *key, char *value)
         envs = envs->next;
     }
     if (!envs || !envs->value)
-        minivault->envs = add_env_node(minivault->envs, key, value);\
+        minivault->envs = add_env_node(minivault->envs, key, value);
     else
         envs->value = value;
 }

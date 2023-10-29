@@ -13,6 +13,7 @@ int	main(int argc, char **argv, char **envs)
 {
 	t_minivault	minivault;
 
+	// TODO: Handle the script file input, argv[1] only, ignore the rest
 	if (argc != 1)
 		return (ft_printf("Minishell doesn't support arguments\n") - 36);
 	init_minivault(&minivault, envs);

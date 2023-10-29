@@ -64,6 +64,7 @@ void		print_argv(int argc, char **argv);
 void		print_vector(char **vector);
 
 // the liberator
+void		liberate_vector(char **vector);
 void    	liberation(t_minivault *minivault);
 
 #endif

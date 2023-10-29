@@ -1,6 +1,18 @@
 
 #include "minishell.h"
 
+void	liberate_vector(char **vector)
+{
+	int	i;
+
+	i = 0;
+	if (!vector)
+		return ;
+	while (vector[i])
+		free(vector[i++]);
+	free(vector);
+}
+
 // liberates the memory allocated for the tokens
 void    liberate_tokens(t_token *head)
 {
