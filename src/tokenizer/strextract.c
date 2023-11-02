@@ -31,10 +31,17 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
 		*inside_single_quotes = !(*inside_single_quotes);
 }
 
-
-
-// modifies spaces (outside of quotes) into UNIT SEPARATOR !
-char	*remove_spaces(char *input)
+/**
+ * remove_spaces
+ * * if one or multiple spaces are found outside of a quotes, they are replaced by the separator
+ * E.g.: hello        world "   again" -> hello\world\"   again" <- where \ is the separator
+ * It also checks if there are unclosed quotes in the input string
+ * ! FIX: This segfaults in the case of unclosed quotes, can't just return NULL
+ * ! If a quote is missing it should return the prompt util the quotes are closed
+ * @param input is the input string
+ * @param separator the char used to replace the spaces
+*/
+char	*remove_spaces(char *input, char separator)
 {
 	char	*modified;
 	char	*dst;
@@ -49,7 +56,7 @@ char	*remove_spaces(char *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
 		if (is_space(*input) && inside_double_quotes == false && inside_single_quotes == false)
-			*(dst++) = '\31';
+			*(dst++) = separator;
 		else
 			*(dst++) = *input;
 		input++;
@@ -63,12 +70,18 @@ char	*remove_spaces(char *input)
 			ft_putendl_fd("Double quotes not closed.", 2);
 		free (modified);
 		return (NULL);
-		//TODO : THIS SEGFAULTS cant just return null
 	}
 	return (modified);
 }
 
-char	*isolate_quotes(char *input)
+/**
+ * isolate_quotes
+ * if a quoted string is found inside of the input string it is isolated by the separator.
+ * E.g.: hello"world"123 becomes hello "world" 123
+ * @param input is the input string
+ * @param separator the char used to isolate the quoted string in the input
+*/
+char	*isolate_quotes(char *input, char separator)
 {
 	char	*modified;
 	int		i;
@@ -85,14 +98,14 @@ char	*isolate_quotes(char *input)
 		if ((is_single_quote(*input) && inside_single_quotes == true && inside_double_quotes == false) || \
 			(is_double_quote(*input) && inside_double_quotes == true && inside_single_quotes == false))
 		{
-			modified[i++] = '\31';
+			modified[i++] = separator;
 			modified[i++] = *input;
 		}
 		else if ((is_single_quote(*input) && inside_single_quotes == false && inside_double_quotes == false) || \
 				(is_double_quote(*input) && inside_double_quotes == false && inside_single_quotes == false))
 		{
 			modified[i++] = *input;
-			modified[i++] = '\31';
+			modified[i++] = separator;
 		}
 		else
 			modified[i++] = *input;
@@ -102,7 +115,15 @@ char	*isolate_quotes(char *input)
 	return (modified);
 }
 
-char	*isolate_char(char *input, char target)
+/**
+ * isolate_char
+ * * if the target char is found inside the input string (outside of single or double quotes) 
+ * * it is isolated by the separator. E.g.: hello>1 becomes hello > 1
+ * @param input is the input string
+ * @param target is the target char
+ * @param separator the char used to isolate the target in the input
+*/
+char	*isolate_char(char *input, char target, char separator)
 {
 	char	*modified;
 	int		i;
@@ -119,9 +140,9 @@ char	*isolate_char(char *input, char target)
 		if (*input == target && inside_double_quotes == false \
 							&& inside_single_quotes == false)
 		{
-			modified[i++] = '\31';
+			modified[i++] = separator;
 			modified[i++] = *input;
-			modified[i++] = '\31';
+			modified[i++] = separator;
 		}
 		else
 			modified[i++] = *input;
@@ -131,7 +152,16 @@ char	*isolate_char(char *input, char target)
 	return (modified);
 }
 
-char	*isolate_compound(char *input, char *target)
+/**
+ * isolate_compund
+ * * if the target string is found inside the input string (outside of single or double quotes) 
+ * * it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
+ * @param input is the input string
+ * @param target is the target string
+ * @param separator the char used to isolate the target in the input
+ * ! FIX: the only chars "used" from the target string are the first two
+*/
+char	*isolate_compound(char *input, char *target, char separator)
 {
 	char	*modified;
 	int		i;
@@ -148,10 +178,10 @@ char	*isolate_compound(char *input, char *target)
 		if (*input == target[0] && *(input + 1) == target[1] \
 			&& inside_double_quotes == false && inside_single_quotes == false)
 		{
-			modified[i++] = '\"';
+			modified[i++] = separator;
 			modified[i++] = *(input++);
 			modified[i++] = *(input++);
-			modified[i++] = '\"'; // this has to change, because input: echo ">>" will be the same as echo >>
+			modified[i++] = separator;
 		}
 		else
 			modified[i++] = *(input++);
@@ -160,30 +190,28 @@ char	*isolate_compound(char *input, char *target)
 	return (modified);
 }
 
-char 	*isolate_special_chars(char *input)
-{
-	input = isolate_compound(input, ">>");
-	input = isolate_compound(input, "<<");
-	input = isolate_char(input, '|');
-	input = isolate_char(input, '&');
-	input = isolate_char(input, ';');
-	input = isolate_char(input, '<');
-	input = isolate_char(input, '>');
-	return (input);
-}
-
+/**
+ * strextract 
+ * * removes spaces, isolates special chars and splits the input string into a vector 2D ARRAY
+ * @param minivault is a pointer to the "general" structure
+ * @param input is the input string
+ * ? Can this be made in a more efficient way
+ * TODO: Check how () works. It has the same logic as quotes?
+ * TODO: Realloc beffore splitting
+ * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token '>'
+ * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
+*/
 void	strextract(t_minivault *minivault, char *input)
 {
-	input = remove_spaces(input);
-	input = isolate_special_chars(input);
-	input = isolate_quotes(input);
-	printf(YELLOW"------------OUTPUT_STRING-----------\n%s\n", input);
+	input = remove_spaces(input, '\31');
+	input = isolate_compound(input, ">>", '\"');
+	input = isolate_compound(input, "<<", '\"');
+	input = isolate_char(input, '|', '\31');
+	input = isolate_char(input, '&', '\31');
+	input = isolate_char(input, ';', '\31');
+	input = isolate_char(input, '<', '\31');
+	input = isolate_char(input, '>', '\31');
+	input = isolate_quotes(input, '\31');
 	minivault->input = ft_split(input, '\31');
-	printf(RED"------------OUTPUT_VECTOR-----------\n");
-	print_vector(minivault->input);
-	printf(RESET_COLOR);
 	free(input);
 }
-// TODO: Check how () works. It has the same logic as quotes?
-
-// bash: syntax error near unexpected token `>'
