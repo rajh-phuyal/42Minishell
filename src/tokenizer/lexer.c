@@ -59,11 +59,9 @@ void	lexer(t_minivault *minivault, char *input)
 	{
 		strextract(minivault, input);
 		tokenizer(minivault, 0);
-		remove_quotes(minivault); // 0 = name is the sequence number for recognizing the order of the tokens
+		// ! This has to fixed -> remove_quotes(minivault);
+		print_tokens(minivault->tokens);
 		liberate_vector(minivault->input);
 	}
-	printf(GREEN"------------OUTPUT_LIST-------------\n");
-	print_tokens(minivault->tokens);
-	printf(RESET_COLOR);
 }
 
