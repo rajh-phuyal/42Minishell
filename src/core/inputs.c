@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/18 15:53:26 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:40:58 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ char	*readaline(void)
 	return (line);
 }
 
-void	handle_input(t_minivault *minivault, char *input)
+void	handle_input(t_minivault *minivault, char *input, char **envs)
 {
-	// TODO? If not much shit remove
+	init_minivault(minivault, envs);
 	lexer(minivault, input);
+	liberation(minivault);
 }

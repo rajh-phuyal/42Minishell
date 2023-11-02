@@ -198,7 +198,7 @@ char	*isolate_compound(char *input, char *target, char separator)
  * ? Can this be made in a more efficient way
  * TODO: Check how () works. It has the same logic as quotes?
  * TODO: Realloc beffore splitting
- * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token '>'
+ * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
  * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
 void	strextract(t_minivault *minivault, char *input)
@@ -212,6 +212,6 @@ void	strextract(t_minivault *minivault, char *input)
 	input = isolate_char(input, '<', '\31');
 	input = isolate_char(input, '>', '\31');
 	input = isolate_quotes(input, '\31');
-	minivault->input = ft_split(input, '\31');
-	free(input);
+	if (input)
+		minivault->input = ft_split(input, '\31');
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 15:00:05 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/11/02 14:38:32 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ void		print_vector(char **vector);
 
 // the liberator
 void		liberate_vector(char **vector);
-void    	liberation(t_minivault *minivault);
+void		liberate_tokens(t_token *head);
+void		liberate_envs(t_envs *head);
+void		liberate_baobab(t_baobab *head);
+void		liberation(t_minivault *minivault);
 
 #endif

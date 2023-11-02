@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/02 13:18:07 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:38:54 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_baobab
 // input functions
 char		*readaline(void);
 void		close_readline(void);
-void		handle_input(t_minivault *minivault, char *input);
+void		handle_input(t_minivault *minivault, char *input, char **envs);
 
 // tokenizer
 void		tokenizer(t_minivault *minivault, int seq);

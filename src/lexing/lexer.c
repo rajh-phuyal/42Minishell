@@ -42,7 +42,6 @@ void	lexer(t_minivault *minivault, char *input)
 		liberation(minivault);
 		exit(0);
 	}
-
 	// try building the baobab tree, only while testings
 	if (!ft_strncmp(input, "build tree", 11))
 		grow_baobab(minivault);
@@ -53,7 +52,5 @@ void	lexer(t_minivault *minivault, char *input)
 		strextract(minivault, input);
 		tokenizer(minivault, 0);
 		remove_quotes(minivault);
-		print_tokens(minivault->tokens);
-		liberate_vector(minivault->input);
 	}
 }
