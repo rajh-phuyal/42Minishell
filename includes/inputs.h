@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 00:39:23 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/11/02 13:18:07 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-// type of tokens
-enum	t_type
+typedef enum	e_type
+{
+	WORD,
+	PIP,
+	REDIR_IN,
+	REDIR_OUT
+}				t_type;
+// type of tokens in ast
+typedef enum e_ast_type
 {
 	CMD,
 	ARG,
 	PIPE,
-	REDIRECT,
-	SEMICOLON
-};
+	REDIRECTION_IN,
+	REDIRECTION_OUT,
+	HEREDOC,
+	APPEND,
+}			t_ast_type;
 
 // some functions can't live without the minvault, so ...
 typedef struct s_minivault t_minivault;
@@ -33,7 +42,7 @@ typedef struct s_minivault t_minivault;
 typedef struct s_token
 {
 	char			*token;
-	enum t_type		type;
+	t_type			type;
 	struct s_token	*next;
 }	t_token;
 
@@ -41,7 +50,8 @@ typedef struct s_token
 typedef struct s_baobab
 {
 	int				level;
-	struct s_token	*token;
+	t_ast_type		type;
+	t_token			*token;
 	struct s_baobab	*left;
 	struct s_baobab	*right;
 	struct s_baobab	*parent;
@@ -55,7 +65,6 @@ void		handle_input(t_minivault *minivault, char *input);
 // tokenizer
 void		tokenizer(t_minivault *minivault, int seq);
 void    	print_tokens(t_token *head);
-void    	add_token(t_minivault *minivault, char *token, int type);
 void    	remove_token(t_token *head, t_token *node);
 
 // parser

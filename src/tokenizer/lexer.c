@@ -1,13 +1,6 @@
 
 #include "minishell.h"
 
-/* checks the type of token received */
-int	token_type(char *token)
-{
-	(void)token;
-	return (1);
-}
-
 void	trim_string(char *str, int len)
 {
 	if (len >= 2)
@@ -59,9 +52,8 @@ void	lexer(t_minivault *minivault, char *input)
 	{
 		strextract(minivault, input);
 		tokenizer(minivault, 0);
-		// ! This has to fixed -> remove_quotes(minivault);
+		remove_quotes(minivault);
 		print_tokens(minivault->tokens);
 		liberate_vector(minivault->input);
 	}
 }
-
