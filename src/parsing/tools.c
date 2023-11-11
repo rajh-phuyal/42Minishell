@@ -21,3 +21,14 @@ t_baobab	*search(t_baobab *root, char *token)
 	}
 	return (NULL);
 }
+
+t_token	*get_token(t_token *token, t_type type)
+{
+	while (token)
+	{
+		if (token->type == type)
+			return (token);
+		token = token->next;
+	}
+	return (NULL);
+}

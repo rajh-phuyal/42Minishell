@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/11 15:42:37 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:18:33 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum	e_type
 	LESS,
 	GREAT
 }				t_type;
+
 // type of tokens in ast
 // typedef enum e_ast_type
 // {
@@ -67,8 +68,9 @@ void		remove_token(t_token *head, t_token *node);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
-t_baobab	*create_baobab_node(t_token *token, int node_type);
 t_baobab	*search(t_baobab *root, char *token);
+t_token		*get_token(t_token *token, t_type type);
+t_baobab	*create_baobab_node(t_token *token, int node_type);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 
 #endif

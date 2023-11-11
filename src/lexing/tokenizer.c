@@ -11,6 +11,7 @@ int	token_type(char *token)
 		return (LESS);
 	return (WORD);
 }
+
 t_token *create_new(char *token)
 {
     t_token *new;
