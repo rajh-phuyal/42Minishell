@@ -6,9 +6,9 @@ int	token_type(char *token)
 	if (!ft_strncmp(token, "|", 1))
 		return (PIP);
 	if (!ft_strncmp(token, ">", 1))
-		return (REDIR_OUT);
+		return (GREAT);
 	if (!ft_strncmp(token, "<", 1))
-		return (REDIR_IN);
+		return (LESS);
 	return (WORD);
 }
 t_token *create_new(char *token)
@@ -20,7 +20,7 @@ t_token *create_new(char *token)
         return (NULL);
     new->next = NULL;
     new->type = token_type(token);
-    new->token = ft_strdup(token);
+    new->content = ft_strdup(token);
     return (new);
 }
 
@@ -65,7 +65,7 @@ void    remove_token(t_token *head, t_token *node)
     }
 
     temp = node->next;
-    node->token = temp->token;
+    node->content = temp->content;
     node->next = temp->next;
     free(temp);
 }

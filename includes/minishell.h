@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/02 14:38:32 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:08:28 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ t_minivault	*minishell(void);
 // minishell
 int			init_minivault(t_minivault *minivault, char **envs);
 
+// input functions
+char		*readaline(void);
+void		close_readline(void);
+void		handle_input(t_minivault *minivault, char *input, char **envs);
+
 // environment functions
 void 		envsort(t_envs *envs);
 char		*get_env(t_minivault *minivault, char *key);
@@ -51,23 +56,19 @@ void		unset_env(t_minivault *minivault, char *key);
 t_envs		*add_env_node(t_envs *envs, char *key, char *value);
 void		set_env(t_minivault *minivault, char *key, char *value);
 
-// parsing gate
-void		lexer(t_minivault *minivault, char *input);
-void		strextract(t_minivault *minivault, char *input);
-bool		is_single_quote(char c);
-bool		is_double_quote(char c);
-
 // debug functions
-void		print_envs(t_envs *envs);
-void		print_baobab(t_baobab *root);
+void		call_debug(t_minivault *minivault);
 void		print_argv(int argc, char **argv);
+void		print_envs(t_envs *envs);
 void		print_vector(char **vector);
+void		print_tokens(t_token *head);
+void		print_baobab(t_baobab *root, int indent_level);
 
 // the liberator
+void		liberation(t_minivault *minivault);
+void		liberate_envs(t_envs *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
-void		liberate_envs(t_envs *head);
 void		liberate_baobab(t_baobab *head);
-void		liberation(t_minivault *minivault);
 
 #endif

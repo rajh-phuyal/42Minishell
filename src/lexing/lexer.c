@@ -19,13 +19,13 @@ void remove_quotes(t_minivault *minivault)
 	current = minivault->tokens;
 	while (current)
 	{
-		len = ft_strlen(current->token);
+		len = ft_strlen(current->content);
 		if (len >= 2)
 		{
-			if (is_double_quote(current->token[0]) && is_double_quote(current->token[len - 1]))
-				trim_string(current->token, len);
-			if (is_single_quote(current->token[0]) && is_single_quote(current->token[len - 1]))
-				trim_string(current->token, len);
+			if (is_double_quote(current->content[0]) && is_double_quote(current->content[len - 1]))
+				trim_string(current->content, len);
+			else if (is_single_quote(current->content[0]) && is_single_quote(current->content[len - 1]))
+				trim_string(current->content, len);
 		}
 		current = current->next;
 	}
@@ -35,22 +35,7 @@ void	lexer(t_minivault *minivault, char *input)
 {
 	if (!input)
 		return ;
-	// just a exit command for testing purposes
-	if (!ft_strncmp(input, "exit", 5))
-	{
-		free(input);
-		liberation(minivault);
-		exit(0);
-	}
-	// try building the baobab tree, only while testings
-	if (!ft_strncmp(input, "build tree", 11))
-		grow_baobab(minivault);
-	else if (!ft_strncmp(input, "var", 3))
-		printf("VAL: %s\n", get_env(minivault, "PATH"));
-	else
-	{
-		strextract(minivault, input);
-		tokenizer(minivault, 0);
-		remove_quotes(minivault);
-	}
+	strextract(minivault, input);
+	tokenizer(minivault, 0);
+	// remove_quotes(minivault);
 }

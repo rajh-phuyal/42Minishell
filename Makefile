@@ -10,17 +10,18 @@ LFT   = libft/libft.a
 
 SRC = src/core/main.c \
 	src/core/inputs.c \
-	src/helpers/debug.c \
-	src/helpers/envsort.c \
-	src/parsing/farmer.c \
-	src/parsing/tools.c \
 	src/data/environment.c \
 	src/data/initialization.c \
+	src/helpers/debug.c \
+	src/helpers/envsort.c \
 	src/lexing/lexer.c \
 	src/lexing/strextract.c \
 	src/lexing/tokenizer.c \
 	src/lexing/tokenizer.c \
-	src/terminator/liberation.c \
+	src/parsing/farmer.c \
+	src/parsing/tools.c \
+	src/parsing/job.c \
+	src/terminator/liberation.c
 
 OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
 
