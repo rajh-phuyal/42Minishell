@@ -14,24 +14,10 @@ t_baobab	*search(t_baobab *root, char *token)
 {
 	if (root)
 	{
-		if (!ft_strncmp(root->token->token, token, ft_strlen(token)))
+		if (!ft_strncmp(root->token->content, token, ft_strlen(token)))
 			return (root);
 		search(root->left, token);
 		search(root->right, token);
 	}
 	return (NULL);
-}
-
-// this function creates a babobab node
-t_baobab    *create_baobab_node(t_token *token)
-{
-    t_baobab    *node;
-
-    node = malloc(sizeof(t_baobab));
-    if (!node)
-        return (NULL);
-    node->token = token;
-    node->left = NULL;
-    node->right = NULL;
-    return (node);
 }

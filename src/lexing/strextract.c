@@ -32,10 +32,10 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
 }
 
 /**
- * remove_spaces
- * * if one or multiple spaces are found outside of a quotes, they are replaced by the separator
- * E.g.: hello        world "   again" -> hello\world\"   again" <- where \ is the separator
- * It also checks if there are unclosed quotes in the input string
+ * * remove_spaces
+ * @brief 	if one or multiple spaces are found outside of a quotes, they are replaced by the separator
+ * 			E.g.: hello        world "   again" -> hello\world\"   again" <- where \ is the separator
+ * 			It also checks if there are unclosed quotes in the input string
  * ! FIX: This segfaults in the case of unclosed quotes, can't just return NULL
  * ! If a quote is missing it should return the prompt util the quotes are closed
  * @param input is the input string
@@ -75,9 +75,9 @@ char	*remove_spaces(char *input, char separator)
 }
 
 /**
- * isolate_quotes
- * if a quoted string is found inside of the input string it is isolated by the separator.
- * E.g.: hello"world"123 becomes hello "world" 123
+ * * isolate_quotes
+ * @brief	a quoted string is found inside of the input string it is isolated by the separator.
+ * 			E.g.: hello"world"123 becomes hello "world" 123
  * @param input is the input string
  * @param separator the char used to isolate the quoted string in the input
 */
@@ -116,9 +116,9 @@ char	*isolate_quotes(char *input, char separator)
 }
 
 /**
- * isolate_char
- * * if the target char is found inside the input string (outside of single or double quotes) 
- * * it is isolated by the separator. E.g.: hello>1 becomes hello > 1
+ * * isolate_char
+ * @brief	if the target char is found inside the input string (outside of single or double quotes) 
+ * 			it is isolated by the separator. E.g.: hello>1 becomes hello > 1
  * @param input is the input string
  * @param target is the target char
  * @param separator the char used to isolate the target in the input
@@ -153,9 +153,9 @@ char	*isolate_char(char *input, char target, char separator)
 }
 
 /**
- * isolate_compund
- * * if the target string is found inside the input string (outside of single or double quotes) 
- * * it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
+ * * isolate_compund
+ * @brief	if the target string is found inside the input string (outside of single or double quotes) 
+ * 			it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
  * @param input is the input string
  * @param target is the target string
  * @param separator the char used to isolate the target in the input
@@ -191,27 +191,27 @@ char	*isolate_compound(char *input, char *target, char separator)
 }
 
 /**
- * strextract 
- * * removes spaces, isolates special chars and splits the input string into a vector 2D ARRAY
+ * * strextract 
+ * @brief	 spaces, isolates special chars and splits the input string into a vector 2D ARRAY
  * @param minivault is a pointer to the "general" structure
  * @param input is the input string
  * ? Can this be made in a more efficient way
  * TODO: Check how () works. It has the same logic as quotes?
  * TODO: Realloc beffore splitting
- * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token '>'
+ * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
  * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input, '\31');
-	input = isolate_compound(input, ">>", '\"');
-	input = isolate_compound(input, "<<", '\"');
+	// input = isolate_compound(input, ">>", '\"');
+	// input = isolate_compound(input, "<<", '\"');
 	input = isolate_char(input, '|', '\31');
 	input = isolate_char(input, '&', '\31');
 	input = isolate_char(input, ';', '\31');
 	input = isolate_char(input, '<', '\31');
 	input = isolate_char(input, '>', '\31');
 	input = isolate_quotes(input, '\31');
-	minivault->input = ft_split(input, '\31');
-	free(input);
+	if (input)
+		minivault->input = ft_split(input, '\31');
 }

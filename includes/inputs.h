@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 00:39:23 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/11/11 15:42:37 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-// type of tokens
-enum	t_type
+typedef enum	e_type
 {
-	CMD,
-	ARG,
-	PIPE,
-	REDIRECT,
-	SEMICOLON
-};
+	WORD,
+	PIP,
+	LESS,
+	GREAT
+}				t_type;
+// type of tokens in ast
+// typedef enum e_ast_type
+// {
+// 	CMD,
+// 	ARG,
+// 	PIPE,
+// 	LESS,
+// 	GREAT,
+// 	DLESS,
+// 	DGREAT,
+// }			t_ast_type;
 
 // some functions can't live without the minvault, so ...
 typedef struct s_minivault t_minivault;
@@ -32,8 +41,8 @@ typedef struct s_minivault t_minivault;
 // the token list
 typedef struct s_token
 {
-	char			*token;
-	enum t_type		type;
+	char			*content;
+	t_type			type;
 	struct s_token	*next;
 }	t_token;
 
@@ -41,27 +50,25 @@ typedef struct s_token
 typedef struct s_baobab
 {
 	int				level;
-	struct s_token	*token;
+	// t_ast_type		type;
+	t_token			*token;
 	struct s_baobab	*left;
 	struct s_baobab	*right;
 	struct s_baobab	*parent;
 }	t_baobab;
 
-// input functions
-char		*readaline(void);
-void		close_readline(void);
-void		handle_input(t_minivault *minivault, char *input);
-
-// tokenizer
+// lexing
+void		lexer(t_minivault *minivault, char *input);
+void		strextract(t_minivault *minivault, char *input);
+bool		is_single_quote(char c);
+bool		is_double_quote(char c);
 void		tokenizer(t_minivault *minivault, int seq);
-void    	print_tokens(t_token *head);
-void    	add_token(t_minivault *minivault, char *token, int type);
-void    	remove_token(t_token *head, t_token *node);
+void		remove_token(t_token *head, t_token *node);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
+t_baobab	*create_baobab_node(t_token *token, int node_type);
 t_baobab	*search(t_baobab *root, char *token);
-t_baobab    *create_baobab_node(t_token *token);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 
 #endif

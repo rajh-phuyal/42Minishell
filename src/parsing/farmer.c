@@ -1,11 +1,24 @@
 
 #include "minishell.h"
 
-
-// this function tries to build the abstract syntax tree
-void    grow_baobab(t_minivault *minivault)
+t_baobab	*create_baobab_node(t_token *token, int node_type)
 {
-    minivault->baobab = create_baobab_node(minivault->tokens);
-    print_baobab(minivault->baobab);
-    printf("Building the baobab tree...\n");
+    t_baobab    *node;
+
+    node = malloc(sizeof(t_baobab));
+    if (!node)
+        return (NULL);
+    node->token = token;
+	(void) node_type;
+	// node->type = node_type;
+    node->left = NULL;
+    node->right = NULL;
+    return (node);
+}
+
+// this function builds the abstract syntax tree
+void	grow_baobab(t_minivault	*minivault)
+{
+	(void) minivault;
+	// minivault->baobab = is_job(minivault->tokens);
 }
