@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/11 15:42:37 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:53:02 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,70 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-typedef enum	e_type
+
+// TOKEN LIST
+typedef enum	e_content_type
 {
-	WORD,
-	PIP,
-	LESS,
-	GREAT
-}				t_type;
-// type of tokens in ast
-// typedef enum e_ast_type
-// {
-// 	CMD,
-// 	ARG,
-// 	PIPE,
-// 	LESS,
-// 	GREAT,
-// 	DLESS,
-// 	DGREAT,
-// }			t_ast_type;
+	LITERAL,
+	SQUOTED,
+	DQUOTED,
+	PIPE,
+	REDIRECTION,
+}				t_content_type;
 
-// some functions can't live without the minvault, so ...
-typedef struct s_minivault t_minivault;
-
-// the token list
 typedef struct s_token
 {
 	char			*content;
-	t_type			type;
-	struct s_token	*next;
+	t_content_type	type;
+	struct s_token	*next; // used initially to build the list
 }	t_token;
 
-// abstract syntax tree
+
+// AST
+// used to identify the redirection node
+typedef enum e_operation
+{
+	GREAT,
+	LESS,
+	DGREAT,
+	DLESS
+}			t_operation;
+
+typedef struct s_redir
+{
+	t_operation	operation;
+	int			fd;
+	char		*word;
+}			t_redir;
+
+typedef struct s_word
+{
+	char	word;
+	bool	is_quoted; // if token is literal this is false
+}				t_word;
+
+typedef struct s_command
+{
+	t_word		*words;
+	t_redir		*redirects;
+	
+}				t_command;
+
+typedef	struct s_pipeline
+{
+	t_command	*commands;
+}				t_pipeline;
+
 typedef struct s_baobab
 {
-	int				level;
-	// t_ast_type		type;
-	t_token			*token;
-	struct s_baobab	*left;
-	struct s_baobab	*right;
-	struct s_baobab	*parent;
+	union 
+	{
+		t_command	command; // <command>
+		t_pipeline	pipeline; // <command> | <command> ...
+	}	u_root;
 }	t_baobab;
+
+typedef struct s_minivault t_minivault;
 
 // lexing
 void		lexer(t_minivault *minivault, char *input);
