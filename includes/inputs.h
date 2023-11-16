@@ -52,21 +52,13 @@ typedef struct s_command
 {
 	t_word		*words;
 	t_redir		*redirects;
-	
+	t_token		*temp_list;
 }				t_command;
 
-typedef	struct s_pipeline
-{
-	t_command	**commands;
-}				t_pipeline;
-
 typedef struct s_baobab
-{	union 
-	{
-		t_command	*command;  // <command>
-		t_pipeline	pipeline; // <command> | <pipeline> ...
-	}	u_root;
-}	t_baobab;
+{
+	t_command	**pipeline;
+}				t_baobab;
 
 typedef struct s_minivault t_minivault;
 
@@ -77,6 +69,8 @@ bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 void		tokenizer(t_minivault *minivault, int seq);
 void		remove_token(t_token *head, t_token *node);
+t_token 	*create_new(char *token);
+void		add_token(t_minivault *minivault, char *token);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);

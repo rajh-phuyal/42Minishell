@@ -42,7 +42,7 @@ t_token *create_new(char *token)
 }
 
 // add tokens to the list of tokens
-void    add_token(t_minivault *minivault, char *token)
+void	add_token(t_minivault *minivault, char *token)
 {
     t_token *head;
     t_token *token_node;

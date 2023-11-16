@@ -1,63 +1,23 @@
 
 #include "minishell.h"
 
-bool	is_pipeline(t_token *token)
-{
-	t_token	*current;
-
-	current = token;
-	while (current)
-	{
-		if (current->type == PIPE)
-			return (true);
-		current = current->next;
-	}
-	return (false);
-}
-
 int		find_redirection_type(t_token *token)
 {
-	if (token->type != REDIRECTION)
-		return (-1);// deu merda somewhere
-	if (!ft_strncmp(token->content, ">>", 2))
-		return (DGREAT);
-	else if (!ft_strncmp(token->content, "<<", 2))
-		return (DLESS);
-	else if (!ft_strncmp(token->content, ">", 1))
-		return (GREAT);
-	else if (!ft_strncmp(token->content, "<", 1))
-		return (LESS);
-	// deu merda
-	return (-1);
+	if (token->type == REDIRECTION)
+	{
+		if (!ft_strncmp(token->content, ">>", 2))
+			return (DGREAT);
+		else if (!ft_strncmp(token->content, "<<", 2))
+			return (DLESS);
+		else if (!ft_strncmp(token->content, ">", 1))
+			return (GREAT);
+		else if (!ft_strncmp(token->content, "<", 1))
+			return (LESS);
+	}
+	return (ERROR);
 }
 
-t_redir	*redirection(t_token *head, t_token *token)
-{
-	t_redir	*redir;
-
-	redir = NULL;
-	if (token->next == NULL)
-	{
-		// minibaiter:: syntax error near unexpected token `newline'
-		return (NULL); // wtf?
-	}
-	else if (token->type == REDIRECTION && token->next->type == REDIRECTION)
-	{
-		// minibaiter: syntax error near unexpected token `>'
-		return (NULL); // wtf?
-	}
-	else if (token->type == REDIRECTION && token->next->type != REDIRECTION && token->next->type != PIPE)
-	{
-		redir->operator = find_redirection_type(token);
-		redir->word = ft_strdup(token->next->content); // dont know if should make a copy or just use the old pointer
-		remove_token(head, token->next);
-		remove_token(head, token);
-	}
-	printf ("hello\n");
-	return (redir);
-}
-
-int		count_redirections(t_token *tokens)
+int		count_tokens(t_content_type token_type, t_token *tokens)
 {
 	t_token	*current;
 	int i;
@@ -66,51 +26,69 @@ int		count_redirections(t_token *tokens)
 	i = 0;
 	while (current)
 	{
-		if (current->type == REDIRECTION)
+		if (current->type == token_type)
 			i++;
 		current = current->next;
 	}
 	return (i);
 }
 
-void	command(t_baobab *baobab, t_token *tokens)
+void	add_token_back(t_token *list, t_token *token)
 {
-	t_token	*current;
-	int		i;
+    t_token *head;
 
-	i = 0;
-	current = tokens;
-	baobab = (t_baobab *)malloc(sizeof(t_baobab));
-	if (!baobab)
-	{
-		printf ("Merda na alocacao do baobab\n");
-		return ;
-	}
-	baobab->u_root.command = (t_command *)malloc(sizeof(t_command));
-	if (baobab->u_root.command == NULL)
-	{
-		printf ("Merda na alocacao dos command\n");
-		return ;
-	}
-	baobab->u_root.command->redirects = (t_redir **)malloc(sizeof(t_redir) * count_redirections(tokens));
-	if (baobab->u_root.command->redirects == NULL)
-	{
-		printf ("Merda na alocacao dos redirects\n");
-		return ;
-	}
+    head = list;
+    if (!head)
+    {
+        head = token;
+        return ;
+    }
+    if (!head->next)
+    {
+        head->next = token;
+        return ;
+    }
+    while (head->next)
+        head = head->next;
+    head->next = token;
+} 
+
+t_token	*split_list(t_token *list, int index)
+{
+	t_token *new_list;
+	t_token *temp;
+	static t_token *current;
+
+	new_list = NULL;
+	if(!list)
+		return (NULL);
+	if (index == 0)
+		current = list;
 	while (current)
 	{
-		if (current->type == REDIRECTION)
-			baobab->u_root.command->redirects[i++] = redirection(tokens, current);
+		if (current->type == PIPE)
+		{
+			current = current->next;
+			break ;
+		}
+		temp = current;
 		current = current->next;
-	}	
+		add_token_back(new_list, temp);
+	}
+	return (new_list);
 }
 
-// this function builds the abstract syntax tree
 void	grow_baobab(t_minivault	*minivault)
 {
-	// if (is_pipeline(minivault->tokens))
-	// 	pipeline(minivault->tokens);
-	// else
-		command(minivault->baobab, minivault->tokens);
+	int i;
+	int command_count;
+
+	command_count = 1 + count_tokens(PIPE, minivault->tokens);
+	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command **) * (command_count + 1));
+	i = 0;
+	while (i < command_count)
+	{
+		minivault->baobab->pipeline[i]->temp_list = split_list(minivault->tokens, i);
+		i++;
+	}
 }
