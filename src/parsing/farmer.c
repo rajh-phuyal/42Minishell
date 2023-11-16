@@ -51,7 +51,7 @@ void	add_token_back(t_token *list, t_token *token)
     while (head->next)
         head = head->next;
     head->next = token;
-} 
+}
 
 t_token	*split_list(t_token *list, int index)
 {
@@ -78,16 +78,20 @@ t_token	*split_list(t_token *list, int index)
 	return (new_list);
 }
 
+
 void	grow_baobab(t_minivault	*minivault)
 {
 	int i;
 	int command_count;
 
 	command_count = 1 + count_tokens(PIPE, minivault->tokens);
-	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command **) * (command_count + 1));
+	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
+	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
+	minivault->baobab->pipeline[command_count] = NULL;
 	i = 0;
 	while (i < command_count)
 	{
+		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
 		minivault->baobab->pipeline[i]->temp_list = split_list(minivault->tokens, i);
 		i++;
 	}

@@ -45,7 +45,7 @@ typedef struct s_word
 	char			*word;
 	bool			is_quoted; // if token is literal this is false
 	struct s_word	*next;
-	
+
 }					t_word;
 
 typedef struct s_command
