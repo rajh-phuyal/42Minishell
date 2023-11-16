@@ -17,11 +17,10 @@ SRC = src/core/main.c \
 	src/lexing/lexer.c \
 	src/lexing/strextract.c \
 	src/lexing/tokenizer.c \
-	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
-	src/parsing/tools.c \
-	src/parsing/job.c \
 	src/terminator/liberation.c
+
+#src/parsing/farmer.c
 
 OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
 

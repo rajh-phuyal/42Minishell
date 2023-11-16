@@ -1,16 +1,33 @@
 #include "minishell.h"
 
-/* checks the type of token received */
+bool is_quoted(char *token)
+{
+	size_t len;
+
+	len = ft_strlen(token);
+	if (len >= 2)
+	{
+		if (is_double_quote(token[0]) && is_double_quote(token[len - 1]))
+			return(true);
+		else if (is_single_quote(token[0]) && is_single_quote(token[len - 1]))
+			return(true);
+	}
+	return(false);
+}
+
+// checks the type of token received
 int	token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", 1))
-		return (PIP);
-	if (!ft_strncmp(token, ">", 1))
-		return (GREAT);
-	if (!ft_strncmp(token, "<", 1))
-		return (LESS);
-	return (WORD);
+		return (PIPE);
+	else if (!ft_strncmp(token, ">", 1 ) || !ft_strncmp(token, "<", 1) || \
+			!ft_strncmp(token, ">>", 2 ) || !ft_strncmp(token, "<<", 2) )
+		return (REDIRECTION);
+	else if (is_quoted(token))
+		return (QUOTED);
+	return (LITERAL);
 }
+
 t_token *create_new(char *token)
 {
     t_token *new;

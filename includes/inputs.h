@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   inputs.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/13 15:53:02 by jalves-c         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef INPUTS_H
 # define INPUTS_H
 
@@ -21,8 +9,7 @@
 typedef enum	e_content_type
 {
 	LITERAL,
-	SQUOTED,
-	DQUOTED,
+	QUOTED,
 	PIPE,
 	REDIRECTION,
 }				t_content_type;
@@ -47,16 +34,19 @@ typedef enum e_operation
 
 typedef struct s_redir
 {
-	t_operation	operation;
-	int			fd;
-	char		*word;
-}			t_redir;
+	t_operation		operator;
+	int				fd;
+	char			*word;
+	struct s_redir	*next;
+}					t_redir;
 
 typedef struct s_word
 {
-	char	word;
-	bool	is_quoted; // if token is literal this is false
-}				t_word;
+	char			*word;
+	bool			is_quoted; // if token is literal this is false
+	struct s_word	*next;
+	
+}					t_word;
 
 typedef struct s_command
 {
@@ -67,15 +57,14 @@ typedef struct s_command
 
 typedef	struct s_pipeline
 {
-	t_command	*commands;
+	t_command	**commands;
 }				t_pipeline;
 
 typedef struct s_baobab
-{
-	union 
+{	union 
 	{
-		t_command	command; // <command>
-		t_pipeline	pipeline; // <command> | <command> ...
+		t_command	*command;  // <command>
+		t_pipeline	pipeline; // <command> | <pipeline> ...
 	}	u_root;
 }	t_baobab;
 
