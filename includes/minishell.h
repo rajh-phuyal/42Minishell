@@ -10,6 +10,7 @@
 # define GET 0
 # define PUT 1
 # define ERROR -1
+
 // the env list
 typedef struct s_envs
 {

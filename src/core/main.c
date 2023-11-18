@@ -4,7 +4,7 @@
 /* call the debug functions to check the state of the program variables*/
 void	call_debug(t_minivault *minivault)
 {
-	printf("\n----------VECTOR--------\n");
+	printf("\n---------VECTOR-------\n");
 	print_vector(minivault->input);
 	// print_envs(minivault->envs);
 	printf("\n----------LIST--------\n");

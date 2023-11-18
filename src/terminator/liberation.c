@@ -25,7 +25,6 @@ void	liberate_tokens(t_token *head)
     while (head)
     {
         tmp = head->next;
-        free(head->content);
         free(head);
         head = tmp;
     }

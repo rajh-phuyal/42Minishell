@@ -1,21 +1,43 @@
 
 #include "minishell.h"
 
-int		find_redirection_type(t_token *token)
+void    print_redirs(t_redir *head)
 {
-	if (token->type == REDIRECTION)
-	{
-		if (!ft_strncmp(token->content, ">>", 2))
-			return (DGREAT);
-		else if (!ft_strncmp(token->content, "<<", 2))
-			return (DLESS);
-		else if (!ft_strncmp(token->content, ">", 1))
-			return (GREAT);
-		else if (!ft_strncmp(token->content, "<", 1))
-			return (LESS);
-	}
-	return (ERROR);
+    while (head)
+    {
+        printf("OPERATOR: ");
+		if (head->operator == GREAT) 
+			printf(">");
+		else if (head->operator == LESS) 
+			printf("<");
+		else if (head->operator == DGREAT) 
+			printf(">>");
+		else if (head->operator == DLESS) 
+			printf("<<");
+		printf(" | WORD: %s\n",head->word);
+        head = head->next;
+    }
 }
+void	print_temp_list(t_minivault *minivault)
+{
+	int i = 0;
+
+	if (minivault->baobab->pipeline[i]->temp_list)
+		printf("\n----------TREE--------\n");
+	while (minivault->baobab->pipeline[i])
+	{
+		if(minivault->baobab->pipeline[i]->temp_list)
+		{
+			printf("Command: %d", i);
+			printf("\n----------------------\n");
+			print_tokens(minivault->baobab->pipeline[i]->temp_list);
+		}
+		printf(RESET_COLOR);
+		i++;
+	}
+}
+
+//-----------------------   ↑ SHITY PRINTS ↑  ----------------------------------
 
 int		count_tokens(t_content_type token_type, t_token *tokens)
 {
@@ -33,51 +55,52 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
-void	add_token_back(t_token *list, t_token *token)
+void	create_command_list(t_token **list, t_token *token)
 {
     t_token *head;
-
-    head = list;
+	t_token *temp = (t_token *)malloc(sizeof(t_token));
+    if (!temp)
+        return ;
+	temp->content = token->content;
+	temp->type = token->type;
+	temp->next = NULL;
+    head = (*list);
     if (!head)
     {
-        head = token;
+        *list = temp;
         return ;
     }
     if (!head->next)
     {
-        head->next = token;
+        head->next = temp;
         return ;
     }
     while (head->next)
         head = head->next;
-    head->next = token;
+    head->next = temp;
 }
 
-t_token	*split_list(t_token *list, int index)
+t_token	*split_list(t_token* list, t_content_type type)
 {
-	t_token *new_list;
-	t_token *temp;
-	static t_token *current;
+    static t_token* current = NULL;
+    t_token* new_list = NULL;
 
-	new_list = NULL;
-	if(!list)
-		return (NULL);
-	if (index == 0)
-		current = list;
-	while (current)
-	{
-		if (current->type == PIPE)
-		{
-			current = current->next;
+    if (!list)
+        return NULL;
+    if (current == NULL)
+        current = list;
+    while (current) 
+    {
+        if (current->type == type) 
+        {
+            current = current->next;
 			break ;
 		}
-		temp = current;
-		current = current->next;
-		add_token_back(new_list, temp);
-	}
-	return (new_list);
+        create_command_list(&new_list, current);
+        current = current->next;
+    }
+    return (new_list);
 }
-
 
 void	grow_baobab(t_minivault	*minivault)
 {
@@ -92,7 +115,13 @@ void	grow_baobab(t_minivault	*minivault)
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
-		minivault->baobab->pipeline[i]->temp_list = split_list(minivault->tokens, i);
+		if (command_count == 1)
+			minivault->baobab->pipeline[i]->temp_list = minivault->tokens;
+		else
+			minivault->baobab->pipeline[i]->temp_list = split_list(minivault->tokens, PIPE);
 		i++;
 	}
+	i = 0;
+	// call_debug(minivault);
+	print_temp_list(minivault);
 }

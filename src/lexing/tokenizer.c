@@ -37,7 +37,7 @@ t_token *create_new(char *token)
         return (NULL);
     new->next = NULL;
     new->type = token_type(token);
-    new->content = ft_strdup(token);
+    new->content = token;
     return (new);
 }
 
@@ -71,7 +71,6 @@ void    remove_token(t_token *head, t_token *node)
 
     if (!node)
         return ;
-
     if (!node->next)
     {
         while (head->next != node)
@@ -80,7 +79,6 @@ void    remove_token(t_token *head, t_token *node)
         head->next = NULL;
         return ;
     }
-
     temp = node->next;
     node->content = temp->content;
     node->next = temp->next;
