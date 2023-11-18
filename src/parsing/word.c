@@ -25,13 +25,13 @@ void remove_quotes(char *str)
 	}
 }
 
-t_redir *create_word_node(t_token *token)
+t_word *create_word_node(t_token *token)
 {
 	t_word *word;
 
 	if (!token || !(token->type == LITERAL || token->type == QUOTED))
 		return (NULL);
-	word = (t_token *)malloc(sizeof(t_token));
+	word = (t_word *)malloc(sizeof(t_word));
 	if (!word)
 		return (NULL);
 	if (token->type == QUOTED)
@@ -39,4 +39,25 @@ t_redir *create_word_node(t_token *token)
 	word->word = token->content;
 	word->next = NULL;
 	return (word);
+}
+
+void	add_word(t_word **word_list, t_token *token)
+{
+	t_word	*word;
+	t_word	*head;
+
+	word = NULL;
+	if (token)
+		word = create_word_node(token);
+	if (!word) // something is fucked;
+		return ;
+	head = (*word_list);
+	if (!head)
+	{
+		*word_list = word;
+		return ;
+	}
+	while (head->next)
+		head = head->next;
+	head->next = word;
 }

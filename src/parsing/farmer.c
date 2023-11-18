@@ -39,6 +39,38 @@ void	print_temp_list(t_minivault *minivault)
 
 //-----------------------   ↑ SHITY PRINTS ↑  ----------------------------------
 
+t_command	*split_list(t_token *list, t_content_type type)
+{
+    static t_token* current = NULL;
+	t_command *command = NULL;
+
+	command = (t_command *)malloc(sizeof(t_command));
+	if(!command || !list)
+        return (NULL);
+    if (current == NULL)
+        current = list;
+    while (current) 
+    {
+        if (current->type == type) 
+        {
+            current = current->next;
+			break ;
+		}
+        if (current && current->next && current->type == REDIRECTION && \
+		(current->next->type == LITERAL || current->next->type == QUOTED))
+		{
+			add_redirection(&command->redirects, current, current->next);
+			current = current->next->next;
+		}
+		if (current && (current->type == LITERAL || current->type == QUOTED))
+		{
+			add_word(&command->words, current);
+			current = current->next;
+		}
+	}
+	return (command);
+}
+
 int		count_tokens(t_content_type token_type, t_token *tokens)
 {
 	t_token	*current;
@@ -55,53 +87,6 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
-void	create_command_list(t_token **list, t_token *token)
-{
-    t_token *head;
-	t_token *temp = (t_token *)malloc(sizeof(t_token));
-    if (!temp)
-        return ;
-	temp->content = token->content;
-	temp->type = token->type;
-	temp->next = NULL;
-    head = (*list);
-    if (!head)
-    {
-        *list = temp;
-        return ;
-    }
-    if (!head->next)
-    {
-        head->next = temp;
-        return ;
-    }
-    while (head->next)
-        head = head->next;
-    head->next = temp;
-}
-
-t_token	*split_list(t_token* list, t_content_type type)
-{
-    static t_token* current = NULL;
-    t_token* new_list = NULL;
-
-    if (!list)
-        return NULL;
-    if (current == NULL)
-        current = list;
-    while (current) 
-    {
-        if (current->type == type) 
-        {
-            current = current->next;
-			break ;
-		}
-        create_command_list(&new_list, current);
-        current = current->next;
-    }
-    return (new_list);
-}
-
 void	grow_baobab(t_minivault	*minivault)
 {
 	int i;
@@ -115,10 +100,12 @@ void	grow_baobab(t_minivault	*minivault)
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
-		if (command_count == 1)
-			minivault->baobab->pipeline[i]->temp_list = minivault->tokens;
-		else
-			minivault->baobab->pipeline[i]->temp_list = split_list(minivault->tokens, PIPE);
+		// if (command_count == 1)
+		// 	minivault->baobab->pipeline[i]->temp_list = minivault->tokens;
+		// else
+		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
+		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
+			break ;
 		i++;
 	}
 	i = 0;

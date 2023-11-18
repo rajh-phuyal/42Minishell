@@ -18,6 +18,8 @@ SRC = src/core/main.c \
 	src/lexing/strextract.c \
 	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
+	src/parsing/redir.c \
+	src/parsing/word.c \
 	src/terminator/liberation.c
 
 #src/parsing/farmer.c

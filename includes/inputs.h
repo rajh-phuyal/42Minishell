@@ -70,6 +70,8 @@ void		tokenizer(t_minivault *minivault, int seq);
 void		remove_token(t_token *head, t_token *node);
 t_token 	*create_new(char *token);
 void		add_token(t_minivault *minivault, char *token);
+void		add_word(t_word **word_list, t_token *token);
+void		add_redirection(t_redir	**redir_list, t_token *token, t_token *next);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
