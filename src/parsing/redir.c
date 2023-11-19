@@ -55,6 +55,8 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 	if (!redir)
 		return (NULL);
 	redir->operator = find_redirection_type(token);
+	if (next->type == QUOTED)
+		remove_quotes(next->content);
 	redir->word = next->content;
 	// redir->fd
 	redir->next = NULL;
