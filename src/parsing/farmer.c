@@ -6,13 +6,13 @@ void    print_redirs(t_redir *head)
     while (head)
     {
         printf("OPERATOR: ");
-		if (head->operator == GREAT) 
+		if (head->operator == GREAT)
 			printf(">");
-		else if (head->operator == LESS) 
+		else if (head->operator == LESS)
 			printf("<");
-		else if (head->operator == DGREAT) 
+		else if (head->operator == DGREAT)
 			printf(">>");
-		else if (head->operator == DLESS) 
+		else if (head->operator == DLESS)
 			printf("<<");
 		printf(" | WORD: %s\n",head->word);
         head = head->next;
@@ -30,14 +30,14 @@ void	print_temp_list(t_minivault *minivault)
 		{
 			printf("Command: %d", i);
 			printf("\n----------------------\n");
-			print_tokens(minivault->baobab->pipeline[i]->temp_list);
+			// print_tokens(minivault->baobab->pipeline[i]->temp_list);
 		}
 		printf(RESET_COLOR);
 		i++;
 	}
 }
 
-//-----------------------   ↑ SHITY PRINTS ↑  ----------------------------------
+//-----------------------  ↑ SHITY PRINTS ↑  ----------------------- //
 
 t_command	*split_list(t_token *list, t_content_type type)
 {
@@ -45,13 +45,15 @@ t_command	*split_list(t_token *list, t_content_type type)
 	t_command *command = NULL;
 
 	command = (t_command *)malloc(sizeof(t_command));
+	command->words = NULL;
+	command->redirects = NULL;
 	if(!command || !list)
         return (NULL);
     if (current == NULL)
         current = list;
-    while (current) 
+    while (current)
     {
-        if (current->type == type) 
+        if (current->type == type)
         {
             current = current->next;
 			break ;
@@ -59,12 +61,12 @@ t_command	*split_list(t_token *list, t_content_type type)
         if (current && current->next && current->type == REDIRECTION && \
 		(current->next->type == LITERAL || current->next->type == QUOTED))
 		{
-			add_redirection(&command->redirects, current, current->next);
+			add_redirection(&(command->redirects), current, current->next);
 			current = current->next->next;
 		}
 		if (current && (current->type == LITERAL || current->type == QUOTED))
 		{
-			add_word(&command->words, current);
+			add_word(&(command->words), current);
 			current = current->next;
 		}
 	}

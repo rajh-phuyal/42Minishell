@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/* 
+/*
  TODO: File descriptors
 
  ? GREAT
@@ -29,14 +29,14 @@ t_operation	find_redirection_type(t_token *token)
 {
 	if (token->type == REDIRECTION)
 	{
-		
+
 		if (!ft_strncmp(token->content, ">>", 2))
 			return (DGREAT);
 		else if (!ft_strncmp(token->content, "<<", 2))
 			return (DLESS);
 		else if (!ft_strncmp(token->content, ">", 1))
 			return (GREAT);
-		else if (!ft_strncmp(token->content, "<", 1)) 
+		else if (!ft_strncmp(token->content, "<", 1))
 			return (LESS);
 	}
 	return (ERROR);
@@ -79,5 +79,5 @@ void	add_redirection(t_redir	**redir_list, t_token *token, t_token *next)
 	}
 	while (head->next)
 		head = head->next;
-	head->next = redir;	
+	head->next = redir;
 }
