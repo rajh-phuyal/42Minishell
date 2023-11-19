@@ -70,13 +70,14 @@ void		tokenizer(t_minivault *minivault, int seq);
 void		remove_token(t_token *head, t_token *node);
 t_token 	*create_new(char *token);
 void		add_token(t_minivault *minivault, char *token);
-void		add_word(t_word **word_list, t_token *token);
-void		add_redirection(t_redir	**redir_list, t_token *token, t_token *next);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
 t_baobab	*create_baobab_node(t_token *token, int node_type);
 t_baobab	*search(t_baobab *root, char *token);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
+void		remove_quotes(char *str);
+void		add_word(t_word **word_list, t_token *token);
+void		add_redirection(t_redir	**redir_list, t_token *token, t_token *next);
 
 #endif

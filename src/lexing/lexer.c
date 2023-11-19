@@ -67,6 +67,12 @@ void	check_syntax(t_minivault *minivault)
 			exit(1);
 			return ;
 		}
+		if (current && current->next && current->type == REDIRECTION && current->next->type == REDIRECTION)
+		{
+			// ! ERROR SOMETHING
+			exit(1);
+			return ;
+		}
 		if (current && current->type == PIPE && current->next == NULL)
 		{
 			// command: cmd |

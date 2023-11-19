@@ -5,20 +5,30 @@ void    print_redirs(t_redir *head)
 {
     while (head)
     {
-        printf("OPERATOR: ");
-		if (head->operator == GREAT)
+        printf("REDIRECTION: ");
+		if (head->operator == GREAT) 
 			printf(">");
-		else if (head->operator == LESS)
+		else if (head->operator == LESS) 
 			printf("<");
-		else if (head->operator == DGREAT)
+		else if (head->operator == DGREAT) 
 			printf(">>");
-		else if (head->operator == DLESS)
+		else if (head->operator == DLESS) 
 			printf("<<");
 		printf(" | WORD: %s\n",head->word);
         head = head->next;
     }
 }
-void	print_temp_list(t_minivault *minivault)
+
+void    print_words(t_word *head)
+{
+    while (head)
+    {
+        printf("WORD: %s \n", head->word);
+        head = head->next;
+    }
+}
+
+void	print_tree(t_minivault *minivault)
 {
 	int i = 0;
 
@@ -26,12 +36,14 @@ void	print_temp_list(t_minivault *minivault)
 		printf("\n----------TREE--------\n");
 	while (minivault->baobab->pipeline[i])
 	{
-		if(minivault->baobab->pipeline[i]->temp_list)
-		{
-			printf("Command: %d", i);
+		if(i != 0)
 			printf("\n----------------------\n");
-			// print_tokens(minivault->baobab->pipeline[i]->temp_list);
-		}
+		printf("Command: %d", i);
+		printf("\n----------------------\n");
+		if (minivault->baobab->pipeline[i]->words)
+			print_words(minivault->baobab->pipeline[i]->words);
+		if (minivault->baobab->pipeline[i]->redirects)
+			print_redirs(minivault->baobab->pipeline[i]->redirects);
 		printf(RESET_COLOR);
 		i++;
 	}
@@ -102,15 +114,12 @@ void	grow_baobab(t_minivault	*minivault)
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
-		// if (command_count == 1)
-		// 	minivault->baobab->pipeline[i]->temp_list = minivault->tokens;
-		// else
 		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
 			break ;
 		i++;
 	}
 	i = 0;
-	// call_debug(minivault);
-	print_temp_list(minivault);
+	call_debug(minivault);
+	print_tree(minivault);
 }
