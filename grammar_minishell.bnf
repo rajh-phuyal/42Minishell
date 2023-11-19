@@ -29,7 +29,7 @@
  - A word is any string correctly quoted
  - A redirection is considered the use of "<", ">", or ">>" followed by a filename
 
- Having the basic definitions understood we can start getting into the recursive definitionsw of the other parts.
+ Having the basic definitions understood we can start getting into the recursive definitions of the other parts.
  - A command can be comprised of a single word ("ls"), redirection ("> test.txt"), or a heredoc ("<< EOF"). Additionally,
-     a command can also be defined as a series words, redirections, or a combination of both ("ls -l > out.txt").
+a command can also be defined as a series words, redirections, or a combination of both ("ls -l > out.txt").
  - A pipeline can be defined as a single command (as defined above), or as a series of commands concatenated by a "|"
