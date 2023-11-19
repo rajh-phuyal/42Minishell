@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 15:09:05 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/11/02 14:49:40 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
