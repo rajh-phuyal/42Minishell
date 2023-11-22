@@ -40,7 +40,7 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
-typedef struct s_word
+typedef struct s_word // TODO: havig the node called word and the string word aswell is confusing this could change
 {
 	char			*word;
 	struct s_word	*next;

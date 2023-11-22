@@ -61,6 +61,8 @@ void    liberation(t_minivault *minivault)
 {
 	if (minivault->input)
 		liberate_vector(minivault->input);
+	if (minivault->path)
+		liberate_vector(minivault->path);
 	if (minivault->envs)
 		liberate_envs(minivault->envs);
 	if (minivault->tokens)
