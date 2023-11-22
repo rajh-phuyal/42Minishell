@@ -1,6 +1,7 @@
 NAME	=	pipes
 CC		=	@cc
 FLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
+LFT_PATH = libft
 LFT		=	libft/libft.a
 INC		=	-I./libft
 LIB		=	-L./libft -lft
@@ -22,7 +23,7 @@ $(NAME): $(OBJ)
 
 $(LFT):
 	@echo "[" "$(YELLOW)..$(RESET)" "] | Compiling libft..."
-	@make -sC libft
+	@make -sC $(LFT_PATH)
 	@echo "[" "$(GREEN)OK$(RESET)" "] | Libft ready!"
 
 obj:
@@ -33,13 +34,13 @@ obj/%.o: src/%.c
 
 clean:
 	@echo "[" "$(YELLOW)..$(RESET)" "] | Removing object files...$(RESET)"
-	@make -sC libft clean
+	@make -sC $(LFT_PATH) clean
 	@rm -rf $(OBJ) obj
 	@echo "[" "$(GREEN)OK$(RESET)" "] | Object files removed."
 
 fclean: clean
 	@echo "[" "$(YELLOW)..$(RESET)" "] | Removing binary files...$(RESET)"
-	@make -sC libft fclean
+	@make -sC $(LFT_PATH) fclean
 	@rm -rf $(NAME)
 	@echo "[" "$(GREEN)OK$(RESET)" "] | Binary file removed."
 
