@@ -41,6 +41,44 @@ void	builtin_command(t_minivault	*minivault, t_command *command)
 	(void) minivault;
 }
 
+size_t	get_list_size(t_word *head)
+{
+	t_word *current;
+	size_t size = 0;
+
+	if (!head)
+		return (size);
+	current = head;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
+
+char	**get_arguments(t_word *words)
+{
+	t_word	*current;
+	int	i = 0;
+	char	**arguments = NULL;
+
+	if (!words)
+		return (NULL); // list is empty something is fucked
+	if (words->next == NULL)
+		return (NULL); // single command with no arguments
+	arguments = (char**)malloc(get_list_size(words) * sizeof(char *));
+	if (!arguments)
+		return (NULL);
+	current = words->next; // to skip the command name wich is the first node
+	while (current)
+	{
+        arguments[i++] = strdup(current->word);
+        current = current->next;
+    }
+	arguments[i] = NULL;
+	return (arguments);
+}
 void	system_command(t_minivault	*minivault, t_command *command)
 {
 	pid_t	child;
@@ -63,37 +101,18 @@ void	system_command(t_minivault	*minivault, t_command *command)
 	{
 			close(minivault->pipe_fd[0]); // close the read end of the pipe
 			dup2(minivault->pipe_fd[1], STDOUT_FILENO); //redirect stdout to the write end of the pipe
-			if (execve())
+			// dup2(infiles, STDIN_FILENO);
+			// TODO: create 2d array with the command and the options
+			if (execve(cmd_path, get_arguments(command->words), minivault->env_list) == -1)
+			{
+				// execve failed 
+				// deal with the error
+				return ;
+			}
 	}
 
 
 }
-
-/*
-void	child1(void)
-{
-	pid_t	child_1;
-
-	child_1 = fork();
-	if (child_1 == -1)
-	{
-		perror("In child 1 fork error");
-		exit(EXIT_FAILURE);
-	}
-	else if (child_1 == 0)
-	{
-		open_infile();
-    	close(data()->pipe_fd[0]);
-    	dup2(data()->pipe_fd[1], STDOUT_FILENO);  // Redirect stdout to the write end of the pipe
-		dup2(data()->infile_fd, STDIN_FILENO);
-    	if (execve(data()->cmd1_path, ft_split(data()->cmd1, ' '), args()->env) == -1) 
-		{
-    	    perror("Error executing command1");
-    	    exit(EXIT_FAILURE); // Explicitly exit the child process on error
-    	}
-	}
-}
-*/
 
 // TODO: deal with redirections
 

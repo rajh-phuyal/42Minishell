@@ -26,6 +26,7 @@ typedef struct s_minivault
 	char		**path;
 	char		**builtin_list;
 	int			pipe_fd[2];
+	char		**env_list;
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
