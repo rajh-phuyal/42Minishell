@@ -6,7 +6,7 @@ bool	is_cmd_builtin(char **builtin_list, char *cmd)
 
 	while (builtin_list[++i])
 	{
-		if (builtin_list[i] && !ft_strncmp(cmd, builtin_list[i], ft_strlen(builtin_list[i])))
+		if (builtin_list[i] && !ft_strncmp(cmd, builtin_list[i], 1 + ft_strlen(builtin_list[i])))
 			return (true);
 	}
 	return (false);
