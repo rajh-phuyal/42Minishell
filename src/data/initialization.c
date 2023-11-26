@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/23 16:22:43 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:57:01 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,6 @@ void	init_envs(t_minivault *minivault, char **envs)
 	}
 }
 
-char	**get_path(char **env)
-{
-	int 	i = 0;
-	char	*temp;
-	char	**path;
-
-	while(env[i])
-	{
-		if (strncmp(env[i], "PATH=", 5) == 0)
-		{
-			temp = ft_strdup(env[i] + 5);
-			path = ft_split(temp, ':');
-			free(temp);
-			return (path);
-		}
-		i++;
-	}
-	write(2, "PATH NOT FOUND\n", 15);
-	exit(1); // TODO: error management
-}
-
 int	init_minivault(t_minivault *minivault, char **envs)
 {
 	minivault->envs = NULL;
@@ -55,7 +34,7 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->baobab = NULL;
 	minivault->builtin_list = (char *[]){"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
 	minivault->env_list = envs;
-	minivault->path = get_path(envs);
+	minivault->path = ft_split(getenv("PATH"), ':');
 	init_envs(minivault, envs);
 	return (0);
 }
