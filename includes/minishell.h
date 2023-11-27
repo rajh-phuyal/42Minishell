@@ -11,6 +11,37 @@
 # define PUT 1
 # define ERROR -1
 
+
+// Types of errors minishell can throw, add more types of errors here
+/*
+	CNF: COMMAND DOES NOT EXIST,
+	FNF: FILE DOES NOT EXIST,
+	FDNF: FILE OR DIRECTORY DOES NOT EXIST
+	S_EXIT: SIMPLY EXIT THE PROGRAM,
+	NOTADIR: THE PATH IS NOT A DIRECTORY,
+	PDENIED: PERMISSION DENIED,
+*/
+typedef enum	e_error_type
+{
+	EXIT,
+	CMDNF,
+	SYNTAX,
+	FINENF,
+	NOTADIR,
+	PDENIED,
+	FILEORDIRNF,
+}	t_error_type;
+
+// this has the data for errors
+typedef struct s_error
+{
+	int		fd;
+	bool	exit;
+	int		status;
+	char	*message;
+	char	*err_token;
+}	t_error;
+
 // the env list
 typedef struct s_envs
 {
@@ -26,6 +57,7 @@ typedef struct s_minivault
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
+	t_error		*error;
 }	t_minivault;
 
 t_minivault	*minishell(void);
@@ -37,6 +69,9 @@ int			init_minivault(t_minivault *minivault, char **envs);
 char		*readaline(void);
 void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input, char **envs);
+
+// error handeler
+void    	error(t_error_type type, t_minivault *minivault, char *token, int status);
 
 // environment functions
 void 		envsort(t_envs *envs);
@@ -60,4 +95,6 @@ void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
 
+// utils
+void    	clean_exit(t_minivault *minivault, int status);
 #endif

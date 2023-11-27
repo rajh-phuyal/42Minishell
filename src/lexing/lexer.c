@@ -34,14 +34,14 @@
  ------------------------------------------------------------------------------------------------------------------
  ? Command: > file
  * If the file "file" does not exist, it will be created.
- * If the file "file" already exists, its contents will be replaced with nothing (i.e., the file will be emptied). 
+ * If the file "file" already exists, its contents will be replaced with nothing (i.e., the file will be emptied).
  ------------------------------------------------------------------------------------------------------------------
  ? Command: >> file
  * If the file "file" does not exist, it will be created.
  * If the file "file" already exists, the existing content won't be modified.
  ------------------------------------------------------------------------------------------------------------------
 
-*/ 
+*/
 
 void	check_syntax(t_minivault *minivault)
 {
@@ -54,7 +54,7 @@ void	check_syntax(t_minivault *minivault)
 	}
 	current = minivault->tokens;
 	if (current->type == PIPE && current->next == NULL)
-	{		
+	{
 		// ! ERROR 1
 		exit(1);
 		return ;
@@ -97,6 +97,7 @@ void	lexer(t_minivault *minivault, char *input)
 		return ;
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
+	error(S_EXIT, minivault, (minivault->tokens->next)->content, 0);
 	check_syntax(minivault);
 	// remove_quotes(minivault);
 }
