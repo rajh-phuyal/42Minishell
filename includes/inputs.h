@@ -24,7 +24,7 @@ typedef struct s_token
 
 // AST
 // used to identify the redirection node
-typedef enum e_operation
+typedef enum e_operation // error -1
 {
 	GREAT,
 	LESS,
@@ -50,8 +50,8 @@ typedef struct s_word // TODO: havig the node called word and the string word as
 typedef struct s_command
 {
 	t_word		*words;
-	t_redir		*redirects;
-	t_token		*temp_list;
+	t_redir		*redir_in;
+	t_redir		*redir_out;
 }				t_command;
 
 typedef struct s_baobab
@@ -78,6 +78,6 @@ t_baobab	*search(t_baobab *root, char *token);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);
-void		add_redirection(t_redir	**redir_list, t_token *token, t_token *next);
+void		add_redirection(t_command **command, t_token *token, t_token *next);
 
 #endif

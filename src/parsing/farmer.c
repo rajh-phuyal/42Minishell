@@ -32,18 +32,20 @@ void	print_tree(t_minivault *minivault)
 {
 	int i = 0;
 
-	if (minivault->baobab->pipeline[i]->temp_list)
-		printf("\n----------TREE--------\n");
+
+	printf("\n----------TREE--------\n");
 	while (minivault->baobab->pipeline[i])
 	{
 		if(i != 0)
 			printf("\n----------------------\n");
 		printf("Command: %d", i);
 		printf("\n----------------------\n");
+		// if (minivault->baobab->pipeline[i]->redir_in)
+			print_redirs(minivault->baobab->pipeline[i]->redir_in);
 		if (minivault->baobab->pipeline[i]->words)
 			print_words(minivault->baobab->pipeline[i]->words);
-		if (minivault->baobab->pipeline[i]->redirects)
-			print_redirs(minivault->baobab->pipeline[i]->redirects);
+		// if (minivault->baobab->pipeline[i]->redir_out)
+			print_redirs(minivault->baobab->pipeline[i]->redir_out);
 		printf(RESET_COLOR);
 		i++;
 	}
@@ -58,7 +60,8 @@ t_command	*split_list(t_token *list, t_content_type type)
 
 	command = (t_command *)malloc(sizeof(t_command));
 	command->words = NULL;
-	command->redirects = NULL;
+	command->redir_in = NULL;
+	command->redir_out = NULL;
 	if(!command || !list)
         return (NULL);
     if (current == NULL)
@@ -73,7 +76,7 @@ t_command	*split_list(t_token *list, t_content_type type)
         if (current && current->next && current->type == REDIRECTION && \
 		(current->next->type == LITERAL || current->next->type == QUOTED))
 		{
-			add_redirection(&(command->redirects), current, current->next);
+			add_redirection(&command, current, current->next);
 			current = current->next->next;
 		}
 		if (current && (current->type == LITERAL || current->type == QUOTED))

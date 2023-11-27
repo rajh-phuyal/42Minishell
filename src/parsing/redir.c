@@ -46,11 +46,9 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 {
 	t_redir *redir;
 
-	if (!next)
+	if (!token || !next)
 		return (NULL);
 		//bash: syntax error near unexpected token `newline'
-	if (!token) // something is fucked
-		return (NULL);
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
@@ -63,23 +61,36 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 	return (redir);
 }
 
-void	add_redirection(t_redir	**redir_list, t_token *token, t_token *next)
+void add_redir_back(t_redir **redir, t_redir *token)
+{
+    t_redir *current = *redir;
+
+    if (!current)
+    {
+        *redir = token;
+        return;
+    }
+
+    while (current->next)
+        current = current->next;
+
+    current->next = token;
+}
+
+
+void	add_redirection(t_command **command, t_token *token, t_token *next)
 {
 	t_redir *redir;
-	t_redir *head;
+    t_redir **head_in = &(*command)->redir_in;
+    t_redir **head_out = &(*command)->redir_out;
 
 	redir = NULL;
 	if(token && next)
 		redir = create_redirection_node(token, next);
-	if (!redir) // something is fucked
+	if (!redir) // something is fucked handle this case // || redir->operator == ERROR
 		return ;
-	head = (*redir_list);
-	if(!head)
-	{
-		*redir_list = redir;
-		return ;
-	}
-	while (head->next)
-		head = head->next;
-	head->next = redir;
+	if (redir->operator == DGREAT || redir->operator == GREAT)
+		add_redir_back(head_out, redir);
+	else
+		add_redir_back(head_in, redir);
 }
