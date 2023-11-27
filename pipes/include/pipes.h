@@ -7,6 +7,10 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/types.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 # include "../libft/libft.h"
 
 # define STDIN  0
