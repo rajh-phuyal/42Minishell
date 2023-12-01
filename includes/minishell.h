@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/12/01 21:46:32 by rajphuyal        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -11,35 +23,20 @@
 # define PUT 1
 # define ERROR -1
 
-
-// Types of errors minishell can throw, add more types of errors here
-/*
-	CNF: COMMAND DOES NOT EXIST,
-	FNF: FILE DOES NOT EXIST,
-	FDNF: FILE OR DIRECTORY DOES NOT EXIST
-	S_EXIT: SIMPLY EXIT THE PROGRAM,
-	NOTADIR: THE PATH IS NOT A DIRECTORY,
-	PDENIED: PERMISSION DENIED,
-*/
-typedef enum	e_error_type
+typedef enum e_status
 {
-	EXIT,
-	CMDNF,
-	SYNTAX,
-	FINENF,
-	NOTADIR,
-	PDENIED,
-	FILEORDIRNF,
-}	t_error_type;
+	SUCCESS=0,
+	FALIUR=1,
+	CMDNOTFOUND=127,
+	SIGINTERRUPT=130,
+} t_status;
 
 // this has the data for errors
 typedef struct s_error
 {
-	int		fd;
-	bool	exit;
-	int		status;
-	char	*message;
-	char	*err_token;
+	t_status	status;
+	char		*message;
+	char		*err_token;
 }	t_error;
 
 // the env list
@@ -71,7 +68,7 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input, char **envs);
 
 // error handeler
-void    	error(t_error_type type, t_minivault *minivault, char *token, int status);
+void    error(t_minivault *minivault, t_status status, char *message, char *token);
 
 // environment functions
 void 		envsort(t_envs *envs);
@@ -97,4 +94,5 @@ void		liberate_baobab(t_baobab *head);
 
 // utils
 void    	clean_exit(t_minivault *minivault, int status);
+
 #endif

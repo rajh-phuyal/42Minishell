@@ -48,23 +48,18 @@ void	check_syntax(t_minivault *minivault)
 	t_token *current;
 
 	if (!minivault->tokens)
-	{
-		// ? Is ERROR or the prompt should return?
 		return ;
-	}
 	current = minivault->tokens;
 	if (current->type == PIPE && current->next == NULL)
 	{
-		// ! ERROR 1
-		exit(1);
+		error(minivault, 1, "syntax error near unexpected token", "`|'");
 		return ;
 	}
 	while (current)
 	{
 		if (current && current->type == REDIRECTION && current->next == NULL)
 		{
-			// ! ERROR 3
-			exit(1);
+			error(minivault, 1, "syntax error near unexpected token", "`|'");
 			return ;
 		}
 		if (current && current->next && current->type == REDIRECTION && current->next->type == REDIRECTION)
@@ -82,8 +77,7 @@ void	check_syntax(t_minivault *minivault)
 		}
 		if (current && current->next && current->type == PIPE && current->next->type == PIPE)
 		{
-			// ! ERROR 2
-			exit(1);
+			error(minivault, 1, "syntax error near unexpected token", "`|'");
 			return ;
 		}
 		current = current->next;
@@ -97,7 +91,6 @@ void	lexer(t_minivault *minivault, char *input)
 		return ;
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
-	error(S_EXIT, minivault, (minivault->tokens->next)->content, 0);
 	check_syntax(minivault);
 	// remove_quotes(minivault);
 }
