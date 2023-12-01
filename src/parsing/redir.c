@@ -19,7 +19,7 @@
  ? open(file, O_RDONLY);
  * Open the file with only read access
  * If the file doesn't exist, trow an errorr
- TODO: Specify the error
+ ! bash: <filename>: No such file or directory
 
  ? DLESS
  TODO: Heredoc

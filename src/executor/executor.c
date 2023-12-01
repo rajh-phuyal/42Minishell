@@ -37,13 +37,18 @@ void	execute_command(t_minivault *minivault, t_command *command)
 
 void	executor(t_minivault *minivault, t_command **pipeline)
 {
-	int p_count = -1;
+	int count = -1;
 	int i = 0;
-
-	while (pipeline[++p_count])
-		execute_command(minivault, pipeline[p_count]);
-	close(minivault->pipe_fd[0]);
-	close(minivault->pipe_fd[1]);
-
+	if (!pipeline)
+	{
+		// deal with it
+		return ;
+	}
+	if (pipeline[0] && !pipeline[1])
+		execute_single_command(minivault, pipeline[0]); // NO FORK
+	else
+	{
+		while (pipeline[++count])
+			execute_command(minivault, pipeline[count]);
+	}
 }
-
