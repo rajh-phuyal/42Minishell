@@ -130,7 +130,7 @@ char	*isolate_char(char *input, char target, char separator)
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
-	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + 1);
+	modified = (char *)malloc(2 * (ft_strlen(input) + 1) + 1);
 	if (!modified)
 		return (NULL);
 	i = 0;

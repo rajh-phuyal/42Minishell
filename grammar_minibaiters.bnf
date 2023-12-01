@@ -8,11 +8,18 @@
                 | <redir> <command>
                 ;
 
- <redir>        : '<<' [word]
+ <redir>        : <redir in>
+                | <redir out>
+                ;
+
+ <redir in>     : '<<' [word]
                 | '<'  [word]
-                | '>>' [word]
+                ;
+
+ <redir out>    : '>>' [word]
                 | '>'  [word]
                 ;
+
 
  The symbology above can be easily explained if we follow a bottom-up approach, starting with the individual definitions.
  - A word is any string correctly quoted

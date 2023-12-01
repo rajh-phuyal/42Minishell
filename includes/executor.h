@@ -2,7 +2,8 @@
 # define EXECUTOR_H
 
 # include "minishell.h"
+# include <unistd.h>
 
-void	executor(void);
+void	executor(t_minivault *minivault, t_command **pipeline);
 
 #endif
