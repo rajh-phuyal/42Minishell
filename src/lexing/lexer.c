@@ -52,14 +52,14 @@ void	check_syntax(t_minivault *minivault)
 	current = minivault->tokens;
 	if (current->type == PIPE && current->next == NULL)
 	{
-		error(minivault, 1, "syntax error near unexpected token", "`|'");
+		error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
 		return ;
 	}
 	while (current)
 	{
 		if (current && current->type == REDIRECTION && current->next == NULL)
 		{
-			error(minivault, 1, "syntax error near unexpected token", "`|'");
+			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
 			return ;
 		}
 		if (current && current->next && current->type == REDIRECTION && current->next->type == REDIRECTION)
@@ -77,7 +77,7 @@ void	check_syntax(t_minivault *minivault)
 		}
 		if (current && current->next && current->type == PIPE && current->next->type == PIPE)
 		{
-			error(minivault, 1, "syntax error near unexpected token", "`|'");
+			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
 			return ;
 		}
 		current = current->next;

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/01 21:46:32 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/01 21:56:48 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
-// # include "macros.h"
 
 // handy macros
 # define GET 0
@@ -26,10 +25,10 @@
 typedef enum e_status
 {
 	SUCCESS=0,
-	FALIUR=1,
+	FAILURE=1,
 	CMDNOTFOUND=127,
 	SIGINTERRUPT=130,
-} t_status;
+}	t_status;
 
 // this has the data for errors
 typedef struct s_error
