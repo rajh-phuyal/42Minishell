@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/26 16:57:01 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/12/01 21:50:09 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ void	init_envs(t_minivault *minivault, char **envs)
 	}
 }
 
+void	init_error(t_minivault *minivault)
+{
+	minivault->error = malloc(sizeof(t_error));
+	minivault->error->status = 0;
+	minivault->error->message = NULL;
+	minivault->error->err_token = NULL;
+}
+
 int	init_minivault(t_minivault *minivault, char **envs)
 {
 	minivault->envs = NULL;
@@ -36,5 +44,6 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->env_list = envs;
 	minivault->path = ft_split(getenv("PATH"), ':');
 	init_envs(minivault, envs);
+	init_error(minivault);
 	return (0);
 }

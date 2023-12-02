@@ -46,8 +46,17 @@ typedef struct s_word // TODO: havig the node called word and the string word as
 
 }					t_word;
 
+typedef	enum e_cmd_pos
+{
+	SINGLE,
+	FIRST,
+	MIDDLE,
+	LAST
+} t_cmd_pos;
+
 typedef struct s_command
 {
+	t_cmd_pos	pos;
 	t_word		*words;
 	t_redir		*redir_in;
 	t_redir		*redir_out;
@@ -72,8 +81,9 @@ void		add_token(t_minivault *minivault, char *token);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
-t_baobab	*create_baobab_node(t_token *token, int node_type);
 t_baobab	*search(t_baobab *root, char *token);
+// t_token		*get_token(t_token *token, t_type type);
+t_baobab	*create_baobab_node(t_token *token, int node_type);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);

@@ -13,11 +13,12 @@ void	call_debug(t_minivault *minivault)
 	// print_baobab(minivault->baobab, 0);
 }
 
+
 void	handle_input_file(char **argv)
 {
 	(void)argv;
-	// TODO: Handle the script file input, argv[1] only, ignore the rest
 }
+
 int	main(int argc, char **argv, char **envs)
 {
 	t_minivault	minivault;

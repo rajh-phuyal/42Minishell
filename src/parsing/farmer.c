@@ -6,13 +6,13 @@ void    print_redirs(t_redir *head)
     while (head)
     {
         printf("REDIRECTION: ");
-		if (head->operator == GREAT) 
+		if (head->operator == GREAT)
 			printf(">");
-		else if (head->operator == LESS) 
+		else if (head->operator == LESS)
 			printf("<");
-		else if (head->operator == DGREAT) 
+		else if (head->operator == DGREAT)
 			printf(">>");
-		else if (head->operator == DLESS) 
+		else if (head->operator == DLESS)
 			printf("<<");
 		printf(" | WORD: %s\n",head->word);
         head = head->next;
@@ -38,7 +38,8 @@ void	print_tree(t_minivault *minivault)
 	{
 		if(i != 0)
 			printf("\n----------------------\n");
-		printf("Command: %d", i);
+		printf("Command: %d\n", i);
+		printf("Command pos: %d", minivault->baobab->pipeline[i]->pos);
 		printf("\n----------------------\n");
 		// if (minivault->baobab->pipeline[i]->redir_in)
 			print_redirs(minivault->baobab->pipeline[i]->redir_in);
@@ -114,12 +115,22 @@ void	grow_baobab(t_minivault	*minivault)
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
 	minivault->baobab->pipeline[command_count] = NULL;
 	i = 0;
+	printf("THIS IS COMMAND COUNT:  %d\n", command_count);
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
 		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
 			break ;
+		printf("CURRENT I:  %d\n", i);
+		minivault->baobab->pipeline[i]->pos =
+		((i) - (i != 0));
+		// + ((command_count > 2) + (i > 0))
+		// + (i > 1 && i < (command_count))
+		// + (i < (command_count - 1));
+		minivault->baobab->pipeline[i]->pos =
+		((command_count == (command_count - 1)) - i)
+		+ ((i == 1) && (command_count > 2));
 		i++;
 	}
 	i = 0;
