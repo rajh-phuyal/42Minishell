@@ -4,7 +4,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-
 // TOKEN LIST
 typedef enum	e_content_type
 {
@@ -24,7 +23,7 @@ typedef struct s_token
 
 // AST
 // used to identify the redirection node
-typedef enum e_operation // error -1
+typedef enum e_operation
 {
 	GREAT,
 	LESS,
