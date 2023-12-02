@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/01 21:56:48 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/02 16:20:49 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		handle_input(t_minivault *minivault, char *input, char **envs);
 void    error(t_minivault *minivault, t_status status, char *message, char *token);
 
 // environment functions
-void 		envsort(t_envs *envs);
+char		**envsort(t_envs *envs);
 char		*get_env(t_minivault *minivault, char *key);
 void		unset_env(t_minivault *minivault, char *key);
 t_envs		*add_env_node(t_envs *envs, char *key, char *value);
