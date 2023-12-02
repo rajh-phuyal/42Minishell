@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/17 16:11:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/02 17:08:28 by jalves-c         ###   ########.fr       */
+/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/12/01 21:56:48 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,27 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
-// # include "macros.h"
 
 // handy macros
 # define GET 0
 # define PUT 1
+# define ERROR -1
+
+typedef enum e_status
+{
+	SUCCESS=0,
+	FAILURE=1,
+	CMDNOTFOUND=127,
+	SIGINTERRUPT=130,
+}	t_status;
+
+// this has the data for errors
+typedef struct s_error
+{
+	t_status	status;
+	char		*message;
+	char		*err_token;
+}	t_error;
 
 // the env list
 typedef struct s_envs
@@ -34,9 +50,14 @@ typedef struct s_envs
 typedef struct s_minivault
 {
 	char		**input;
+	char		**path;
+	char		**builtin_list;
+	int			pipe_fd[2];
+	char		**env_list;
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
+	t_error		*error;
 }	t_minivault;
 
 t_minivault	*minishell(void);
@@ -48,6 +69,9 @@ int			init_minivault(t_minivault *minivault, char **envs);
 char		*readaline(void);
 void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input, char **envs);
+
+// error handeler
+void    error(t_minivault *minivault, t_status status, char *message, char *token);
 
 // environment functions
 void 		envsort(t_envs *envs);
@@ -70,5 +94,8 @@ void		liberate_envs(t_envs *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
+
+// utils
+void    	clean_exit(t_minivault *minivault, int status);
 
 #endif

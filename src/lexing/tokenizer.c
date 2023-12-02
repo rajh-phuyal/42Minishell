@@ -1,15 +1,31 @@
 #include "minishell.h"
 
-/* checks the type of token received */
+bool is_quoted(char *token)
+{
+	size_t len;
+
+	len = ft_strlen(token);
+	if (len >= 2)
+	{
+		if (is_double_quote(token[0]) && is_double_quote(token[len - 1]))
+			return(true);
+		else if (is_single_quote(token[0]) && is_single_quote(token[len - 1]))
+			return(true);
+	}
+	return(false);
+}
+
+// checks the type of token received
 int	token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", 1))
-		return (PIP);
-	if (!ft_strncmp(token, ">", 1))
-		return (GREAT);
-	if (!ft_strncmp(token, "<", 1))
-		return (LESS);
-	return (WORD);
+		return (PIPE);
+	else if (!ft_strncmp(token, ">", 1 ) || !ft_strncmp(token, "<", 1) || \
+			!ft_strncmp(token, ">>", 2 ) || !ft_strncmp(token, "<<", 2) )
+		return (REDIRECTION);
+	else if (is_quoted(token))
+		return (QUOTED);
+	return (LITERAL);
 }
 
 t_token *create_new(char *token)
@@ -21,12 +37,12 @@ t_token *create_new(char *token)
         return (NULL);
     new->next = NULL;
     new->type = token_type(token);
-    new->content = ft_strdup(token);
+    new->content = token;
     return (new);
 }
 
 // add tokens to the list of tokens
-void    add_token(t_minivault *minivault, char *token)
+void	add_token(t_minivault *minivault, char *token)
 {
     t_token *head;
     t_token *token_node;
@@ -55,7 +71,6 @@ void    remove_token(t_token *head, t_token *node)
 
     if (!node)
         return ;
-
     if (!node->next)
     {
         while (head->next != node)
@@ -64,7 +79,6 @@ void    remove_token(t_token *head, t_token *node)
         head->next = NULL;
         return ;
     }
-
     temp = node->next;
     node->content = temp->content;
     node->next = temp->next;

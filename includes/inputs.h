@@ -1,62 +1,65 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   inputs.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:15:10 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/11 16:18:33 by rajphuyal        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef INPUTS_H
 # define INPUTS_H
 
 # include <readline/history.h>
 # include <readline/readline.h>
 
-typedef enum	e_type
+
+// TOKEN LIST
+typedef enum	e_content_type
 {
-	WORD,
-	PIP,
-	LESS,
-	GREAT
-}				t_type;
+	LITERAL,
+	QUOTED,
+	PIPE,
+	REDIRECTION,
+}				t_content_type;
 
-// type of tokens in ast
-// typedef enum e_ast_type
-// {
-// 	CMD,
-// 	ARG,
-// 	PIPE,
-// 	LESS,
-// 	GREAT,
-// 	DLESS,
-// 	DGREAT,
-// }			t_ast_type;
-
-// some functions can't live without the minvault, so ...
-typedef struct s_minivault t_minivault;
-
-// the token list
 typedef struct s_token
 {
 	char			*content;
-	t_type			type;
-	struct s_token	*next;
+	t_content_type	type;
+	struct s_token	*next; // used initially to build the list
 }	t_token;
 
-// abstract syntax tree
+
+// AST
+// used to identify the redirection node
+typedef enum e_operation // error -1
+{
+	GREAT,
+	LESS,
+	DGREAT,
+	DLESS
+}			t_operation;
+
+typedef struct s_redir
+{
+	t_operation		operator;
+	int				fd;
+	char			*word;
+	struct s_redir	*next;
+}					t_redir;
+
+typedef struct s_word // TODO: havig the node called word and the string word aswell is confusing this could change
+{
+	char			*word;
+	struct s_word	*next;
+
+}					t_word;
+
+typedef struct s_command
+{
+	t_word		*words;
+	t_redir		*redir_in;
+	t_redir		*redir_out;
+}				t_command;
+
 typedef struct s_baobab
 {
-	int				level;
-	// t_ast_type		type;
-	t_token			*token;
-	struct s_baobab	*left;
-	struct s_baobab	*right;
-	struct s_baobab	*parent;
-}	t_baobab;
+	t_command	**pipeline;
+}				t_baobab;
+
+typedef struct s_minivault t_minivault;
 
 // lexing
 void		lexer(t_minivault *minivault, char *input);
@@ -65,6 +68,8 @@ bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 void		tokenizer(t_minivault *minivault, int seq);
 void		remove_token(t_token *head, t_token *node);
+t_token 	*create_new(char *token);
+void		add_token(t_minivault *minivault, char *token);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
@@ -72,5 +77,8 @@ t_baobab	*search(t_baobab *root, char *token);
 t_token		*get_token(t_token *token, t_type type);
 t_baobab	*create_baobab_node(t_token *token, int node_type);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
+void		remove_quotes(char *str);
+void		add_word(t_word **word_list, t_token *token);
+void		add_redirection(t_command **command, t_token *token, t_token *next);
 
 #endif

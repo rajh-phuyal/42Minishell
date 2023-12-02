@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:15:19 by rphuyal           #+#    #+#             */
-/*   Updated: 2023/07/25 22:20:28 by rphuyal          ###   ########.fr       */
+/*   Updated: 2023/11/16 20:23:06 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 
 /* colors */
 # define BOLD "\033[1m"
-# define GREEN "\033[0;32m"
 # define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define BLUE "\e[0;34m"
 # define YELLOW "\x1b[33m"
 # define CYAN "\x1b[36m"
 # define UNDERLINE "\x1b[4m"

@@ -1,33 +1,30 @@
  The grammar below is written in Backus-Naur Form (BNF) - https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form
 
- <job>          : <command> '|' <job>
-                | <command>
+ <pipeline>     : <command> '|' <pipeline>
+				| <command>
                 ;
 
- <command>      : <token list>
-                ;
-
- <token list>   : [name]  <token list>
-                | [arg]   <token list>
-                | <redir> <token list>
+ <command>      : [word]  <command>
+                | <redir> <command>
                 ;
 
  <redir>        : <redir in>
                 | <redir out>
                 ;
 
- <redir in>     : '<<' [file]
-                | '<'  [file]
+ <redir in>     : '<<' [word]
+                | '<'  [word]
                 ;
 
- <redir out>    : '>>' [file]
-                | '>'  [file]
+ <redir out>    : '>>' [word]
+                | '>'  [word]
                 ;
+
 
  The symbology above can be easily explained if we follow a bottom-up approach, starting with the individual definitions.
- - Heredoc is the use of "<<" followed by a termiator
  - A word is any string correctly quoted
  - A redirection is considered the use of "<", ">", or ">>" followed by a filename
+ - Heredoc is the use of "<<" followed by a termiator
 
  Having the basic definitions understood we can start getting into the recursive definitions of the other parts.
  - A command can be comprised of a single word ("ls"), redirection ("> test.txt"), or a heredoc ("<< EOF"). Additionally,
