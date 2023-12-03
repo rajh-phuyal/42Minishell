@@ -1,24 +1,26 @@
 
 #include "minishell.h"
 
-t_envs	*add_env_node(t_envs *envs, char *key, char *value)
+void    add_env_node(t_minivault *minivault, char *key, char *value)
 {
 	t_envs	*new;
-	t_envs	*head;
+    t_envs	*envs;
 
-	head = envs;
 	new = (t_envs *)malloc(sizeof(t_envs));
 	if (!new)
-		return (NULL);
+		return ;
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
-	if (!envs)
-		return (new);
+	if (!minivault->envs)
+    {
+        minivault->envs = new;
+        return ;
+    }
+    envs = minivault->envs;
 	while (envs->next)
 		envs = envs->next;
 	envs->next = new;
-	return (head);
 }
 
 char	*get_env(t_minivault *minivault, char *key)
@@ -42,18 +44,15 @@ void	set_env(t_minivault *minivault, char *key, char *value)
     envs = minivault->envs;
     while (envs)
     {
-        if (!ft_strncmp(envs->key, key, ft_strlen(key)))
+        if (!ft_strncmp(envs->key, key, ft_strlen(envs->key)))
         {
             free(envs->value);
-            envs->value = NULL;
-            break ;
+            envs->value = value;
+            return ;
         }
         envs = envs->next;
     }
-    if (!envs || !envs->value)
-        minivault->envs = add_env_node(minivault->envs, key, value);
-    else
-        envs->value = value;
+    add_env_node(minivault, key, value);
 }
 
 void    unset_env(t_minivault *minivault, char *key) // WIP

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/01 21:50:09 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/03 00:53:16 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_envs(t_minivault *minivault, char **envs)
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		minivault->envs = add_env_node(minivault->envs, splitted[0], splitted[1]);
+		add_env_node(minivault, splitted[0], splitted[1]);
 		free(splitted);
 	}
 }

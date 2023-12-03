@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:37:30 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/02 16:47:52 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/03 01:28:08 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_envlen(t_envs *envs)
 	int	len;
 
 	len = 0;
-	while (envs->next)
+	while (envs)
 	{
 		len++;
 		envs = envs->next;
@@ -25,16 +25,13 @@ int	get_envlen(t_envs *envs)
 	return (len);
 }
 
-void	data_envs(t_envs *envs, char **data)
+void	transfer_data(t_envs *envs, char **data)
 {
-	int	i;
-
-	i = 0;
-	while (envs->next)
+	while (envs)
 	{
-		data[i] = envs->key;
+		*data = envs->key;
 		envs = envs->next;
-		i++;
+		data++;
 	}
 }
 
@@ -85,7 +82,7 @@ char	**envsort(t_envs *envs)
 	len = get_envlen(envs);
 	data = (char **)malloc(sizeof(char *) * (len + 1));
 	data[len] = NULL;
-	data_envs(envs, data);
+	transfer_data(envs, data);
 	quicksort(data, 0, len - 1);
 	return	(data);
 }

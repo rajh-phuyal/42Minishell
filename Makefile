@@ -12,6 +12,7 @@ SRC = src/core/main.c \
 	src/core/inputs.c \
 	src/data/environment.c \
 	src/data/initialization.c \
+	src/builtins/export.c \
 	src/helpers/debug.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \
@@ -24,7 +25,6 @@ SRC = src/core/main.c \
 	src/terminator/utils.c \
 	src/terminator/liberation.c
 
-#src/parsing/farmer.c
 
 OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
 

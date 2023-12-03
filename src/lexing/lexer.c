@@ -92,5 +92,6 @@ void	lexer(t_minivault *minivault, char *input)
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
 	check_syntax(minivault);
+	// _export(minivault, NULL, NULL);
 	// remove_quotes(minivault);
 }

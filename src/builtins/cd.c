@@ -6,13 +6,13 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/11 14:47:35 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/03 00:12:17 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    cd(t_minivault *minivault,  char *path)
+void    _cd(t_minivault *minivault,  char *path)
 {
     static char	*oldpath = NULL;
 
