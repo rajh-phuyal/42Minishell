@@ -122,15 +122,9 @@ void	grow_baobab(t_minivault	*minivault)
 		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
 			break ;
-		printf("CURRENT I:  %d\n", i);
-		minivault->baobab->pipeline[i]->pos =
-		((i) - (i != 0));
-		// + ((command_count > 2) + (i > 0))
-		// + (i > 1 && i < (command_count))
-		// + (i < (command_count - 1));
-		minivault->baobab->pipeline[i]->pos =
-		((command_count == (command_count - 1)) - i)
-		+ ((i == 1) && (command_count > 2));
+		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
+						+ (i == (command_count - 1)))
+						- (2 * (command_count == 1));
 		i++;
 	}
 	i = 0;

@@ -30,3 +30,13 @@ int	main(int argc, char **argv, char **envs)
 	close_readline();
 	return (0);
 }
+
+// Dear programmer:
+// When I wrote this code, only god and
+// I knew how it worked.
+// Now, only god knows it!
+// 
+// Therefore, if are trying to optimize it, and it fails (most surely),
+// please increase this counter as a warning for the next person:
+// 
+// total_hours_wasted_here = 254

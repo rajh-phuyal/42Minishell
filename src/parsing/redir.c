@@ -1,8 +1,6 @@
 #include "minishell.h"
 
 /*
- TODO: File descriptors
-
  ? GREAT
  ? open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
  * Open or create a file with read and write access
@@ -22,14 +20,47 @@
  ! bash: <filename>: No such file or directory
 
  ? DLESS
- TODO: Heredoc
+ * heredoc
 */
+
+// TODO: ERROR HANDLING
+// TODO: HEREDOC
+int	assign_fd(t_operation operator, char *file)
+{
+	int fd;
+
+	if (operator == GREAT)
+	{
+		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (fd != -1)
+			return (fd);
+		// deal with the
+	}
+	else if (operator == DGREAT)
+	{
+		fd = open(file, O_CREAT | O_RDWR, 0644);
+		if (fd != -1)
+			return (fd);
+	}
+	else if (operator == LESS)
+	{
+		fd = open(file, O_RDONLY);
+		if (fd != -1)
+			return (fd);
+		// ! bash: <file>: No such file or directory
+	}
+	else if (operator == DLESS)
+	{
+		// fd = heredoc
+		if (fd != -1)
+			return (fd);
+	}
+}
 
 t_operation	find_redirection_type(t_token *token)
 {
 	if (token->type == REDIRECTION)
 	{
-
 		if (!ft_strncmp(token->content, ">>", 2))
 			return (DGREAT);
 		else if (!ft_strncmp(token->content, "<<", 2))
@@ -46,7 +77,7 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 {
 	t_redir *redir;
 
-	if (!token || !next)
+	if (!token || !next || !next->content)
 		return (NULL);
 		//bash: syntax error near unexpected token `newline'
 	redir = (t_redir *)malloc(sizeof(t_redir));
@@ -56,7 +87,7 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 	if (next->type == QUOTED)
 		remove_quotes(next->content);
 	redir->word = next->content;
-	// redir->fd
+	redir->fd = assign_fd(redir->operator, next->content);
 	redir->next = NULL;
 	return (redir);
 }
