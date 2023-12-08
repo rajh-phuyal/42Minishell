@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envs)
 // I knew how it worked.
 // Now, only god knows it!
 // 
-// Therefore, if are trying to optimize it, and it fails (most surely),
+// Therefore, if you are trying to optimize it, and it fails (most surely),
 // please increase this counter as a warning for the next person:
 // 
 // total_hours_wasted_here = 254

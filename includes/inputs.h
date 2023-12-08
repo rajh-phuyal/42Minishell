@@ -58,8 +58,11 @@ typedef struct s_command
 {
 	t_cmd_pos	pos;
 	t_word		*words;
+	t_redir		*redir_in_list;
 	t_redir		*redir_in;
+	t_redir		*redir_out_list;
 	t_redir		*redir_out;
+	bool		pipe_config[2];
 }				t_command;
 
 typedef struct s_baobab

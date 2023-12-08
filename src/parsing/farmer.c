@@ -61,8 +61,10 @@ t_command	*split_list(t_token *list, t_content_type type)
 
 	command = (t_command *)malloc(sizeof(t_command));
 	command->words = NULL;
+	command->redir_in_list = NULL;
 	command->redir_in = NULL;
 	command->redir_out = NULL;
+	command->redir_out_list = NULL;
 	if(!command || !list)
         return (NULL);
     if (current == NULL)
@@ -105,6 +107,26 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
+t_redir *get_last_token(t_redir *head)
+{
+	t_redir *current;
+
+	if (!head)
+		return (NULL);
+	current = head;
+	while (current->next)
+		current = current->next;
+	return (current);
+}
+
+void	setup_redirection(t_command *command)
+{
+	if (command->redir_in_list)	
+		command->redir_in = get_last_token(command->redir_in_list);
+	if (command->redir_out_list)	
+		command->redir_out = get_last_token(command->redir_out_list);
+}
+
 void	grow_baobab(t_minivault	*minivault)
 {
 	int i;
@@ -122,6 +144,7 @@ void	grow_baobab(t_minivault	*minivault)
 		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
 			break ;
+		setup_redirections(minivault->baobab->pipeline[i]);
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
 						+ (i == (command_count - 1)))
 						- (2 * (command_count == 1));

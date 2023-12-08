@@ -12,16 +12,39 @@ bool	is_cmd_builtin(char **builtin_list, char *cmd)
 	return (false);
 }
 
-void	execute_command(t_minivault *minivault, t_command *command, t_cmd_pos pos)
+void	setup_pipes(t_command *command)
 {
-	if(!command->words && !command->redir_in && !command->redir_out)
+	//if (!command->pos)
+		// wtf happended panic
+	if (command->pos == SINGLE)
+	{
+		command->pipe_config[0] = false;
+		command->pipe_config[1] = false;
+	}
+	else if (command->pos == FIRST)
+	{
+		command->pipe_config[0] = false;
+		command->pipe_config[1] = true;
+	}
+	else if (command->pos == MIDDLE)
+	{
+		command->pipe_config[0] = true;
+		command->pipe_config[1] = true;
+	}
+	else if (command->pos == LAST)
+	{
+		command->pipe_config[0] = true;
+		command->pipe_config[1] = false;
+	}
+}
+
+void	execute_command(t_minivault *minivault, t_command *command)
+{
+	if(!command)
 	{
 		//wtf happened
 	}
-	if (command->redir_in)
-		// setup redirction input
-	if (command->redir_out)
-		// setup redirection output
+	setup_pipes(command); // if there is input dont read from previous pipe, if there is an outfile dont write to the next pipe
 	if (command->words)
 	{
 		if (is_cmd_builtin(minivault->builtin_list, command->words->word))
@@ -46,13 +69,6 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	else
 	{
 		while (pipeline[count])
-		{
-			if (pipeline[count]->pos == FIRST)
-				execute_command(minivault, pipeline[count++], FIRST);
-			while (pipeline[count] && pipeline[count]->pos == MIDDLE)
-				execute_command(minivault, pipeline[count++], MIDDLE);
-			if (pipeline[count] && pipeline[count]->pos == LAST)
-				execute_command(minivault, pipeline[count++], LAST);
-		}
+			execute_command(minivault, pipeline[count++]);
 	}
 }
