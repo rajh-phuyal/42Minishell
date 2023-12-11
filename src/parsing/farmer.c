@@ -127,6 +127,32 @@ void	setup_redirection(t_command *command)
 		command->redir_out = get_last_token(command->redir_out_list);
 }
 
+void	setup_pipes(t_command *command)
+{
+	//if (!command->pos)
+		// wtf happended panic
+	if (command->pos == SINGLE)
+	{
+		command->pipe_config[0] = false;
+		command->pipe_config[1] = false;
+	}
+	else if (command->pos == FIRST)
+	{
+		command->pipe_config[0] = false;
+		command->pipe_config[1] = true;
+	}
+	else if (command->pos == MIDDLE)
+	{
+		command->pipe_config[0] = true;
+		command->pipe_config[1] = true;
+	}
+	else if (command->pos == LAST)
+	{
+		command->pipe_config[0] = true;
+		command->pipe_config[1] = false;
+	}
+} 
+
 void	grow_baobab(t_minivault	*minivault)
 {
 	int i;
@@ -148,6 +174,7 @@ void	grow_baobab(t_minivault	*minivault)
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
 						+ (i == (command_count - 1)))
 						- (2 * (command_count == 1));
+		setup_pipes(minivault->baobab->pipeline[i]);
 		i++;
 	}
 	i = 0;

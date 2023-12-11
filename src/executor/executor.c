@@ -12,31 +12,6 @@ bool	is_cmd_builtin(char **builtin_list, char *cmd)
 	return (false);
 }
 
-void	setup_pipes(t_command *command)
-{
-	//if (!command->pos)
-		// wtf happended panic
-	if (command->pos == SINGLE)
-	{
-		command->pipe_config[0] = false;
-		command->pipe_config[1] = false;
-	}
-	else if (command->pos == FIRST)
-	{
-		command->pipe_config[0] = false;
-		command->pipe_config[1] = true;
-	}
-	else if (command->pos == MIDDLE)
-	{
-		command->pipe_config[0] = true;
-		command->pipe_config[1] = true;
-	}
-	else if (command->pos == LAST)
-	{
-		command->pipe_config[0] = true;
-		command->pipe_config[1] = false;
-	}
-}
 
 void	execute_command(t_minivault *minivault, t_command *command)
 {
@@ -44,7 +19,7 @@ void	execute_command(t_minivault *minivault, t_command *command)
 	{
 		//wtf happened
 	}
-	setup_pipes(command); // if there is input dont read from previous pipe, if there is an outfile dont write to the next pipe
+	// if there is input dont read from previous pipe, if there is an outfile dont write to the next pipe
 	if (command->words)
 	{
 		if (is_cmd_builtin(minivault->builtin_list, command->words->word))

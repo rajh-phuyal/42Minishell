@@ -63,6 +63,7 @@ typedef struct s_command
 	t_redir		*redir_out_list;
 	t_redir		*redir_out;
 	bool		pipe_config[2];
+	int			pipe_fd[2];
 }				t_command;
 
 typedef struct s_baobab
