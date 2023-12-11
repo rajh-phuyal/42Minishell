@@ -29,32 +29,30 @@ int	assign_fd(t_operation operator, char *file)
 {
 	int fd;
 
+	fd = -1;
 	if (operator == GREAT)
 	{
 		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (fd != -1)
-			return (fd);
+		return (fd);
 		// deal with the
 	}
 	else if (operator == DGREAT)
 	{
 		fd = open(file, O_CREAT | O_RDWR, 0644);
-		if (fd != -1)
-			return (fd);
+		return (fd);
 	}
 	else if (operator == LESS)
 	{
 		fd = open(file, O_RDONLY);
-		if (fd != -1)
-			return (fd);
+		return (fd);
 		// ! bash: <file>: No such file or directory
 	}
 	else if (operator == DLESS)
 	{
 		// fd = heredoc
-		if (fd != -1)
-			return (fd);
+		return (fd);
 	}
+	return (-1);
 }
 
 t_operation	find_redirection_type(t_token *token)
@@ -88,6 +86,8 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 		remove_quotes(next->content);
 	redir->word = next->content;
 	redir->fd = assign_fd(redir->operator, next->content);
+	// if (redir->fd == -1)
+		// something is fucked
 	redir->next = NULL;
 	return (redir);
 }

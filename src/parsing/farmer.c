@@ -163,14 +163,12 @@ void	grow_baobab(t_minivault	*minivault)
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
 	minivault->baobab->pipeline[command_count] = NULL;
 	i = 0;
-	printf("THIS IS COMMAND COUNT:  %d\n", command_count);
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
 		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
 			break ;
-		setup_redirections(minivault->baobab->pipeline[i]);
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
 						+ (i == (command_count - 1)))
 						- (2 * (command_count == 1));

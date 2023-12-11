@@ -15,7 +15,7 @@ bool	is_cmd_builtin(char **builtin_list, char *cmd)
 
 void	execute_command(t_minivault *minivault, t_command *command)
 {
-	if(!command)
+	if (!command)
 	{
 		//wtf happened
 	}
