@@ -13,6 +13,7 @@ SRC = src/core/main.c \
 	src/data/environment.c \
 	src/data/initialization.c \
 	src/builtins/export.c \
+	src/builtins/env.c \
 	src/helpers/debug.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \

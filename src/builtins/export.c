@@ -6,18 +6,11 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/03 01:50:52 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/13 21:53:28 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static  void    out_to_file(int file, char *str)
-{
-    if (!str)
-		return ;
-    write(file, str, ft_strlen(str));
-}
 
 void    _export(t_minivault *minivault, char *key, char *value)
 {
@@ -34,11 +27,11 @@ void    _export(t_minivault *minivault, char *key, char *value)
         {
              // TODO: point to the right fd to send the output to
              // TODO: something like this: out_to_file(minivauult->outfd, str);
-            out_to_file(1, "declare -x ");
-            out_to_file(1, *iter);
-            out_to_file(1, "=\"");
-            out_to_file(1, get_env(minivault, *iter));
-            out_to_file(1, "\"\n");
+            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd(*iter, 1);
+            ft_putstr_fd("=\"", 1);
+            ft_putstr_fd(get_env(minivault, *iter), 1);
+            ft_putstr_fd("\"\n", 1);
             iter++;
         }
         if (sorted)
