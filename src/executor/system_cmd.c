@@ -60,7 +60,19 @@ char	*get_command_path(char *path_list, char *command)
 	// command doesnt exit
 }
 
-void	system_command(t_minivault	*minivault, t_command *command)
+t_redir *get_last_token(t_redir *head)
+{
+	t_redir *current;
+
+	if (!head)
+		return (NULL);
+	current = head;
+	while (current->next)
+		current = current->next;
+	return (current);
+}
+
+void	system_command(t_minivault	*minivault, t_command *command, int pos)
 {
 	pid_t	child;
 	char	*cmd_path;
@@ -74,14 +86,11 @@ void	system_command(t_minivault	*minivault, t_command *command)
 	child = fork();
 	if (child == -1)
 	{
-		// fork failed
-		// deal with it
+		// fork failed deal with it
 		return ;
 	}
 	if (child == 0)
 	{
-			close(minivault->pipe_fd[0]); // close the read end of the pipe
-			dup2(minivault->pipe_fd[1], STDOUT_FILENO); //redirect stdout to the write end of the pipe
 			// dup2(infiles, STDIN_FILENO);
 			// TODO: create 2d array with the command and the options
 			if (execve(cmd_path, get_arguments(command->words), minivault->env_list) == -1)

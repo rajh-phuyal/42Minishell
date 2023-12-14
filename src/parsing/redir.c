@@ -112,8 +112,8 @@ void add_redir_back(t_redir **redir, t_redir *token)
 void	add_redirection(t_command **command, t_token *token, t_token *next)
 {
 	t_redir *redir;
-    t_redir **head_in = &(*command)->redir_in_list;
-    t_redir **head_out = &(*command)->redir_out_list;
+    t_redir **head_in = &(*command)->redir_in;
+    t_redir **head_out = &(*command)->redir_out;
 
 	redir = NULL;
 	if(token && next)

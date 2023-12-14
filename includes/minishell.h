@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/08 18:34:19 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/12/14 21:23:46 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_minivault
 	char		**input;
 	char		**path;
 	char		**builtin_list;
-	int			pipe_fd[2];
 	char		**env_list;
 	t_envs		*envs;
 	t_baobab	*baobab;

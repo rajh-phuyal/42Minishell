@@ -12,26 +12,24 @@ bool	is_cmd_builtin(char **builtin_list, char *cmd)
 	return (false);
 }
 
-
-void	execute_command(t_minivault *minivault, t_command *command)
+void	execute_command(t_minivault *minivault, t_command *command, int pos)
 {
 	if (!command)
 	{
 		//wtf happened
 	}
-	// if there is input dont read from previous pipe, if there is an outfile dont write to the next pipe
 	if (command->words)
 	{
 		if (is_cmd_builtin(minivault->builtin_list, command->words->word))
 			builtin_command(minivault, command);
 		else
-			system_command(minivault, command);
+			system_command(minivault, command, pos);
 	}
 }
 
 void	executor(t_minivault *minivault, t_command **pipeline)
 {
-	int count = 0;
+	int pos = -1;
 	int i = 0;
 
 	if (!pipeline)
@@ -39,11 +37,8 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 		// deal with it
 		return ;
 	}
-	if (pipeline[0] && pipeline[0]->pos == SINGLE) // * SINGLE CMD EXECUTION
-		execute_single_command(minivault, pipeline[0]); // dont fork if is single command and builtin
-	else
+	while (pipeline[++pos])
 	{
-		while (pipeline[count])
-			execute_command(minivault, pipeline[count++]);
+		execute_command(minivault, pipeline[pos], pos);
 	}
 }

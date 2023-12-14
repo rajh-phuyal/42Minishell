@@ -4,6 +4,10 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+# define MAX_FD 1000
+# define WRITE 1
+# define READ 0
+
 // TOKEN LIST
 typedef enum	e_content_type
 {
@@ -58,23 +62,20 @@ typedef struct s_command
 {
 	t_cmd_pos	pos;
 	t_word		*words;
-	t_redir		*redir_in_list;
 	t_redir		*redir_in;
-	t_redir		*redir_out_list;
 	t_redir		*redir_out;
-	bool		pipe_config[2];
-	int			pipe_fd[2];
 }				t_command;
 
 typedef struct s_baobab
 {
 	t_command	**pipeline;
+	int			pipe_fd[MAX_FD][2];
 }				t_baobab;
 
 typedef struct s_minivault t_minivault;
 
 // lexing
-void		lexer(t_minivault *minivault, char *input);
+bool		lexer(t_minivault *minivault, char *input);
 void		strextract(t_minivault *minivault, char *input);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);

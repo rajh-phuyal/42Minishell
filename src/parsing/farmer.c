@@ -61,10 +61,9 @@ t_command	*split_list(t_token *list, t_content_type type)
 
 	command = (t_command *)malloc(sizeof(t_command));
 	command->words = NULL;
-	command->redir_in_list = NULL;
 	command->redir_in = NULL;
 	command->redir_out = NULL;
-	command->redir_out_list = NULL;
+	command->redir_out = NULL;
 	if(!command || !list)
         return (NULL);
     if (current == NULL)
@@ -107,62 +106,26 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
-t_redir *get_last_token(t_redir *head)
-{
-	t_redir *current;
-
-	if (!head)
-		return (NULL);
-	current = head;
-	while (current->next)
-		current = current->next;
-	return (current);
-}
-
-void	setup_redirection(t_command *command)
-{
-	if (command->redir_in_list)	
-		command->redir_in = get_last_token(command->redir_in_list);
-	if (command->redir_out_list)	
-		command->redir_out = get_last_token(command->redir_out_list);
-}
-
-void	setup_pipes(t_command *command)
-{
-	//if (!command->pos)
-		// wtf happended panic
-	if (command->pos == SINGLE)
-	{
-		command->pipe_config[0] = false;
-		command->pipe_config[1] = false;
-	}
-	else if (command->pos == FIRST)
-	{
-		command->pipe_config[0] = false;
-		command->pipe_config[1] = true;
-	}
-	else if (command->pos == MIDDLE)
-	{
-		command->pipe_config[0] = true;
-		command->pipe_config[1] = true;
-	}
-	else if (command->pos == LAST)
-	{
-		command->pipe_config[0] = true;
-		command->pipe_config[1] = false;
-	}
-} 
-
+// TODO: Protect Mallocs
 void	grow_baobab(t_minivault	*minivault)
 {
 	int i;
 	int command_count;
 
 	command_count = 1 + count_tokens(PIPE, minivault->tokens);
+	
 	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
-	minivault->baobab->pipeline[command_count] = NULL;
+	while (i < command_count - 1)
+	{
+		if (pipe(minivault->baobab->pipe_fd[i]) == -1)
+		{
+			// Handle error
+		}
+		i++;
+	}
 	i = 0;
+	minivault->baobab->pipeline[command_count] = NULL;
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
@@ -172,7 +135,6 @@ void	grow_baobab(t_minivault	*minivault)
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
 						+ (i == (command_count - 1)))
 						- (2 * (command_count == 1));
-		setup_pipes(minivault->baobab->pipeline[i]);
 		i++;
 	}
 	i = 0;
