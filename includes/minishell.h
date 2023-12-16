@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/13 22:39:48 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/16 21:12:32 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_envs
 {
 	char			*key;
 	char			*value;
+	bool			session;
+	bool			internal;
 	struct s_envs	*next;
 }	t_envs;
 
@@ -71,14 +73,15 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input, char **envs);
 
 // error handeler
-void    error(t_minivault *minivault, t_status status, char *message, char *token);
+void    	error(t_minivault *minivault, t_status status, char *message, char *token);
 
 // environment functions
 char		**envsort(t_envs *envs);
 char		*get_env(t_minivault *minivault, char *key);
 void		unset_env(t_minivault *minivault, char *key);
-void		set_env(t_minivault *minivault, char *key, char *value);
-void    	add_env_node(t_minivault *minivault, char *key, char *value);
+t_envs  	*get_env_node(t_minivault *minivault, char *key);
+void		set_env(t_minivault *minivault, char *key, char *value, int identifier);
+void   		add_env_node(t_minivault *minivault, char *key, char *value, int identifier);
 
 // builtin functions
 void		_pwd(t_minivault *minivault);

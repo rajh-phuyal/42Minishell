@@ -7,25 +7,25 @@ void	builtin_command(t_minivault	*minivault, t_command *command)
 	(void) minivault;
 	if (!ft_strncmp(command->words->word, "echo", 5))
 		// run echo
-		echo(minivault);
+		_echo(minivault);
 	else if (!ft_strncmp(command->words->word, "cd", 3))
 		// run cd
-		cd(minivault);
+		_cd(minivault);
 	else if (!ft_strncmp(command->words->word, "pwd", 4))
 		// run pwd
-		pwd(minivault);
+		_pwd(minivault);
 	else if (!ft_strncmp(command->words->word, "export", 7))
 		// run export
-		export(minivault);
+		_export(minivault);
 	else if (!ft_strncmp(command->words->word, "unset", 6))
 		// run unset
-		unset(minivault);
+		_unset(minivault);
 	else if (!ft_strncmp(command->words->word, "env", 4))
 		// run env
-		env(minivault);
+		_env(minivault);
 	else if (!ft_strncmp(command->words->word, "exit", 5))
 		// run exit
-		do_exit(minivault);
+		_exit(minivault);
 	else
 		raiseError("bitch! fuck off! NAC: Not a command");
 		// run as system_cmd?

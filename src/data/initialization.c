@@ -6,12 +6,18 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/13 22:45:10 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/16 20:35:36 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+to set only the internal to true -> (1 << 1)
+to set only the session to true -> (1 << 2)
+to set both to true -> (1 << 1) | (1 << 2)
+to set both to false -> 0
+*/
 void	init_envs(t_minivault *minivault, char **envs)
 {
 	int		i;
@@ -21,9 +27,10 @@ void	init_envs(t_minivault *minivault, char **envs)
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		add_env_node(minivault, splitted[0], splitted[1]);
+		add_env_node(minivault, splitted[0], splitted[1], (1 << 2));
 		free(splitted);
 	}
+	add_env_node(minivault, ft_strdup("?"), ft_strdup("0"), (1 << 1) | (1 << 2));
 }
 
 void	init_error(t_minivault *minivault)

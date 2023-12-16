@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/03 01:13:10 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/16 20:39:46 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	print_envs(t_envs *envs)
 {
 	while (envs)
 	{
-		printf("[ (key): %s | (value): %s ]\n", envs->key, envs->value);
+		printf("[ (key): %s | (value): %s | (internal): %d | (session): %d ]\n",
+				envs->key, envs->value, envs->internal, envs->session);
 		envs = envs->next;
 	}
 }

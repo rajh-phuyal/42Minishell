@@ -6,20 +6,23 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:46 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/13 22:44:18 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/16 21:07:20 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_global_envs(t_envs *envs, int outfd)
+static void	print_session_envs(t_envs *envs, int outfd)
 {
 	while (envs)
 	{
-		ft_putstr_fd(envs->key, outfd);
-		ft_putstr_fd("=", outfd);
-		ft_putstr_fd(envs->value, outfd);
-		ft_putstr_fd("\n", outfd);
+		if (envs->session && !envs->internal)
+		{
+			ft_putstr_fd(envs->key, outfd);
+			ft_putstr_fd("=", outfd);
+			ft_putstr_fd(envs->value, outfd);
+			ft_putstr_fd("\n", outfd);
+		}
 		envs = envs->next;
 	}
 }
@@ -34,7 +37,7 @@ void    _env(t_minivault *minivault, char *key, char *value)
         error(minivault, CMDNOTFOUND, "env: : No such file or directory", key);
 		return ;
 	}
-	print_global_envs(minivault->envs, outfd);
+	print_session_envs(minivault->envs, outfd);
     if (key && value)
     {
         ft_putstr_fd(key, outfd);

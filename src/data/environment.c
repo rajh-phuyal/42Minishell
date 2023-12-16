@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-void    add_env_node(t_minivault *minivault, char *key, char *value)
+void    add_env_node(t_minivault *minivault, char *key, char *value, int identifier)
 {
 	t_envs	*new;
     t_envs	*envs;
@@ -11,6 +11,8 @@ void    add_env_node(t_minivault *minivault, char *key, char *value)
 		return ;
 	new->key = key;
 	new->value = value;
+    new->internal = (identifier >> 1) & 1;
+    new->session = (identifier >> 2) & 1;
 	new->next = NULL;
 	if (!minivault->envs)
     {
@@ -37,7 +39,21 @@ char	*get_env(t_minivault *minivault, char *key)
     return (NULL);
 }
 
-void	set_env(t_minivault *minivault, char *key, char *value)
+t_envs  *get_env_node(t_minivault *minivault, char *key)
+{
+	t_envs	*envs;
+
+	envs = minivault->envs;
+	while (envs)
+	{
+		if (!ft_strncmp(envs->key, key, ft_strlen(key)))
+			return (envs);
+		envs = envs->next;
+	}
+    return (NULL);
+}
+
+void	set_env(t_minivault *minivault, char *key, char *value, int identifier)
 {
     t_envs	*envs;
 
@@ -52,7 +68,7 @@ void	set_env(t_minivault *minivault, char *key, char *value)
         }
         envs = envs->next;
     }
-    add_env_node(minivault, key, value);
+    add_env_node(minivault, key, value, identifier);
 }
 
 void    unset_env(t_minivault *minivault, char *key) // WIP
