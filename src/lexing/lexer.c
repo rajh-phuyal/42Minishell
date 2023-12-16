@@ -94,5 +94,6 @@ void	lexer(t_minivault *minivault, char *input)
 	check_syntax(minivault);
 	// _export(minivault, NULL, NULL);
 	// _env(minivault, NULL, NULL);
+	// _unset(minivault, vector);
 	// remove_quotes(minivault);
 }

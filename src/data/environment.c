@@ -71,7 +71,7 @@ void	set_env(t_minivault *minivault, char *key, char *value, int identifier)
     add_env_node(minivault, key, value, identifier);
 }
 
-void    unset_env(t_minivault *minivault, char *key) // WIP
+void    unset_env(t_minivault *minivault, char *key)
 {
     t_envs	*envs;
     t_envs	*temp;
