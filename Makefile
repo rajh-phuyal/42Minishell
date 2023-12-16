@@ -14,6 +14,7 @@ SRC = src/core/main.c \
 	src/data/initialization.c \
 	src/builtins/export.c \
 	src/builtins/env.c \
+	src/builtins/pwd.c \
 	src/builtins/unset.c \
 	src/helpers/debug.c \
 	src/helpers/envsort.c \
