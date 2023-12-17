@@ -29,13 +29,13 @@ SRC = src/core/main.c \
 	src/terminator/liberation.c
 
 
-OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
+OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 # COLORS
 CBOLD   = \033[0;1m
 RED     = \033[0;41m
 GREEN   = \033[0;42m
-BLUE   = \033[0;44m
+BLUE    = \033[0;44m
 YELLOW  = \033[0;43m
 RESET   = \033[0m
 

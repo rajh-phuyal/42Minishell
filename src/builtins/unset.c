@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/16 23:04:05 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/17 00:07:55 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void    _unset(t_minivault *minivault, char **vector)
 			unset_env(minivault, *vector);
 		vector++;
 	}
+	set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
 }

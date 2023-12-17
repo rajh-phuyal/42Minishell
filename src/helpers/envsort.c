@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:37:30 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/03 01:28:08 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/17 12:37:32 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ char	**envsort(t_envs *envs)
 	data[len] = NULL;
 	transfer_data(envs, data);
 	quicksort(data, 0, len - 1);
-	return	(data);
+	return (data);
 }
