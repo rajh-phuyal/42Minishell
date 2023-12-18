@@ -6,11 +6,16 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/03 00:12:17 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/18 01:33:34 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	char	*_invalid_path_msg(char *path)
+{
+
+}
 
 void    _cd(t_minivault *minivault,  char *path)
 {
@@ -33,4 +38,9 @@ void    _cd(t_minivault *minivault,  char *path)
     // change directory using the path
 
     // update PWD
+
+	//? if home not exist, err
+	//? execute the chdir right away
+	if (chdir(path) < 0)
+    	perror(_invalid_path_msg(path));
 }
