@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/17 00:08:57 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/19 00:11:00 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
+
+# include <sys/stat.h>
 
 // handy macros
 # define GET 0

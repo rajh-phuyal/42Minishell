@@ -95,6 +95,41 @@ void	lexer(t_minivault *minivault, char *input)
 	// _export(minivault, NULL, NULL);
 	// _env(minivault, NULL, NULL);
 	// _unset(minivault, vector);
-	// _pwd(minivault);
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, NULL);
+	_pwd(minivault);
+
+
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, "-"); // not working yet
+	_pwd(minivault);
+
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, "..");
+	_pwd(minivault);
+
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, ".");
+	_pwd(minivault);
+
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, "/");
+	_pwd(minivault);
+
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, "Users");
+	_pwd(minivault);
+
+	printf("\n\n");
+	_pwd(minivault);
+	_cd(minivault, "/Users/rajphuyal/Desktop/personal_projects/PlayLab/42playground/playground_minishell");
+	_pwd(minivault);
+
 	// remove_quotes(minivault);
 }
