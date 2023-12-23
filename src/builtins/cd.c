@@ -6,16 +6,11 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/19 00:13:03 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/23 16:03:48 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static	char	*_invalid_path_msg(void)
-// {
-// 	return (NULL);
-// }
 
 static	char	*clear_buff(char *buffer)
 {
@@ -62,7 +57,8 @@ static	void	_validate_path_types(t_minivault *minivault,  char *path)
 			error(minivault, FAILURE, "minibaiters: file not found", "");
 		return ;
 	}
-	error(minivault, FAILURE, "minibaiters: file not found", "");
+	else
+		error(minivault, FAILURE, "minibaiters: file not found", "");
 }
 
 /*
@@ -74,7 +70,7 @@ void    _cd(t_minivault *minivault, char *path)
 	char	*homepath;
 
 	//? if home not exist, cd no path won't work
-	//? if cd -, go to the old path, also print it on out
+	//? if cd -, don't treat it
 	//? execute the chdir right away
 	if (!path)
 	{
