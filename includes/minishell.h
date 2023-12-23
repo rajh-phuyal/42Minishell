@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/19 00:11:00 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/23 22:17:48 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # define GET 0
 # define PUT 1
 # define ERROR -1
+
+// exit status related
+# define MAXEXTSTATUS 256
+# define EXTSTATUSNONNUM 255
 
 typedef enum e_status
 {
@@ -90,7 +94,7 @@ void		_pwd(t_minivault *minivault);
 void		_cd(t_minivault *minivault, char *path);
 void		_echo(t_minivault *minivault, char **vector);
 void		_unset(t_minivault *minivault, char **vector);
-void    	_exit_vault(t_minivault *minivault, int status);
+void    	_exit_vault(t_minivault *minivault, char **args);
 void    	_env(t_minivault *minivault, char *key, char *value);
 void		_export(t_minivault *minivault, char *key, char *value);
 

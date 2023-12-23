@@ -92,11 +92,13 @@ void	lexer(t_minivault *minivault, char *input)
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
 	check_syntax(minivault);
-	// _export(minivault, NULL, NULL);
 	// _env(minivault, NULL, NULL);
 	// _unset(minivault, vector);
-	// _cd(minivault, NULL);
 	// _pwd(minivault);
+	// _cd(minivault, NULL);
+	// _export(minivault, NULL, NULL);
 	// _echo(minivault, NULL);
+	// _exit_vault(minivault, NULL);
+	// _exit_vault(minivault, NULL);
 	// remove_quotes(minivault);
 }
