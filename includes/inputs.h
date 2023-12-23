@@ -69,7 +69,7 @@ typedef struct s_command
 typedef struct s_baobab
 {
 	t_command	**pipeline;
-	int			pipe_fd[MAX_FD][2];
+	int			pipe_fd[FOPEN_MAX][2];
 }				t_baobab;
 
 typedef struct s_minivault t_minivault;
@@ -93,5 +93,6 @@ void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *righ
 void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);
 void		add_redirection(t_command **command, t_token *token, t_token *next);
+int			count_tokens(t_content_type token_type, t_token *tokens);
 
 #endif

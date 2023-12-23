@@ -1,44 +1,40 @@
 #include "minishell.h"
 
-bool	is_cmd_builtin(char **builtin_list, char *cmd)
+bool is_cmd_builtin(char **builtin_list, char *cmd)
 {
-	int i = -1;
+    int i = 0;
 
-	while (builtin_list[++i])
-	{
-		if (builtin_list[i] && !ft_strncmp(cmd, builtin_list[i], 1 + ft_strlen(builtin_list[i])))
-			return (true);
-	}
-	return (false);
+    while (builtin_list[i])
+    {
+        if (!ft_strncmp(cmd, builtin_list[i], ft_strlen(builtin_list[i]) + 1))
+            return (true);
+        i++;
+    }
+    return (false);
 }
+
 
 void	execute_command(t_minivault *minivault, t_command *command, int pos)
 {
-	if (!command)
-	{
-		//wtf happened
-	}
+	dprintf(2, "executing shit: %d\n", command->pos);
 	if (command->words)
 	{
-		if (is_cmd_builtin(minivault->builtin_list, command->words->word))
-			builtin_command(minivault, command);
-		else
-			system_command(minivault, command, pos);
+		// if (is_cmd_builtin(minivault->builtin_list, command->words->word))
+		// 	return ;
+		// 	// builtin_command(minivault, command);
+		// else
+		system_command(minivault, command, pos);
 	}
 }
 
 void	executor(t_minivault *minivault, t_command **pipeline)
 {
 	int pos = -1;
-	int i = 0;
-
-	if (!pipeline)
-	{
-		// deal with it
+	if (!pipeline)		// deal with it
 		return ;
-	}
 	while (pipeline[++pos])
 	{
 		execute_command(minivault, pipeline[pos], pos);
+		dprintf(2, "wtf im stuck\n");
 	}
 }

@@ -18,37 +18,33 @@ size_t	get_list_size(t_word *head)
 
 char	**get_arguments(t_word *words)
 {
-	t_word	*current;
-	int	i = 0;
+	int		i = 0;
 	char	**arguments = NULL;
 
-	if (!words)
-		return (NULL); // list is empty something is fucked
-	if (words->next == NULL)
+	if (!words->next)
 		return (NULL); // single command with no arguments
-	arguments = (char**)malloc(get_list_size(words) * sizeof(char *));
+	int list_size = get_list_size(words);
+	arguments = (char **)malloc((list_size + 1) * sizeof(char *));
 	if (!arguments)
 		return (NULL);
-	current = words->next; // to skip the command name wich is the first node
-	while (current)
+	while (words)
 	{
-        arguments[i++] = strdup(current->word);
-        current = current->next;
+        arguments[i] = words->word;
+        words = words->next;
+		i++;
     }
 	arguments[i] = NULL;
 	return (arguments);
 }
 
-char	*get_command_path(char *path_list, char *command)
+
+
+char	*get_command_path(char **path_list, char *command)
 {
 	char *temp;
 	int i = 0;
-	if (!path_list)
-	{
-		//path_list is empty deal with it
-		return ;
-	}
-	while (path_list[i])
+
+	while (path_list && path_list[i])
 	{
 		temp = ft_strjoin(path_list[i], "/");
 		temp = ft_strjoin(temp, command);
@@ -57,7 +53,7 @@ char	*get_command_path(char *path_list, char *command)
 		free(temp);
 		i++;
 	}
-	// command doesnt exit
+	return (NULL);
 }
 
 t_redir *get_last_token(t_redir *head)
@@ -72,34 +68,36 @@ t_redir *get_last_token(t_redir *head)
 	return (current);
 }
 
-void	system_command(t_minivault	*minivault, t_command *command, int pos)
+void system_command(t_minivault *minivault, t_command *command, int pos)
 {
-	pid_t	child;
-	char	*cmd_path;
-
-	cmd_path = get_command_path(minivault->path, command->words);
-	if (!cmd_path)
+    char *cmd_path = get_command_path(minivault->path, command->words->word);
+    char **arg = get_arguments(command->words);
+    if (!cmd_path)
+        return;
+    pid_t child = fork();
+    if (child == -1)
+    {
+		free(cmd_path); // Free the memory allocated by get_command_path
+        return;
+    }
+    if (child == 0) // Child process
 	{
-		// path list is fucked or the cmd doesnt exist
-		return ;
-	}
-	child = fork();
-	if (child == -1)
+		config_io(minivault, command, pos);
+        // execve(cmd_path, arg, minivault->env_list);
+		execve(cmd_path, arg, NULL);
+        perror("Execve failed");
+        free(cmd_path);
+		// free arg
+    }
+	else // Parent process
 	{
-		// fork failed deal with it
-		return ;
-	}
-	if (child == 0)
-	{
-			// dup2(infiles, STDIN_FILENO);
-			// TODO: create 2d array with the command and the options
-			if (execve(cmd_path, get_arguments(command->words), minivault->env_list) == -1)
-			{
-				// execve failed 
-				// deal with the error
-				return ;
-			}
-	}
-
-
+        int status;
+        waitpid(child, &status, 0); // Wait for the child process to finish
+        if (WIFEXITED(status))
+            dprintf(2,"Child exited with status %d\n", WEXITSTATUS(status));
+		else
+            dprintf(2, "Child process did not exit normally\n");
+    }
+    free(cmd_path);
+	// free arg
 }

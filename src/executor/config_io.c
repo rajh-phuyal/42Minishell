@@ -7,6 +7,7 @@ void	config_io_single(t_minivault *minivault, t_command *command)
 	t_redir	*infile;
 	t_redir	*outfile;
 
+	(void)minivault;
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
 	if (infile)
@@ -41,8 +42,10 @@ void	config_io_first(t_minivault	*minivault, t_command *command)
 	}
 	else
 	{
+		dprintf(2, "has no redirs\n");
 		close(minivault->baobab->pipe_fd[0][READ]);
 		dup2(minivault->baobab->pipe_fd[0][WRITE], STDOUT_FILENO);
+		dprintf(2, "after dup2 to the pipe\n");
 		close(minivault->baobab->pipe_fd[0][WRITE]); // Close the file descriptor after dup2
 	}
 }
@@ -111,12 +114,28 @@ void	config_io_last(t_minivault	*minivault, t_command *command)
 
 void	config_io(t_minivault	*minivault, t_command *command, int pos)
 {
-	if (command->pos == FIRST)
-		config_io_first(minivault, command);
-	else if (command->pos == MIDDLE)
-		config_io_middle(minivault, command, pos);
-	else if (command->pos == LAST)
-		config_io_last(minivault,command);
-	else
+	if (command->pos == SINGLE)
+	{
+		dprintf(2, RED"SINGLE\n");
 		config_io_single(minivault, command);
+		dprintf(2, "SINGLE AFTER\n"RESET_COLOR);
+	}
+	if (command->pos == FIRST)
+	{
+		dprintf(2, RED"FIRST\n");
+		config_io_first(minivault, command);
+		dprintf(2, RED"FIRST AFTER\n"RESET_COLOR);
+	}
+	if (command->pos == MIDDLE)
+	{
+		dprintf(2, RED"MIDDLE\n");
+		config_io_middle(minivault, command, pos);
+		dprintf(2, "MIDDLE AFTER\n"RESET_COLOR);
+	}
+	if (command->pos == LAST)
+	{
+		dprintf(2, RED"LAST\n");
+		config_io_last(minivault,command);
+		dprintf(2, "LAST AFTER\n"RESET_COLOR);
+	}
 }

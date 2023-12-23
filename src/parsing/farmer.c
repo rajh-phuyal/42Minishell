@@ -14,7 +14,7 @@ void    print_redirs(t_redir *head)
 			printf(">>");
 		else if (head->operator == DLESS)
 			printf("<<");
-		printf(" | WORD: %s\n",head->word);
+		printf(" | WORD: %s\n", head->word);
         head = head->next;
     }
 }
@@ -106,6 +106,7 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
+
 // TODO: Protect Mallocs
 void	grow_baobab(t_minivault	*minivault)
 {
@@ -113,12 +114,15 @@ void	grow_baobab(t_minivault	*minivault)
 	int command_count;
 
 	command_count = 1 + count_tokens(PIPE, minivault->tokens);
-	
 	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
-	while (i < command_count - 1)
+	i = 0;
+	while (i < FOPEN_MAX)
+		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
+	i = 0;
+	while (i < command_count - 1 && i < FOPEN_MAX)
 	{
-		if (pipe(minivault->baobab->pipe_fd[i]) == -1)
+		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
 		{
 			// Handle error
 		}
@@ -137,7 +141,6 @@ void	grow_baobab(t_minivault	*minivault)
 						- (2 * (command_count == 1));
 		i++;
 	}
-	i = 0;
 	call_debug(minivault);
 	print_tree(minivault);
 }

@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/11 21:22:56 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/12/14 22:54:16 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void	handle_input(t_minivault *minivault, char *input, char **envs)
 	if (lexer(minivault, input) == true)
 		grow_baobab(minivault);
 	// call_debug(minivault);
+	executor(minivault, minivault->baobab->pipeline);
 	liberation(minivault);
-	printf("\n");
 }
