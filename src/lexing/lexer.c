@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-
 /* syntax errors
  ! ERROR 1
  ? Command: |

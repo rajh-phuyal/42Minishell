@@ -14,6 +14,6 @@ void    error(t_minivault *minivault, t_status status, char *message, char *toke
     minivault->error->message = message;
     minivault->error->err_token = token;
     // TODO: handel command not found, file not found etc
-    printf("minibaiters: %s: %s", message, token);
+    printf("minibaiters: %s: %s\n", message, token);
     set_env(minivault, "?", ft_itoa(status), (1 << 1));
 }

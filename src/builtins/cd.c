@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/23 16:03:48 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/23 22:41:40 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static	void	_goto(t_minivault *minivault, char *path)
 	}
 }
 
-static	void	_validate_path_types(t_minivault *minivault,  char *path)
+static	void	_validate_path_types(t_minivault *minivault, char *path)
 {
 	struct stat	_file_stat;
 
@@ -61,18 +61,11 @@ static	void	_validate_path_types(t_minivault *minivault,  char *path)
 		error(minivault, FAILURE, "minibaiters: file not found", "");
 }
 
-/*
-cd can take multiple paths, but will only consider the first path value
-change later for: void    _cd(t_minivault *minivault, char **paths) and else if (path && *path)
-*/
-void    _cd(t_minivault *minivault, char *path)
+void	_cd(t_minivault *minivault, char **paths)
 {
 	char	*homepath;
 
-	//? if home not exist, cd no path won't work
-	//? if cd -, don't treat it
-	//? execute the chdir right away
-	if (!path)
+	if (!paths)
 	{
 		homepath = get_env(minivault, "HOME");
 		if (homepath)
@@ -80,6 +73,6 @@ void    _cd(t_minivault *minivault, char *path)
 		else
 			error(minivault, FAILURE, "minibaiters: cd: HOME not set", "");
 	}
-	else
-		_validate_path_types(minivault, path);
+	else if (paths && *paths)
+		_validate_path_types(minivault, *paths);
 }
