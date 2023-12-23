@@ -97,5 +97,6 @@ void	lexer(t_minivault *minivault, char *input)
 	// _unset(minivault, vector);
 	// _cd(minivault, NULL);
 	// _pwd(minivault);
+	// _echo(minivault, NULL);
 	// remove_quotes(minivault);
 }
