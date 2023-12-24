@@ -21,8 +21,6 @@ char	**get_arguments(t_word *words)
 	int		i = 0;
 	char	**arguments = NULL;
 
-	if (!words->next)
-		return (NULL); // single command with no arguments
 	int list_size = get_list_size(words);
 	arguments = (char **)malloc((list_size + 1) * sizeof(char *));
 	if (!arguments)
@@ -71,6 +69,8 @@ t_redir *get_last_token(t_redir *head)
 void system_command(t_minivault *minivault, t_command *command, int pos)
 {
     char *cmd_path = get_command_path(minivault->path, command->words->word);
+	if (!cmd_path) // cmd is not a builtin nor a system cmd deal with it
+		return ;
     char **arg = get_arguments(command->words);
     if (!cmd_path)
         return;
@@ -80,11 +80,18 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 		free(cmd_path); // Free the memory allocated by get_command_path
         return;
     }
+	if (child != 0) /* FOR TEST PURPOSE */
+	{
+		if (cmd_path)
+			printf("%s\n", cmd_path);
+		if (arg)
+			print_vector(arg);
+	}
     if (child == 0) // Child process
 	{
 		config_io(minivault, command, pos);
-        // execve(cmd_path, arg, minivault->env_list);
-		execve(cmd_path, arg, NULL);
+		dprintf(2, "im here\n");
+        execve(cmd_path, arg, minivault->env_list);
         perror("Execve failed");
         free(cmd_path);
 		// free arg
