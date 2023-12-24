@@ -56,6 +56,7 @@ void	config_io_middle(t_minivault	*minivault, t_command *command, int pos)
 	t_redir	*infile;
 	t_redir	*outfile;
 
+	dprintf(2, "wtf is pos herer: %d\n", pos);
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
 	// Setup input from the previous pipe if no infile
@@ -67,7 +68,7 @@ void	config_io_middle(t_minivault	*minivault, t_command *command, int pos)
 	}
 	else
 	{
-		dup2(infile->fd, STDIN_FILENO);
+		dup2(infile->fd, STDIN_FILENO); //cmd1[]cmd2[]cmd3[]cmd4[]
 		close(infile->fd);
 	}
 	if (!outfile)

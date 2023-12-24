@@ -99,6 +99,11 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 	else // Parent process
 	{
         int status;
+		dprintf(2, "closing shit here\n");
+		close(minivault->baobab->pipe_fd[0][READ]);
+		close(minivault->baobab->pipe_fd[0][WRITE]);
+
+
         waitpid(child, &status, 0); // Wait for the child process to finish
         if (WIFEXITED(status))
             dprintf(2,"Child exited with status %d\n", WEXITSTATUS(status));
