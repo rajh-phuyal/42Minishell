@@ -16,7 +16,6 @@ bool is_cmd_builtin(char **builtin_list, char *cmd)
 
 void	execute_command(t_minivault *minivault, t_command *command, int pos)
 {
-	dprintf(2, "executing shit: %d\n", command->pos);
 	if (command->words)
 	{
 		// if (is_cmd_builtin(minivault->builtin_list, command->words->word))
@@ -33,8 +32,5 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	if (!pipeline)		// deal with it
 		return ;
 	while (pipeline[++pos])
-	{
 		execute_command(minivault, pipeline[pos], pos);
-		dprintf(2, "wtf im stuck\n");
-	}
 }

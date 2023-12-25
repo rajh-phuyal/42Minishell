@@ -12,11 +12,13 @@ void	config_io_single(t_minivault *minivault, t_command *command)
 	outfile = get_last_token(command->redir_out);
 	if (infile)
 	{
+		dprintf(2, RED"single has infile\n"RESET_COLOR);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd);
 	}
 	if (outfile)
 	{
+		dprintf(2, RED"single has outfile\n"RESET_COLOR);
 		dup2(outfile->fd, STDOUT_FILENO);
 		close(outfile->fd);
 	}
@@ -32,20 +34,21 @@ void	config_io_first(t_minivault	*minivault, t_command *command)
 	outfile = get_last_token(command->redir_out);
 	if (infile)
 	{
+		dprintf(2, RED"first has infile\n"RESET_COLOR);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd); // Close the file descriptor after dup2
 	}
 	if (outfile)
 	{
+		dprintf(2, RED"first has outfile\n"RESET_COLOR);
 		dup2(outfile->fd, STDOUT_FILENO);
 		close(outfile->fd); // Close the file descriptor after dup2
 	}
 	else
 	{
-		dprintf(2, "has no redirs\n");
+		dprintf(2, RED"first doesnt have outfile\n"RESET_COLOR);
 		close(minivault->baobab->pipe_fd[0][READ]);
 		dup2(minivault->baobab->pipe_fd[0][WRITE], STDOUT_FILENO);
-		dprintf(2, "after dup2 to the pipe\n");
 		close(minivault->baobab->pipe_fd[0][WRITE]); // Close the file descriptor after dup2
 	}
 }
@@ -56,29 +59,32 @@ void	config_io_middle(t_minivault	*minivault, t_command *command, int pos)
 	t_redir	*infile;
 	t_redir	*outfile;
 
-	dprintf(2, "wtf is pos herer: %d\n", pos);
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
 	// Setup input from the previous pipe if no infile
 	if (!infile)
 	{
+		dprintf(2, RED"middle doesnt have infile\n"RESET_COLOR);
 		close(minivault->baobab->pipe_fd[pos - 1][WRITE]); // Close unused write end
 		dup2(minivault->baobab->pipe_fd[pos - 1][READ], STDIN_FILENO);
 		close(minivault->baobab->pipe_fd[pos - 1][READ]);
 	}
 	else
 	{
+		dprintf(2, RED"middle has infile\n"RESET_COLOR);
 		dup2(infile->fd, STDIN_FILENO); //cmd1[]cmd2[]cmd3[]cmd4[]
 		close(infile->fd);
 	}
 	if (!outfile)
 	{
+		dprintf(2, RED"middle doesnt have outfile\n"RESET_COLOR);
 		close(minivault->baobab->pipe_fd[pos][READ]); // Close unused read end
 		dup2(minivault->baobab->pipe_fd[pos][WRITE], STDOUT_FILENO);
 		close(minivault->baobab->pipe_fd[pos][WRITE]);
 	}
 	else
 	{
+		dprintf(2, RED"middle has outfile\n"RESET_COLOR);
 		dup2(outfile->fd, STDOUT_FILENO);
 		close(outfile->fd);
 	}
@@ -96,6 +102,7 @@ void	config_io_last(t_minivault	*minivault, t_command *command)
 	// Setup input from the last pipe if no infile
 	if (!infile)
 	{
+		dprintf(2, RED"last doesnt have infile\n"RESET_COLOR);
 		last_pipe_index = count_tokens(PIPE, minivault->tokens) - 1; // Assuming command_count is the total number of commands
 		close(minivault->baobab->pipe_fd[last_pipe_index][WRITE]); // Close unused write end
 		dup2(minivault->baobab->pipe_fd[last_pipe_index][READ], STDIN_FILENO);
@@ -103,11 +110,13 @@ void	config_io_last(t_minivault	*minivault, t_command *command)
 	}
 	else
 	{
+		dprintf(2, RED"last doesnt have infile\n"RESET_COLOR);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd);
 	}
 	if (outfile)
 	{
+		dprintf(2, RED"last doesnt has outfile\n"RESET_COLOR);
 		dup2(outfile->fd, STDOUT_FILENO);
 		close(outfile->fd);
 	}
@@ -116,27 +125,11 @@ void	config_io_last(t_minivault	*minivault, t_command *command)
 void	config_io(t_minivault	*minivault, t_command *command, int pos)
 {
 	if (command->pos == SINGLE)
-	{
-		dprintf(2, RED"SINGLE\n");
 		config_io_single(minivault, command);
-		dprintf(2, "SINGLE AFTER\n"RESET_COLOR);
-	}
 	if (command->pos == FIRST)
-	{
-		dprintf(2, RED"FIRST\n");
 		config_io_first(minivault, command);
-		dprintf(2, RED"FIRST AFTER\n"RESET_COLOR);
-	}
 	if (command->pos == MIDDLE)
-	{
-		dprintf(2, RED"MIDDLE\n");
 		config_io_middle(minivault, command, pos);
-		dprintf(2, "MIDDLE AFTER\n"RESET_COLOR);
-	}
 	if (command->pos == LAST)
-	{
-		dprintf(2, RED"LAST\n");
 		config_io_last(minivault,command);
-		dprintf(2, "LAST AFTER\n"RESET_COLOR);
-	}
 }

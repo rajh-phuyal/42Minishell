@@ -73,42 +73,31 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 		return ;
     char **arg = get_arguments(command->words);
     if (!cmd_path)
-        return;
+        return ;
     pid_t child = fork();
     if (child == -1)
     {
 		free(cmd_path); // Free the memory allocated by get_command_path
-        return;
+        return ;
     }
-	if (child != 0) /* FOR TEST PURPOSE */
-	{
-		if (cmd_path)
-			printf("%s\n", cmd_path);
-		if (arg)
-			print_vector(arg);
-	}
     if (child == 0) // Child process
 	{
 		config_io(minivault, command, pos);
-		dprintf(2, "im here\n");
         execve(cmd_path, arg, minivault->env_list);
-        perror("Execve failed");
+        perror(RED"Execve failed"RESET_COLOR);
         free(cmd_path);
 		// free arg
     }
 	else // Parent process
 	{
         int status;
-		dprintf(2, "closing shit here\n");
-		close(minivault->baobab->pipe_fd[0][READ]);
-		close(minivault->baobab->pipe_fd[0][WRITE]);
 
-
-        waitpid(child, &status, 0); // Wait for the child process to finish
+		close_pipes(minivault, command, pos);
+        waitpid(child, &status, 0);
         if (WIFEXITED(status))
-            dprintf(2,"Child exited with status %d\n", WEXITSTATUS(status));
+            dprintf(2, RED"Child exited with status %d\n"RESET_COLOR, WEXITSTATUS(status));
 		else
-            dprintf(2, "Child process did not exit normally\n");
+            dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }
     free(cmd_path);
 	// free arg
