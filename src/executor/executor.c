@@ -24,6 +24,7 @@ void	execute_command(t_minivault *minivault, t_command *command, int pos)
 		// else
 		system_command(minivault, command, pos);
 	}
+	// TODO: execution with only redirections e.g. $ > file or $ > file >> file2
 }
 
 void	executor(t_minivault *minivault, t_command **pipeline)

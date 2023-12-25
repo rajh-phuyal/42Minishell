@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-
 /* syntax errors
  ! ERROR 1
  ? Command: |
@@ -91,7 +90,15 @@ bool	lexer(t_minivault *minivault, char *input)
 		return (false);
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
-	if (check_syntax(minivault) == false)
-		return (false);
+	check_syntax(minivault);
+	// _env(minivault, NULL, NULL);
+	// _unset(minivault, vector);
+	// _pwd(minivault);
+	// _cd(minivault, NULL);
+	// _export(minivault, NULL, NULL);
+	// _echo(minivault, NULL);
+	// _exit_vault(minivault, NULL);
+	// _exit_vault(minivault, NULL);
+	// remove_quotes(minivault);
 	return (true);
 }

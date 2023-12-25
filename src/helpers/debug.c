@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/11 15:43:08 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/12/16 20:39:46 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ void	print_vector(char **vector)
 
 void	print_envs(t_envs *envs)
 {
-	while (envs->next)
+	while (envs)
 	{
-		printf("[ (key): %s | (value): %s ]\n", envs->key, envs->value);
+		printf("[ (key): %s | (value): %s | (internal): %d | (session): %d ]\n",
+				envs->key, envs->value, envs->internal, envs->session);
 		envs = envs->next;
 	}
 }
@@ -91,5 +92,5 @@ void	print_baobab(t_baobab *root, int indent_level)
 		printf("[%s]\n", code);
 	free(code);
 	print_baobab(root->left, indent_level);
-} 
+}
 */

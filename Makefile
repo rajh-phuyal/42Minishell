@@ -12,6 +12,13 @@ SRC = src/core/main.c \
 	src/core/inputs.c \
 	src/data/environment.c \
 	src/data/initialization.c \
+	src/builtins/export.c \
+	src/builtins/env.c \
+	src/builtins/pwd.c \
+	src/builtins/cd.c \
+	src/builtins/echo.c \
+	src/builtins/exit.c \
+	src/builtins/unset.c \
 	src/helpers/debug.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \
@@ -28,15 +35,14 @@ SRC = src/core/main.c \
 	src/terminator/utils.c \
 	src/terminator/liberation.c
 
-#src/parsing/farmer.c
 
-OBJ   = $(patsubst src/%.c, obj/%.o, $(SRC))
+OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 # COLORS
 CBOLD   = \033[0;1m
 RED     = \033[0;41m
 GREEN   = \033[0;42m
-BLUE   = \033[0;44m
+BLUE    = \033[0;44m
 YELLOW  = \033[0;43m
 RESET   = \033[0m
 

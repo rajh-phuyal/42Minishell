@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/14 21:23:46 by jalves-c         ###   ########.fr       */
+/*   Updated: 2023/12/25 19:32:54 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,18 @@
 # include "inputs.h"
 # include "executor.h"
 
+# include <sys/stat.h>
+
 // handy macros
 # define GET 0
 # define PUT 1
 # define ERROR -1
 # define STDIN 0
 # define STDOUT 1
+
+// exit status related
+# define MAXEXTSTATUS 256
+# define EXTSTATUSNONNUM 255
 
 typedef enum e_status
 {
@@ -45,6 +51,8 @@ typedef struct s_envs
 {
 	char			*key;
 	char			*value;
+	bool			session;
+	bool			internal;
 	struct s_envs	*next;
 }	t_envs;
 
@@ -72,14 +80,25 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input, char **envs);
 
 // error handeler
-void    error(t_minivault *minivault, t_status status, char *message, char *token);
+void    	error(t_minivault *minivault, t_status status, char *message, char *token);
 
 // environment functions
 char		**envsort(t_envs *envs);
 char		*get_env(t_minivault *minivault, char *key);
 void		unset_env(t_minivault *minivault, char *key);
-t_envs		*add_env_node(t_envs *envs, char *key, char *value);
-void		set_env(t_minivault *minivault, char *key, char *value);
+t_envs  	*get_env_node(t_minivault *minivault, char *key);
+void		set_env(t_minivault *minivault, char *key, char *value, int identifier);
+void   		add_env_node(t_minivault *minivault, char *key, char *value, int identifier);
+
+// builtin functions
+void		_pwd(t_minivault *minivault);
+void		_cd(t_minivault *minivault, char **paths);
+void		_echo(t_minivault *minivault, char **args);
+void    	_unset(t_minivault *minivault, char **keys);
+void    	_exit_vault(t_minivault *minivault, char **args);
+void    	_env(t_minivault *minivault, char *key, char *value);
+void		_export(t_minivault *minivault, char *key, char *value);
+
 
 // debug functions
 void		call_debug(t_minivault *minivault);
