@@ -6,6 +6,7 @@ void	call_debug(t_minivault *minivault)
 {
 	printf("\n---------VECTOR-------\n");
 	print_vector(minivault->input);
+	// printf("\n----------ENV---------\n");
 	// print_envs(minivault->envs);
 	printf("\n----------LIST--------\n");
 	print_tokens(minivault->tokens);

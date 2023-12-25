@@ -6,31 +6,73 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/11/11 14:47:35 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/23 22:41:40 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    cd(t_minivault *minivault,  char *path)
+static	char	*clear_buff(char *buffer)
 {
-    static char	*oldpath = NULL;
+	int		i;
 
-    // relative paths are ..
-    // absolute paths are /Users/rajphuyal/Desktop/42/minishell
-    // validate path
-	// if path is NULL, go to HOME
-	// if path is -, go to OLDPWD
-	// if path is ~, go to HOME
-	// if path is ., do nothing
-	// if path is .., go to parent directory
-	// if path is /, go to root directory
-	// if path is anything else, go to that directory
-	// if a path is incorrect, print error message (bash: cd: blah: No such file or directory)
-	// if a path is a file, print error message (bash: cd: blah: Not a directory)
-	// if a path is a directory, go to that directory
+	i = 0;
+	while (i < PATH_MAX)
+		buffer[i++] = '\0';
+	return (buffer);
+}
 
-    // change directory using the path
+static	void	_goto(t_minivault *minivault, char *path)
+{
+	char    buffer[PATH_MAX];
 
-    // update PWD
+	if (getcwd(buffer, sizeof(buffer)))
+		set_env(minivault, "OLDPWD", ft_strdup(buffer), (1 << 1));
+	if (chdir(path) < 0)
+		error(minivault, FAILURE, "minibaiters: cd: permission denied", "");
+	clear_buff(buffer);
+	if (getcwd(buffer, sizeof(buffer)))
+	{
+		set_env(minivault, "PWD", ft_strdup(buffer), (1 << 1));
+		set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
+	}
+}
+
+static	void	_validate_path_types(t_minivault *minivault, char *path)
+{
+	struct stat	_file_stat;
+
+	if (!stat(path, &_file_stat))
+	{
+		if (S_ISDIR(_file_stat.st_mode))
+		{
+			if (!access(path, X_OK))
+				_goto(minivault, path);
+			else
+				error(minivault, FAILURE, "minibaiters: cd: permission denied", "");
+		}
+		else if (S_ISREG(_file_stat.st_mode))
+			_goto(minivault, path);
+		else
+			error(minivault, FAILURE, "minibaiters: file not found", "");
+		return ;
+	}
+	else
+		error(minivault, FAILURE, "minibaiters: file not found", "");
+}
+
+void	_cd(t_minivault *minivault, char **paths)
+{
+	char	*homepath;
+
+	if (!paths)
+	{
+		homepath = get_env(minivault, "HOME");
+		if (homepath)
+			_goto(minivault, homepath);
+		else
+			error(minivault, FAILURE, "minibaiters: cd: HOME not set", "");
+	}
+	else if (paths && *paths)
+		_validate_path_types(minivault, *paths);
 }
