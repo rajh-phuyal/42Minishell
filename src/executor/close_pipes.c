@@ -12,7 +12,7 @@ void	close_pipes_middle(t_minivault	*minivault, int pos)
     close(minivault->baobab->pipe_fd[pos - 1][WRITE]);
 
     // Close the read end of the current pipe, as the parent won't read from it
-    close(minivault->baobab->pipe_fd[pos][READ]);
+    close(minivault->baobab->pipe_fd[pos][WRITE]);
 }
 
 void	close_pipes_last(t_minivault	*minivault)
