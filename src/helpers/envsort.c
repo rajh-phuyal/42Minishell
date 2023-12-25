@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 00:37:30 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/10/29 00:37:34 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/17 12:37:32 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_envlen(t_envs *envs)
 	int	len;
 
 	len = 0;
-	while (envs->next)
+	while (envs)
 	{
 		len++;
 		envs = envs->next;
@@ -25,19 +25,13 @@ int	get_envlen(t_envs *envs)
 	return (len);
 }
 
-void	data_envs(t_envs *envs, char **data, int ACT)
+void	transfer_data(t_envs *envs, char **data)
 {
-	int	i;
-
-	i = 0;
-	while (envs->next)
+	while (envs)
 	{
-		if (ACT == GET)
-			data[i] = envs->key;
-		else if (ACT == PUT)
-			envs->key = data[i];
+		*data = envs->key;
 		envs = envs->next;
-		i++;
+		data++;
 	}
 }
 
@@ -80,7 +74,7 @@ void	quicksort(char **data, int start, int end)
 	}
 }
 
-void	envsort(t_envs *envs)
+char	**envsort(t_envs *envs)
 {
 	int		len;
 	char	**data;
@@ -88,8 +82,7 @@ void	envsort(t_envs *envs)
 	len = get_envlen(envs);
 	data = (char **)malloc(sizeof(char *) * (len + 1));
 	data[len] = NULL;
-	data_envs(envs, data, GET);
+	transfer_data(envs, data);
 	quicksort(data, 0, len - 1);
-	data_envs(envs, data, PUT);
-	free(data);
+	return (data);
 }

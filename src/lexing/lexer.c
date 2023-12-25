@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-
 /* syntax errors
  ! ERROR 1
  ? Command: |
@@ -34,37 +33,32 @@
  ------------------------------------------------------------------------------------------------------------------
  ? Command: > file
  * If the file "file" does not exist, it will be created.
- * If the file "file" already exists, its contents will be replaced with nothing (i.e., the file will be emptied). 
+ * If the file "file" already exists, its contents will be replaced with nothing (i.e., the file will be emptied).
  ------------------------------------------------------------------------------------------------------------------
  ? Command: >> file
  * If the file "file" does not exist, it will be created.
  * If the file "file" already exists, the existing content won't be modified.
  ------------------------------------------------------------------------------------------------------------------
 
-*/ 
+*/
 
 void	check_syntax(t_minivault *minivault)
 {
 	t_token *current;
 
 	if (!minivault->tokens)
-	{
-		// ? Is ERROR or the prompt should return?
 		return ;
-	}
 	current = minivault->tokens;
 	if (current->type == PIPE && current->next == NULL)
-	{		
-		// ! ERROR 1
-		exit(1);
+	{
+		error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
 		return ;
 	}
 	while (current)
 	{
 		if (current && current->type == REDIRECTION && current->next == NULL)
 		{
-			// ! ERROR 3
-			exit(1);
+			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
 			return ;
 		}
 		if (current && current->next && current->type == REDIRECTION && current->next->type == REDIRECTION)
@@ -82,8 +76,7 @@ void	check_syntax(t_minivault *minivault)
 		}
 		if (current && current->next && current->type == PIPE && current->next->type == PIPE)
 		{
-			// ! ERROR 2
-			exit(1);
+			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
 			return ;
 		}
 		current = current->next;
@@ -98,5 +91,13 @@ void	lexer(t_minivault *minivault, char *input)
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
 	check_syntax(minivault);
+	// _env(minivault, NULL, NULL);
+	// _unset(minivault, vector);
+	// _pwd(minivault);
+	// _cd(minivault, NULL);
+	// _export(minivault, NULL, NULL);
+	// _echo(minivault, NULL);
+	// _exit_vault(minivault, NULL);
+	// _exit_vault(minivault, NULL);
 	// remove_quotes(minivault);
 }

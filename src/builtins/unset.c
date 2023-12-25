@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inputs.c                                           :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/16 21:13:58 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/12/23 22:44:02 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// closes the readline library
-void	close_readline(void)
+void    _unset(t_minivault *minivault, char **keys)
 {
-	clear_history();
-}
+    // unset all the keys variable from the minivault->env if its a session variable
+    // if the given key is not found in the minivault->env, no error is printed
 
-char	*readaline(void)
-{
-	char	*line;
+    t_envs	*curr;
 
-	line = readline("minibaiters $ ");
-	if (line && *line)
-		add_history(line);
-	return (line);
-}
-
-void	handle_input(t_minivault *minivault, char *input, char **envs)
-{
-	init_minivault(minivault, envs);
-	lexer(minivault, input);
-	grow_baobab(minivault);
-	// call_debug(minivault);
-	liberation(minivault);
+	while (keys && *keys)
+	{
+		curr = get_env_node(minivault, *keys);
+		if (curr && curr->session)
+			unset_env(minivault, *keys);
+		keys++;
+	}
+	set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
 }

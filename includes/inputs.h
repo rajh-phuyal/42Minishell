@@ -24,7 +24,7 @@ typedef struct s_token
 
 // AST
 // used to identify the redirection node
-typedef enum e_operation
+typedef enum e_operation // error -1
 {
 	GREAT,
 	LESS,
@@ -40,18 +40,27 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
-typedef struct s_word
+typedef struct s_word // TODO: havig the node called word and the string word aswell is confusing this could change
 {
 	char			*word;
 	struct s_word	*next;
 
 }					t_word;
 
+typedef	enum e_cmd_pos
+{
+	SINGLE,
+	FIRST,
+	MIDDLE,
+	LAST
+} t_cmd_pos;
+
 typedef struct s_command
 {
+	t_cmd_pos	pos;
 	t_word		*words;
-	t_redir		*redirects;
-	t_token		*temp_list;
+	t_redir		*redir_in;
+	t_redir		*redir_out;
 }				t_command;
 
 typedef struct s_baobab
@@ -73,11 +82,12 @@ void		add_token(t_minivault *minivault, char *token);
 
 // parser
 void    	grow_baobab(t_minivault *minivault);
-t_baobab	*create_baobab_node(t_token *token, int node_type);
 t_baobab	*search(t_baobab *root, char *token);
+// t_token		*get_token(t_token *token, t_type type);
+t_baobab	*create_baobab_node(t_token *token, int node_type);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);
-void		add_redirection(t_redir	**redir_list, t_token *token, t_token *next);
+void		add_redirection(t_command **command, t_token *token, t_token *next);
 
 #endif

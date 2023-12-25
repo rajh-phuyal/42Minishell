@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inputs.c                                           :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/16 21:13:58 by rajphuyal        ###   ########.fr       */
+/*   Created: 2023/11/08 19:59:25 by rajphuyal         #+#    #+#             */
+/*   Updated: 2023/12/17 14:28:24 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
-// closes the readline library
-void	close_readline(void)
+void    _pwd(t_minivault *minivault)
 {
-	clear_history();
-}
+    char    buffer[PATH_MAX];
 
-char	*readaline(void)
-{
-	char	*line;
-
-	line = readline("minibaiters $ ");
-	if (line && *line)
-		add_history(line);
-	return (line);
-}
-
-void	handle_input(t_minivault *minivault, char *input, char **envs)
-{
-	init_minivault(minivault, envs);
-	lexer(minivault, input);
-	grow_baobab(minivault);
-	// call_debug(minivault);
-	liberation(minivault);
+    (void)minivault;
+    if (!getcwd(buffer, sizeof(buffer)))
+        set_env(minivault, "?", ft_itoa(FAILURE), (1 << 1));
+    else
+        set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
+    ft_putendl_fd(buffer, 1); // TODO: later use the io fd from executor
+    return ;
 }
