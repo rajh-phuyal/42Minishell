@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:58:52 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/23 22:29:25 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/25 20:54:49 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,21 @@ static bool _validate_long_long(char *str, int *status)
 	return (true);
 }
 
-void    _exit_vault(t_minivault *minivault, char **args)
+void    _exit_vault(t_minivault *minivault, t_word *args)
 {
     int _status;
 
     ft_putstr_fd("exit\n", STDOUT_FILENO);
-    if (!args || !(*args))
+    if (!args || !(args->word))
         clean_exit(minivault, ft_atoi(get_env(minivault, "?")));
     else
     {
-        if (_validate_long_long(*args, &_status))
+        if (_validate_long_long(args->word, &_status))
 		{
-			if (args && *(args + 1))
+			if (args && args->next)
                 error(minivault, FAILURE, "exit", "too many arguments");
 			else
-                clean_exit(minivault, _status);
+                clean_exit(minivault, (_status % MAXEXTSTATUS));
 		}
 		else
         {

@@ -24,11 +24,13 @@ int	main(int argc, char **argv, char **envs)
 {
 	t_minivault	minivault;
 
+	init_minivault(&minivault, envs);
 	if (argc != 1)
 		handle_input_file(argv);
 	while (true)
-		handle_input(&minivault, readaline(), envs);
+		handle_input(&minivault, readaline());
 	close_readline();
+	liberation(&minivault);
 	return (0);
 }
 
@@ -36,8 +38,8 @@ int	main(int argc, char **argv, char **envs)
 // When I wrote this code, only god and
 // I knew how it worked.
 // Now, only god knows it!
-// 
+//
 // Therefore, if you are trying to optimize it, and it fails (most surely),
 // please increase this counter as a warning for the next person:
-// 
-// total_hours_wasted_here = 254
+//
+// total_hours_wasted_here = 255

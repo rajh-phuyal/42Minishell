@@ -16,15 +16,24 @@ bool is_cmd_builtin(char **builtin_list, char *cmd)
 
 void	execute_command(t_minivault *minivault, t_command *command, int pos)
 {
+	(void)pos;
 	if (command->words)
 	{
 		// if (is_cmd_builtin(minivault->builtin_list, command->words->word))
 		// 	return ;
 		// 	// builtin_command(minivault, command);
 		// else
-		system_command(minivault, command, pos);
+		// system_command(minivault, command, pos);
+		builtin_command(minivault, command);
 	}
 	// TODO: execution with only redirections e.g. $ > file or $ > file >> file2
+}
+
+// clear the token and tree data structures
+void	reset_cycle(t_minivault *minivault)
+{
+	minivault->tokens = NULL;
+	minivault->baobab = NULL;
 }
 
 void	executor(t_minivault *minivault, t_command **pipeline)
@@ -34,4 +43,5 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 		return ;
 	while (pipeline[++pos])
 		execute_command(minivault, pipeline[pos], pos);
+	reset_cycle(minivault);
 }

@@ -31,6 +31,7 @@ SRC = src/core/main.c \
 	src/executor/close_pipes.c \
 	src/executor/executor.c \
 	src/executor/system_cmd.c \
+	src/executor/builtin_cmd.c \
 	src/exceptions/errors.c \
 	src/terminator/utils.c \
 	src/terminator/liberation.c

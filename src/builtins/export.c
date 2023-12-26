@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/17 14:37:19 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 11:52:37 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,34 @@ static void	_declare_session_envar(t_envs *curr, int outfd)
     ft_putstr_fd("\"\n", outfd);
 }
 
-void    _export(t_minivault *minivault, char *key, char *value)
+static void add_args_to_env(t_minivault *minivault, t_word *args)
+{
+    char    **iter;
+
+    while (args)
+    {
+        iter = ft_split(args->word, '=');
+        if (!iter)
+            break ;
+        if (iter[FIRST_ELEM] && iter[SECOND_ELEM])
+            add_env_node(minivault, iter[FIRST_ELEM], iter[SECOND_ELEM], (1 << 2));
+        else if (iter[FIRST_ELEM])
+            add_env_node(minivault, iter[FIRST_ELEM], "", (1 << 2));
+        if (iter)
+            free (iter);
+        args = args->next;
+    }
+}
+
+//? its not exporting shit, fix it!
+void    _export(t_minivault *minivault, t_word *args)
 {
     t_envs  *curr;
     char    **iter;
     char    **sorted;
 
-    if (key && value) // TODO: here you could have multiple key value pairs, if so loop through and set
-        set_env(minivault, key, value, (1 << 2));
+    if (args)
+        add_args_to_env(minivault, args);
     else
     {
         sorted = envsort(minivault->envs);
@@ -37,7 +57,7 @@ void    _export(t_minivault *minivault, char *key, char *value)
         {
             curr = get_env_node(minivault, *iter);
             if (curr && (curr->session) && !(curr->internal))
-                _declare_session_envar(curr, 1);
+                _declare_session_envar(curr, STDOUT_FILENO);
             iter++;
         }
         if (sorted)

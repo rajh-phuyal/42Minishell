@@ -54,7 +54,7 @@ void	add_token(t_minivault *minivault, char *token)
         minivault->tokens = token_node;
         return ;
     }
-    if (!head->next)
+    if (head && !head->next)
     {
         head->next = token_node;
         return ;
@@ -93,6 +93,7 @@ void	tokenizer(t_minivault *minivault, int seq)
 	// ? what is seq for?
 	while (minivault->input[i])
 	{
+        printf("token: %s\n", minivault->input[i]);
 		add_token(minivault, minivault->input[i]);
 		i++;
 	}

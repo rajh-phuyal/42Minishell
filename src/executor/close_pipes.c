@@ -1,12 +1,12 @@
 #include "minishell.h"
 
-void	close_pipes_first(t_minivault	*minivault)
+void	close_pipes_first(t_minivault *minivault)
 {
     // Close the write end of the first pipe, as the parent won't write to it
     close(minivault->baobab->pipe_fd[0][WRITE]);
 }
 
-void	close_pipes_middle(t_minivault	*minivault, int pos)
+void	close_pipes_middle(t_minivault *minivault, int pos)
 {
     // Close the write end of the previous pipe, as the parent won't write to it
     close(minivault->baobab->pipe_fd[pos - 1][WRITE]);
@@ -15,7 +15,7 @@ void	close_pipes_middle(t_minivault	*minivault, int pos)
     close(minivault->baobab->pipe_fd[pos][WRITE]);
 }
 
-void	close_pipes_last(t_minivault	*minivault)
+void	close_pipes_last(t_minivault *minivault)
 {
     int last_pipe_index;
 
