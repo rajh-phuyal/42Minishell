@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/23 22:45:07 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 17:40:27 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
-
 # include <sys/stat.h>
 
 // handy macros
 # define GET 0
 # define PUT 1
 # define ERROR -1
+# define STDIN 0
+# define STDOUT 1
+
+// first few elements of an array
+# define FIRST_ELEM 0
+# define SECOND_ELEM 1
 
 // exit status related
 # define MAXEXTSTATUS 256
@@ -35,6 +40,9 @@ typedef enum e_status
 	CMDNOTFOUND=127,
 	SIGINTERRUPT=130,
 }	t_status;
+
+// predefined for builtins
+typedef struct s_word t_word;
 
 // this has the data for errors
 typedef struct s_error
@@ -59,8 +67,6 @@ typedef struct s_minivault
 {
 	char		**input;
 	char		**path;
-	char		**builtin_list;
-	int			pipe_fd[2];
 	char		**env_list;
 	t_envs		*envs;
 	t_baobab	*baobab;
@@ -68,15 +74,13 @@ typedef struct s_minivault
 	t_error		*error;
 }	t_minivault;
 
-t_minivault	*minishell(void);
-
 // minishell
 int			init_minivault(t_minivault *minivault, char **envs);
 
 // input functions
 char		*readaline(void);
 void		close_readline(void);
-void		handle_input(t_minivault *minivault, char *input, char **envs);
+void		handle_input(t_minivault *minivault, char *input);
 
 // error handeler
 void    	error(t_minivault *minivault, t_status status, char *message, char *token);
@@ -90,13 +94,13 @@ void		set_env(t_minivault *minivault, char *key, char *value, int identifier);
 void   		add_env_node(t_minivault *minivault, char *key, char *value, int identifier);
 
 // builtin functions
+void    	_env(t_minivault *minivault);
 void		_pwd(t_minivault *minivault);
-void		_cd(t_minivault *minivault, char **paths);
-void		_echo(t_minivault *minivault, char **args);
-void    	_unset(t_minivault *minivault, char **keys);
-void    	_exit_vault(t_minivault *minivault, char **args);
-void    	_env(t_minivault *minivault, char *key, char *value);
-void		_export(t_minivault *minivault, char *key, char *value);
+void		_cd(t_minivault *minivault, t_word *args);
+void		_echo(t_minivault *minivault, t_word *args);
+void    	_unset(t_minivault *minivault, t_word *args);
+void		_export(t_minivault *minivault, t_word *args);
+void    	_exit_vault(t_minivault *minivault, t_word *args);
 
 
 // debug functions
@@ -108,13 +112,16 @@ void		print_tokens(t_token *head);
 void		print_baobab(t_baobab *root, int indent_level);
 
 // the liberator
-void		liberation(t_minivault *minivault);
 void		liberate_envs(t_envs *head);
+void		liberate_words(t_word *head);
+void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
+void		cycle_reset(t_minivault *minishell);
+void		liberation(t_minivault *minivault);
 
 // utils
-void    	clean_exit(t_minivault *minivault, int status);
+
 
 #endif

@@ -18,37 +18,31 @@ size_t	get_list_size(t_word *head)
 
 char	**get_arguments(t_word *words)
 {
-	t_word	*current;
-	int	i = 0;
+	int		i = 0;
 	char	**arguments = NULL;
 
-	if (!words)
-		return (NULL); // list is empty something is fucked
-	if (words->next == NULL)
-		return (NULL); // single command with no arguments
-	arguments = (char**)malloc(get_list_size(words) * sizeof(char *));
+	int list_size = get_list_size(words);
+	arguments = (char **)malloc((list_size + 1) * sizeof(char *));
 	if (!arguments)
 		return (NULL);
-	current = words->next; // to skip the command name wich is the first node
-	while (current)
+	while (words)
 	{
-        arguments[i++] = strdup(current->word);
-        current = current->next;
+        arguments[i] = words->word;
+        words = words->next;
+		i++;
     }
 	arguments[i] = NULL;
 	return (arguments);
 }
 
-char	*get_command_path(char *path_list, char *command)
+
+
+char	*get_command_path(char **path_list, char *command)
 {
 	char *temp;
 	int i = 0;
-	if (!path_list)
-	{
-		//path_list is empty deal with it
-		return ;
-	}
-	while (path_list[i])
+
+	while (path_list && path_list[i])
 	{
 		temp = ft_strjoin(path_list[i], "/");
 		temp = ft_strjoin(temp, command);
@@ -57,40 +51,57 @@ char	*get_command_path(char *path_list, char *command)
 		free(temp);
 		i++;
 	}
-	// command doesnt exit
+	return (NULL);
 }
 
-void	system_command(t_minivault	*minivault, t_command *command)
+t_redir *get_last_token(t_redir *head)
 {
-	pid_t	child;
-	char	*cmd_path;
+	t_redir *current;
 
-	cmd_path = get_command_path(minivault->path, command->words);
-	if (!cmd_path)
+	if (!head)
+		return (NULL);
+	current = head;
+	while (current->next)
+		current = current->next;
+	return (current);
+}
+
+void system_command(t_minivault *minivault, t_command *command, int pos)
+{
+    char *cmd_path = get_command_path(minivault->path, command->words->word);
+	if (!cmd_path) // cmd is not a builtin nor a system cmd
 	{
-		// path list is fucked or the cmd doesnt exist
+		error(minivault, FAILURE, "ls", "No such file or directory");
 		return ;
 	}
-	child = fork();
-	if (child == -1)
+    char **arg = get_arguments(command->words);
+    if (!cmd_path)
+        return ;
+    pid_t child = fork();
+    if (child == -1)
+    {
+		free(cmd_path); // Free the memory allocated by get_command_path
+        return ;
+    }
+    if (child == 0) // Child process
 	{
-		// fork failed
-		// deal with it
-		return ;
-	}
-	if (child == 0)
+		config_io(minivault, command, pos);
+        execve(cmd_path, arg, minivault->env_list);
+        perror(RED"Execve failed"RESET_COLOR);
+        free(cmd_path);
+		// free arg
+    }
+	else // Parent process
 	{
-			close(minivault->pipe_fd[0]); // close the read end of the pipe
-			dup2(minivault->pipe_fd[1], STDOUT_FILENO); //redirect stdout to the write end of the pipe
-			// dup2(infiles, STDIN_FILENO);
-			// TODO: create 2d array with the command and the options
-			if (execve(cmd_path, get_arguments(command->words), minivault->env_list) == -1)
-			{
-				// execve failed 
-				// deal with the error
-				return ;
-			}
-	}
+        int status;
 
-
+		close_pipes(minivault, command, pos);
+        waitpid(child, &status, 0);
+        if (WIFEXITED(status))
+			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
+		else
+            dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
+    }
+    free(cmd_path);
+	// free arg
 }

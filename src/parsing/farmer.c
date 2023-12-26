@@ -14,7 +14,7 @@ void    print_redirs(t_redir *head)
 			printf(">>");
 		else if (head->operator == DLESS)
 			printf("<<");
-		printf(" | WORD: %s\n",head->word);
+		printf(" | WORD: %s\n", head->word);
         head = head->next;
     }
 }
@@ -62,6 +62,7 @@ t_command	*split_list(t_token *list, t_content_type type)
 	command = (t_command *)malloc(sizeof(t_command));
 	command->words = NULL;
 	command->redir_in = NULL;
+	command->redir_out = NULL;
 	command->redir_out = NULL;
 	if(!command || !list)
         return (NULL);
@@ -120,8 +121,20 @@ void	grow_baobab(t_minivault	*minivault)
 	command_count = 1 + count_tokens(PIPE, minivault->tokens);
 	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
-	minivault->baobab->pipeline[command_count] = NULL;
 	i = 0;
+	while (i < FOPEN_MAX)
+		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
+	i = 0;
+	while (i < command_count - 1 && i < FOPEN_MAX) // what if there ar more commands than FOPEN_MAX
+	{
+		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
+		{
+			// Handle error
+		}
+		i++;
+	}
+	i = 0;
+	minivault->baobab->pipeline[command_count] = NULL;
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
@@ -133,7 +146,6 @@ void	grow_baobab(t_minivault	*minivault)
 			- (2 * (command_count == 1));
 		i++;
 	}
-	i = 0;
-	call_debug(minivault);
-	print_tree(minivault);
+	// call_debug(minivault);
+	// print_tree(minivault);
 }

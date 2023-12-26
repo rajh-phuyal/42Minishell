@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/23 22:41:40 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/25 20:02:26 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ static	void	_validate_path_types(t_minivault *minivault, char *path)
 		error(minivault, FAILURE, "minibaiters: file not found", "");
 }
 
-void	_cd(t_minivault *minivault, char **paths)
+void	_cd(t_minivault *minivault, t_word *args)
 {
 	char	*homepath;
 
-	if (!paths)
+	if (!args)
 	{
 		homepath = get_env(minivault, "HOME");
 		if (homepath)
@@ -73,6 +73,6 @@ void	_cd(t_minivault *minivault, char **paths)
 		else
 			error(minivault, FAILURE, "minibaiters: cd: HOME not set", "");
 	}
-	else if (paths && *paths)
-		_validate_path_types(minivault, *paths);
+	else if (args && args->word)
+		_validate_path_types(minivault, args->word);
 }

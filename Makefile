@@ -27,8 +27,14 @@ SRC = src/core/main.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \
 	src/parsing/word.c \
+	src/executor/config_io.c \
+	src/executor/close_pipes.c \
+	src/executor/executor.c \
+	src/executor/system_cmd.c \
+	src/executor/builtin_cmd.c \
 	src/exceptions/errors.c \
 	src/terminator/utils.c \
+	src/terminator/reset.c \
 	src/terminator/liberation.c
 
 

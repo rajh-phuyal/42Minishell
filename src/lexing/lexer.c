@@ -42,62 +42,62 @@
 
 */
 
-void	check_syntax(t_minivault *minivault)
+bool	check_syntax(t_minivault *minivault)
 {
 	t_token *current;
 
 	if (!minivault->tokens)
-		return ;
+		return (false);
 	current = minivault->tokens;
 	if (current->type == PIPE && current->next == NULL)
 	{
 		error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
-		return ;
+		return (false);
 	}
 	while (current)
 	{
 		if (current && current->type == REDIRECTION && current->next == NULL)
 		{
-			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
-			return ;
+			error(minivault, FAILURE, "syntax error near unexpected token", "`newline'");
+			return (false);
 		}
 		if (current && current->next && current->type == REDIRECTION && current->next->type == REDIRECTION)
 		{
-			// ! ERROR SOMETHING
-			exit(1);
-			return ;
+			error(minivault, FAILURE, "syntax error near unexpected token", "`>'");
+			return (false);
 		}
 		if (current && current->type == PIPE && current->next == NULL)
 		{
 			// command: cmd |
 			// dont know if the prompt should return or should just print error
-			exit(1);
-			return ;
+			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
+			return (false);
 		}
 		if (current && current->next && current->type == PIPE && current->next->type == PIPE)
 		{
 			error(minivault, FAILURE, "syntax error near unexpected token", "`|'");
-			return ;
+			return (false);
 		}
 		current = current->next;
 	}
+	return (true);
 }
 
 /* atempting to create tokens based on the received input str for the readline */
-void	lexer(t_minivault *minivault, char *input)
+bool	lexer(t_minivault *minivault, char *input)
 {
 	if (!input)
-		return ;
+		return (false);
 	strextract(minivault, input);
 	tokenizer(minivault, 0);
 	check_syntax(minivault);
-	// _env(minivault, NULL, NULL);
-	// _unset(minivault, vector);
+	// _env(minivault);
+	// _unset(minivault, NULL);
 	// _pwd(minivault);
 	// _cd(minivault, NULL);
-	// _export(minivault, NULL, NULL);
+	// _export(minivault, NULL);
 	// _echo(minivault, NULL);
 	// _exit_vault(minivault, NULL);
-	// _exit_vault(minivault, NULL);
 	// remove_quotes(minivault);
+	return (true);
 }

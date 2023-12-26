@@ -4,6 +4,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+# define MAX_FD 1000
+# define WRITE 1
+# define READ 0
 
 // TOKEN LIST
 typedef enum	e_content_type
@@ -24,7 +27,7 @@ typedef struct s_token
 
 // AST
 // used to identify the redirection node
-typedef enum e_operation // error -1
+typedef enum e_operation
 {
 	GREAT,
 	LESS,
@@ -66,12 +69,13 @@ typedef struct s_command
 typedef struct s_baobab
 {
 	t_command	**pipeline;
+	int			pipe_fd[FOPEN_MAX][2];
 }				t_baobab;
 
 typedef struct s_minivault t_minivault;
 
 // lexing
-void		lexer(t_minivault *minivault, char *input);
+bool		lexer(t_minivault *minivault, char *input);
 void		strextract(t_minivault *minivault, char *input);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);
@@ -89,5 +93,6 @@ void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *righ
 void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);
 void		add_redirection(t_command **command, t_token *token, t_token *next);
+int			count_tokens(t_content_type token_type, t_token *tokens);
 
 #endif

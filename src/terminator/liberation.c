@@ -44,29 +44,31 @@ void	liberate_envs(t_envs *head)
 	}
 }
 
-// void	liberate_baobab(t_baobab *head)
-// {
-//     t_baobab *temp;
+void	liberate_baobab(t_baobab *head)
+{
+	int	i;
 
-//     while (head)
-//     {
-//         temp = head->next;
-//         free(head);
-//         head = temp;
-//     }
-// }
+	i = 0;
+	if (!head)
+		return ;
+	while (head->pipeline[i])
+	{
+		liberate_words(head->pipeline[i]->words);
+		liberate_redir(head->pipeline[i]->redir_in);
+		liberate_redir(head->pipeline[i]->redir_out);
+		free(head->pipeline[i]);
+		head->pipeline[i++] = NULL;
+	}
+	free(head);
+	head = NULL;
+}
 
 // liberates the memory allocated for the tokens and the baobab tree
 void    liberation(t_minivault *minivault)
 {
-	if (minivault->input)
-		liberate_vector(minivault->input);
+	cycle_reset(minivault);
 	if (minivault->path)
 		liberate_vector(minivault->path);
 	if (minivault->envs)
 		liberate_envs(minivault->envs);
-	if (minivault->tokens)
- 		liberate_tokens(minivault->tokens);
-	// if (minivault->baobab)
-	// 	liberate_baobab(minivault->baobab);
 }

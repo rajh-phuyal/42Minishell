@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/23 18:46:35 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 17:20:30 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
-	minivault->builtin_list = (char *[]){"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
 	minivault->env_list = envs;
 	minivault->path = ft_split(getenv("PATH"), ':');
 	init_envs(minivault, envs);
