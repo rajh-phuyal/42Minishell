@@ -44,8 +44,9 @@ int	assign_fd(t_operation operator, char *file)
 	else if (operator == LESS)
 	{
 		fd = open(file, O_RDONLY);
+		if (fd == -1)
+			exit (1); // ! bash: <file>: No such file or directory
 		return (fd);
-		// ! bash: <file>: No such file or directory
 	}
 	else if (operator == DLESS)
 	{
