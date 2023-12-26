@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-void	builtin_command(t_minivault	*minivault, t_command *command)
+void	builtin_command(t_minivault	*minivault, t_command *command, int pos)
 {
 	// run builtin commands here
+	config_io(minivault, command, pos);
 	if (!ft_strncmp(command->words->word, "echo", 5))
 		_echo(minivault, command->words->next);
 	else if (!ft_strncmp(command->words->word, "cd", 3))
@@ -17,6 +18,4 @@ void	builtin_command(t_minivault	*minivault, t_command *command)
 		_env(minivault);
 	else if (!ft_strncmp(command->words->word, "exit", 5))
 		_exit_vault(minivault, command->words->next);
-	// else
-	// 	error("bitch! fuck off! NAC: Not a command");
 }

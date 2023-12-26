@@ -69,8 +69,11 @@ t_redir *get_last_token(t_redir *head)
 void system_command(t_minivault *minivault, t_command *command, int pos)
 {
     char *cmd_path = get_command_path(minivault->path, command->words->word);
-	if (!cmd_path) // cmd is not a builtin nor a system cmd deal with it
+	if (!cmd_path) // cmd is not a builtin nor a system cmd
+	{
+		error(minivault, FAILURE, "ls", "No such file or directory");
 		return ;
+	}
     char **arg = get_arguments(command->words);
     if (!cmd_path)
         return ;
@@ -95,7 +98,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 		close_pipes(minivault, command, pos);
         waitpid(child, &status, 0);
         if (WIFEXITED(status))
-            dprintf(2, RED"Child exited with status %d\n"RESET_COLOR, WEXITSTATUS(status));
+			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
 		else
             dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }

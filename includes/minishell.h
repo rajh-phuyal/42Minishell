@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/26 17:06:01 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 17:40:27 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
-
 # include <sys/stat.h>
 
 // handy macros
@@ -68,7 +67,6 @@ typedef struct s_minivault
 {
 	char		**input;
 	char		**path;
-	char		**builtin_list;
 	char		**env_list;
 	t_envs		*envs;
 	t_baobab	*baobab;
