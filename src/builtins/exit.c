@@ -6,11 +6,17 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:58:52 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/25 20:54:49 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 17:05:50 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	clean_exit(t_minivault *minivault, int status)
+{
+    liberation(minivault);
+    exit(status);
+}
 
 static  bool _str_long_long(char *str, long long *result)
 {

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/25 21:35:32 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 17:06:01 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,16 @@ void		print_tokens(t_token *head);
 void		print_baobab(t_baobab *root, int indent_level);
 
 // the liberator
-void		liberation(t_minivault *minivault);
 void		liberate_envs(t_envs *head);
+void		liberate_words(t_word *head);
+void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
+void		cycle_reset(t_minivault *minishell);
+void		liberation(t_minivault *minivault);
 
 // utils
-void    	clean_exit(t_minivault *minivault, int status);
+
 
 #endif

@@ -29,13 +29,6 @@ void	execute_command(t_minivault *minivault, t_command *command, int pos)
 	// TODO: execution with only redirections e.g. $ > file or $ > file >> file2
 }
 
-// clear the token and tree data structures
-void	reset_cycle(t_minivault *minivault)
-{
-	minivault->tokens = NULL;
-	minivault->baobab = NULL;
-}
-
 void	executor(t_minivault *minivault, t_command **pipeline)
 {
 	int pos = -1;
@@ -43,5 +36,4 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 		return ;
 	while (pipeline[++pos])
 		execute_command(minivault, pipeline[pos], pos);
-	reset_cycle(minivault);
 }

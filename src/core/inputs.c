@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/25 21:35:19 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/26 17:12:12 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ char	*readaline(void)
 
 void	handle_input(t_minivault *minivault, char *input)
 {
-	if (lexer(minivault, input) == true)
+	if (lexer(minivault, input))
 		grow_baobab(minivault);
-	// call_debug(minivault);
 	executor(minivault, minivault->baobab->pipeline);
-	liberation(minivault);
+	cycle_reset(minivault);
 }
