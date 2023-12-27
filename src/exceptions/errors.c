@@ -4,8 +4,11 @@
 // add a panic attack that will kill all the process and exit minishell
 void    panic_mode(t_minivault *minivault)
 {
+	// don't know what is the exact use case of panic mode
+	// if its to exit with a status, call the internal exit function _exit instead
+	// if just to clean the cycle, call cycle_reset
 	cycle_reset(minivault);
-	exit(FAILURE);
+	// exit(FAILURE);
 }
 
 static	char    *concat_all(va_list args)
