@@ -2,7 +2,7 @@
 
 
 // add a panic attack that will kill all the process and exit minishell
-void    panic_mode(t_minivault *minivault)
+void    panic_attack(t_minivault *minivault)
 {
 	// don't know what is the exact use case of panic mode
 	// if its to exit with a status, call the internal exit function _exit instead

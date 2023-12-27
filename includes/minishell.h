@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 14:12:35 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/27 15:46:00 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
 // error handeler
+void    	panic_attack(t_minivault *minivault);
 void    	error(t_minivault *minivault, t_status status, int prompt, ...);
 
 // environment functions
