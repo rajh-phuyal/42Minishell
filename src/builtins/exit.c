@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:58:52 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/26 17:35:52 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/27 15:39:46 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ void    _exit_vault(t_minivault *minivault, t_word *args)
         if (_validate_long_long(args->word, &_status))
 		{
 			if (args && args->next)
-                error(minivault, FAILURE, "exit", "too many arguments");
+                error(minivault, FAILURE, true, "exit: ", "too many arguments", NULL);
 			else
                 clean_exit(minivault, (_status % MAXEXTSTATUS));
 		}
 		else
         {
-			error(minivault, EXTSTATUSNONNUM, "exit", "insert str here: numeric argument required");
+			error(minivault, EXTSTATUSNONNUM, true, "exit:", args->word, ": ", "numeric argument required", NULL);
             clean_exit(minivault, EXTSTATUSNONNUM);
         }
     }

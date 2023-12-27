@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/26 17:40:27 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/27 14:12:35 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,8 @@ typedef enum e_status
 	SIGINTERRUPT=130,
 }	t_status;
 
-// predefined for builtins
+// forward declaration for builtins
 typedef struct s_word t_word;
-
-// this has the data for errors
-typedef struct s_error
-{
-	t_status	status;
-	char		*message;
-	char		*err_token;
-}	t_error;
 
 // the env list
 typedef struct s_envs
@@ -71,7 +63,6 @@ typedef struct s_minivault
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
-	t_error		*error;
 }	t_minivault;
 
 // minishell
@@ -83,7 +74,7 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
 // error handeler
-void    	error(t_minivault *minivault, t_status status, char *message, char *token);
+void    	error(t_minivault *minivault, t_status status, int prompt, ...);
 
 // environment functions
 char		**envsort(t_envs *envs);

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/25 20:02:26 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/27 15:39:09 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	void	_goto(t_minivault *minivault, char *path)
 	if (getcwd(buffer, sizeof(buffer)))
 		set_env(minivault, "OLDPWD", ft_strdup(buffer), (1 << 1));
 	if (chdir(path) < 0)
-		error(minivault, FAILURE, "minibaiters: cd: permission denied", "");
+		error(minivault, FAILURE, true, "cd: ", "permission denied", NULL);
 	clear_buff(buffer);
 	if (getcwd(buffer, sizeof(buffer)))
 	{
@@ -49,16 +49,16 @@ static	void	_validate_path_types(t_minivault *minivault, char *path)
 			if (!access(path, X_OK))
 				_goto(minivault, path);
 			else
-				error(minivault, FAILURE, "minibaiters: cd: permission denied", "");
+				error(minivault, FAILURE, true, "cd: ", "permission denied", NULL);
 		}
 		else if (S_ISREG(_file_stat.st_mode))
 			_goto(minivault, path);
 		else
-			error(minivault, FAILURE, "minibaiters: file not found", "");
+			error(minivault, FAILURE, true, "file not found", NULL);
 		return ;
 	}
 	else
-		error(minivault, FAILURE, "minibaiters: file not found", "");
+		error(minivault, FAILURE, true, "file not found", NULL);
 }
 
 void	_cd(t_minivault *minivault, t_word *args)
@@ -71,7 +71,7 @@ void	_cd(t_minivault *minivault, t_word *args)
 		if (homepath)
 			_goto(minivault, homepath);
 		else
-			error(minivault, FAILURE, "minibaiters: cd: HOME not set", "");
+			error(minivault, FAILURE, true, "cd: ", "HOME not set", NULL);
 	}
 	else if (args && args->word)
 		_validate_path_types(minivault, args->word);
