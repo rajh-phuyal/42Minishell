@@ -69,9 +69,14 @@ t_redir *get_last_token(t_redir *head)
 void system_command(t_minivault *minivault, t_command *command, int pos)
 {
     char *cmd_path = get_command_path(minivault->path, command->words->word);
-	if (!cmd_path) // cmd is not a builtin nor a system cmd
+	if (!cmd_path && !get_env(minivault, "PATH")) // cmd is not a builtin nor a system cmd
 	{
-		error(minivault, FAILURE, "ls", "No such file or directory");
+		error(minivault, FAILURE, true, command->words->word, ": ", "No such file or directory", NULL);
+		return ;
+	}
+	else if (!cmd_path)
+	{
+		error(minivault, FAILURE, true, command->words->word, ": ", "command not found", NULL);
 		return ;
 	}
     char **arg = get_arguments(command->words);

@@ -41,7 +41,6 @@ void	reset_path(t_minivault *minivault)
 	}
 	if (minivault->path)
 		free(minivault->path);
-	printf("resetting path%s \n", get_env(minivault, "PATH"));
 	if (get_env(minivault, "PATH"))
 		minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	else

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/26 17:20:30 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/27 16:55:30 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ void	init_envs(t_minivault *minivault, char **envs)
 	add_env_node(minivault, ft_strdup("?"), ft_strdup("0"), (1 << 1));
 }
 
-void	init_error(t_minivault *minivault)
-{
-	minivault->error = malloc(sizeof(t_error));
-	minivault->error->status = 0;
-	minivault->error->message = NULL;
-	minivault->error->err_token = NULL;
-}
-
 int	init_minivault(t_minivault *minivault, char **envs)
 {
 	minivault->envs = NULL;
@@ -48,8 +40,7 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
 	minivault->env_list = envs;
-	minivault->path = ft_split(getenv("PATH"), ':');
 	init_envs(minivault, envs);
-	init_error(minivault);
+	minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	return (0);
 }
