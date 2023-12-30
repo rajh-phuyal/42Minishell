@@ -117,7 +117,7 @@ char	*isolate_quotes(char *input, char separator)
 
 /**
  * * isolate_char
- * @brief	if the target char is found inside the input string (outside of single or double quotes) 
+ * @brief	if the target char is found inside the input string (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>1 becomes hello > 1
  * @param input is the input string
  * @param target is the target char
@@ -154,7 +154,7 @@ char	*isolate_char(char *input, char target, char separator)
 
 /**
  * * isolate_compund
- * @brief	if the target string is found inside the input string (outside of single or double quotes) 
+ * @brief	if the target string is found inside the input string (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
  * @param input is the input string
  * @param target is the target string
@@ -191,7 +191,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 }
 
 /**
- * * strextract 
+ * * strextract
  * @brief	 spaces, isolates special chars and splits the input string into a vector 2D ARRAY
  * @param minivault is a pointer to the "general" structure
  * @param input is the input string
@@ -201,14 +201,21 @@ char	*isolate_compound(char *input, char *target, char separator)
  * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
  * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
+
+
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input, '\31');
+	// input = expand_envars(minivault, input);
 	input = isolate_compound(input, ">>", '\"');
 	input = isolate_compound(input, "<<", '\"');
 	input = isolate_char(input, '|', '\31');
 	input = isolate_char(input, '<', '\31');
 	input = isolate_char(input, '>', '\31');
 	if (input)
+	{
 		minivault->input = ft_split(input, '\31');
+		print_vector(minivault->input);
+		strexpand(minivault, minivault->input);
+	}
 }

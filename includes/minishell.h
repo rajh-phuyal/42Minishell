@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:46:00 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/27 23:04:13 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
 
 // utils
-
+char    	*concat_all(va_list args);
 
 #endif

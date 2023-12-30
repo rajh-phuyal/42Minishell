@@ -20,9 +20,11 @@ SRC = src/core/main.c \
 	src/builtins/exit.c \
 	src/builtins/unset.c \
 	src/helpers/debug.c \
+	src/helpers/utils.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \
 	src/lexing/strextract.c \
+	src/lexing/strexpand.c \
 	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \
@@ -33,7 +35,6 @@ SRC = src/core/main.c \
 	src/executor/system_cmd.c \
 	src/executor/builtin_cmd.c \
 	src/exceptions/errors.c \
-	src/terminator/utils.c \
 	src/terminator/reset.c \
 	src/terminator/liberation.c
 
