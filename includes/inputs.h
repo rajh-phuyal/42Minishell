@@ -4,10 +4,10 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# define MAX_FD 1000
 # define WRITE 1
 # define READ 0
 # define DOLLAR '$'
+# define PLACEHOLDER "\31"
 
 // TOKEN LIST
 typedef enum	e_content_type

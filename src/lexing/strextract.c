@@ -206,7 +206,6 @@ char	*isolate_compound(char *input, char *target, char separator)
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input, '\31');
-	// input = expand_envars(minivault, input);
 	input = isolate_compound(input, ">>", '\"');
 	input = isolate_compound(input, "<<", '\"');
 	input = isolate_char(input, '|', '\31');
@@ -215,7 +214,6 @@ void	strextract(t_minivault *minivault, char *input)
 	if (input)
 	{
 		minivault->input = ft_split(input, '\31');
-		print_vector(minivault->input);
 		strexpand(minivault, minivault->input);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:29:41 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/31 16:06:43 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*readaline(void)
 {
 	char	*line;
 
-	line = readline("minibaiters $ ");
+	line = readline("minibaiters$ ");
 	if (line && *line)
 		add_history(line);
 	return (line);

@@ -1,39 +1,40 @@
 # include "minishell.h"
 
-// startitng with "" works '' doen't work
-// subtitute "if ' keep all ' envar if ' keep all ' "
-bool	_valid_exp(t_minivault *minivault, char *start)
+static bool _cache(bool surrounds, bool get)
 {
-	char		*end;
-	char		temp;
+	static bool _surrounds = false;
 
-	// end = start;
-	// while (end && *(end + 1))
-	// {
-	// 	end++;
-	// }
-	if (get_env(minivault, start))
-	{
-		return (true);
-	}
-	return (false);
-
-	while (end != start || (*end == '\'' || *end == '"'))
-	{
-		temp = *end;
-		*end = '\0';
-		if (get_env(minivault, start))
-		{
-			*end = temp;
-			return (true);
-		}
-		*end = temp;
-		end--;
-	}
-	return (false);
+	if (get)
+		return (_surrounds);
+	_surrounds = surrounds;
+	return (_surrounds);
 }
 
-char	*launch_concat(char	*dummy, ...)
+static bool	_exp_validator(char *str, bool get)
+{
+	static bool	_single = false;
+	char		*end;
+
+	if (get)
+		return (_single);
+	end = str;
+	while (end && *(end + 1))
+		end++;
+	if (*str == DOLLAR)
+		return (!_cache(false, false));
+	if (*str == *end && *end == '\'')
+		return (!_cache(true, false));
+	if (*str == *end && *end == '"' && *(str + 1) == '\'')
+	{
+		_single = true;
+		return (_cache(true, false));
+	}
+	if (*str == *end && *end == '"')
+		return (_cache(true, false));
+	return (true);
+}
+
+static	char	*_concat(char	*dummy, ...)
 {
 	va_list	args;
 	char	*_built;
@@ -44,21 +45,20 @@ char	*launch_concat(char	*dummy, ...)
 	return (_built);
 }
 
-char	*alchemy(t_minivault *minivault, char *str, char *start)
+static	char	*alchemy(t_minivault *minivault, char *str, char *start)
 {
 	char *value;
 
-	if (_valid_exp(minivault, start))
+	value = get_env(minivault, start);
+	if (value)
 	{
-		value = get_env(minivault, start);
-		if (value)
-		{
-			start--;
-			*start = '\0'; // null at the dolla $$$$
-			return (launch_concat("GG! You passed the test!", str, value, NULL));
-		}
+		*(start - (1 + (_cache(false, true)) + (_exp_validator(NULL, true)))) = '\0';
+		if (_exp_validator(NULL, true))
+			return (_concat("GG! You passed the test!", str, "''", value, "''", NULL));
+		return (_concat("GG! You passed the test!", str, value, NULL));
 	}
-	return (NULL);
+	else
+		return (_concat("GG! You passed the test!", PLACEHOLDER, NULL));
 }
 
 void    strexpand(t_minivault *minivault, char **vector)
@@ -71,10 +71,9 @@ void    strexpand(t_minivault *minivault, char **vector)
 		iter = *vector;
 		while (iter && *iter)
 		{
-			if (*iter == DOLLAR)
+			if (*iter == DOLLAR && _exp_validator(*vector, false))
 			{
-				iter++;
-				_magic = alchemy(minivault, *vector, iter);
+				_magic = alchemy(minivault, *vector, iter + 1);
 				if (!_magic)
 					break ;
 				free(*vector);
@@ -85,4 +84,5 @@ void    strexpand(t_minivault *minivault, char **vector)
 		}
 		vector++;
 	}
+	_cache(false, false);
 }
