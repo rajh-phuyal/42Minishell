@@ -29,5 +29,5 @@ void    error(t_minivault *minivault, t_status status, int prompt, ...)
     	free(_string);
 	}
     cycle_reset(minivault);
-    set_env(minivault, "?", ft_itoa(status), (1 << 1));
+    set_env(minivault, PREVEXITSTAT, ft_itoa(status), (1 << 1));
 }

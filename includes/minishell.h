@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 23:04:13 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/01 19:39:16 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define SECOND_ELEM 1
 
 // exit status related
+# define PREVEXITSTAT "?"
 # define MAXEXTSTATUS 256
 # define EXTSTATUSNONNUM 255
 

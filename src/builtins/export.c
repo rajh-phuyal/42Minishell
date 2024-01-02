@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/26 11:52:37 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/01 19:10:18 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void add_args_to_env(t_minivault *minivault, t_word *args)
     }
 }
 
-//? its not exporting shit, fix it!
 void    _export(t_minivault *minivault, t_word *args)
 {
     t_envs  *curr;
@@ -63,5 +62,5 @@ void    _export(t_minivault *minivault, t_word *args)
         if (sorted)
             free(sorted);
     }
-    set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
+    set_env(minivault, PREVEXITSTAT, ft_itoa(SUCCESS), (1 << 1));
 }

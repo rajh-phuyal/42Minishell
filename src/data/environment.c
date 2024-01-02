@@ -32,7 +32,7 @@ char	*get_env(t_minivault *minivault, char *key)
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (!ft_strncmp(envs->key, key, ft_strlen(envs->key)))
+		if (!ft_strncmp(envs->key, key, ft_strlen(key)))
 			return (envs->value);
 		envs = envs->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 16:55:30 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_envs(t_minivault *minivault, char **envs)
 		add_env_node(minivault, splitted[0], splitted[1], (1 << 2));
 		free(splitted);
 	}
-	add_env_node(minivault, ft_strdup("?"), ft_strdup("0"), (1 << 1));
+	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
 }
 
 int	init_minivault(t_minivault *minivault, char **envs)

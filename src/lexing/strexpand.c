@@ -17,6 +17,8 @@ static bool	_exp_validator(char *str, bool get)
 
 	if (get)
 		return (_single);
+	else
+		_single = false;
 	end = str;
 	while (end && *(end + 1))
 		end++;
@@ -34,7 +36,7 @@ static bool	_exp_validator(char *str, bool get)
 	return (true);
 }
 
-static	char	*_concat(char	*dummy, ...)
+static	char	*_concat(char *dummy, ...)
 {
 	va_list	args;
 	char	*_built;
@@ -47,18 +49,32 @@ static	char	*_concat(char	*dummy, ...)
 
 static	char	*alchemy(t_minivault *minivault, char *str, char *start)
 {
-	char *value;
+	char	*end;
+	char	*value;
+	char	*_prefix;
 
+	end = start;
+	while (end && *(end + 1))
+		end++;
+	if (_cache(false, true) && *(start + 1) != PREVEXITSTAT[FIRST_ELEM])
+		*(end - (_exp_validator("", true))) = '\0';
+	_prefix = "";
 	value = get_env(minivault, start);
-	if (value)
+	if (value || (*start == PREVEXITSTAT[FIRST_ELEM]))
 	{
-		*(start - (1 + (_cache(false, true)) + (_exp_validator(NULL, true)))) = '\0';
-		if (_exp_validator(NULL, true))
-			return (_concat("GG! You passed the test!", str, "''", value, "''", NULL));
-		return (_concat("GG! You passed the test!", str, value, NULL));
+		*(start - (1 + (_cache(false, true)) + \
+				(_exp_validator("", true)))) = '\0';
+		if (*start == PREVEXITSTAT[FIRST_ELEM])
+		{
+			_prefix = (start + 1);
+			value = get_env(minivault, PREVEXITSTAT);
+		}
+		if (_exp_validator("", true))
+			return (_concat("", str, "''", value, _prefix, "''", NULL));
+		return (_concat("", str, value, _prefix, NULL));
 	}
 	else
-		return (_concat("GG! You passed the test!", PLACEHOLDER, NULL));
+		return (_concat("", PLACEHOLDER, NULL));
 }
 
 void    strexpand(t_minivault *minivault, char **vector)
@@ -73,6 +89,8 @@ void    strexpand(t_minivault *minivault, char **vector)
 		{
 			if (*iter == DOLLAR && _exp_validator(*vector, false))
 			{
+				if (!*(iter + 1))
+					break ;
 				_magic = alchemy(minivault, *vector, iter + 1);
 				if (!_magic)
 					break ;

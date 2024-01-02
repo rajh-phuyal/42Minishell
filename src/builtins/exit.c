@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:58:52 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:39:46 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void    _exit_vault(t_minivault *minivault, t_word *args)
 
     ft_putstr_fd("exit\n", STDOUT_FILENO);
     if (!args || !(args->word))
-        clean_exit(minivault, ft_atoi(get_env(minivault, "?")));
+        clean_exit(minivault, ft_atoi(get_env(minivault, PREVEXITSTAT)));
     else
     {
         if (_validate_long_long(args->word, &_status))

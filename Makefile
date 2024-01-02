@@ -86,4 +86,7 @@ re: fclean all
 run:
 	@make re -s && ./minishell
 
+light-run:
+	@make && ./minishell
+
 .PHONY: all
