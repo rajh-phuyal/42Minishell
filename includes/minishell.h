@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/01 19:39:16 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/07 18:12:14 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct s_envs
 	bool			internal;
 	struct s_envs	*next;
 }	t_envs;
+
+typedef struct s_strexp
+{
+	bool	quoted;
+	bool	singleq;
+	bool	isHereDoc;
+} t_strexp;
 
 // the minieverything
 typedef struct s_minivault
@@ -116,5 +123,6 @@ void		liberation(t_minivault *minivault);
 
 // utils
 char    	*concat_all(va_list args);
+char		*exe_concat(char *dummy, ...);
 
 #endif

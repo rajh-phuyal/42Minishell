@@ -23,3 +23,14 @@ char    *concat_all(va_list args)
     }
     return (_string);
 }
+
+char	*exe_concat(char *dummy, ...)
+{
+	va_list	args;
+	char	*_built;
+
+	va_start(args, dummy);
+	_built = concat_all(args);
+	va_end(args);
+	return (_built);
+}
