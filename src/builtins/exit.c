@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:58:52 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:39:46 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/31 15:34:44 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clean_exit(t_minivault *minivault, int status)
+void	clean_exit(t_minivault *minivault, int status)
 {
     liberation(minivault);
     exit(status);

@@ -68,8 +68,6 @@ bool	check_syntax(t_minivault *minivault)
 		}
 		if (current && current->type == PIPE && current->next == NULL)
 		{
-			// command: cmd |
-			// dont know if the prompt should return or should just print error
 			error(minivault, FAILURE, true, "syntax error near unexpected token", "`|'", NULL);
 			return (false);
 		}
@@ -88,8 +86,8 @@ bool	lexer(t_minivault *minivault, char *input)
 {
 	if (!input)
 		return (false);
-	strextract(minivault, input);
-	tokenizer(minivault, 0);
+	if (strextract(minivault, input))
+		tokenizer(minivault, 0);
 	// remove_quotes(minivault);
 	return(check_syntax(minivault));
 }

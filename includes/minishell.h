@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:46:00 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2023/12/31 15:36:08 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
 // error handeler
+void		clean_exit(t_minivault *minivault, int status);
 void    	panic_attack(t_minivault *minivault);
 void    	error(t_minivault *minivault, t_status status, int prompt, ...);
 

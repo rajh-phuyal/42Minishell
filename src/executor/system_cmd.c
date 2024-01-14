@@ -107,6 +107,6 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 		else
             dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }
-    free(cmd_path);
+	free(cmd_path);
 	// free arg
 }

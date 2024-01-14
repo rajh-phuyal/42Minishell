@@ -8,7 +8,7 @@ void    panic_attack(t_minivault *minivault)
 	// if its to exit with a status, call the internal exit function _exit instead
 	// if just to clean the cycle, call cycle_reset
 	cycle_reset(minivault);
-	// exit(FAILURE);
+	_exit_vault(minivault, &((t_word){(char *){"1"}, NULL}));
 }
 
 static	char    *concat_all(va_list args)

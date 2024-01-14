@@ -41,7 +41,7 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
  * @param input is the input string
  * @param separator the char used to replace the spaces
 */
-char	*remove_spaces(char *input, char separator)
+char	*remove_spaces(t_minivault *minivault, char *input, char separator)
 {
 	char	*modified;
 	char	*dst;
@@ -65,9 +65,15 @@ char	*remove_spaces(char *input, char separator)
 	if (inside_double_quotes || inside_single_quotes == true)
 	{
 		if (inside_single_quotes)
-			ft_putendl_fd("Single quotes not closed.", 2);
+		{
+			error(minivault, FAILURE, true, "Single quotes not closed.", NULL);
+			return (NULL);
+		}
 		else if (inside_double_quotes)
-			ft_putendl_fd("Double quotes not closed.", 2);
+		{
+			error(minivault, FAILURE, true, "Double quotes not closed.", NULL);
+			return (NULL);
+		}
 		free (modified);
 		return (NULL);
 	}
@@ -81,34 +87,45 @@ char	*remove_spaces(char *input, char separator)
  * @param input is the input string
  * @param separator the char used to isolate the quoted string in the input
 */
-char	*isolate_quotes(char *input, char separator)
+char	*remove_empty_quotes(char *input, char separator)
 {
 	char	*modified;
 	int		i;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
-	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + 1);
+	(void) separator;
+	modified = (char *)malloc((ft_strlen(input) * sizeof(char)) + 1);
 	if (!modified)
 		return (NULL);
 	i = 0;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
-		if ((is_single_quote(*input) && inside_single_quotes == true && inside_double_quotes == false) || \
-			(is_double_quote(*input) && inside_double_quotes == true && inside_single_quotes == false))
-		{
-			modified[i++] = separator;
-			modified[i++] = *input;
-		}
-		else if ((is_single_quote(*input) && inside_single_quotes == false && inside_double_quotes == false) || \
-				(is_double_quote(*input) && inside_double_quotes == false && inside_single_quotes == false))
+		if (*input == '\"' && *(input + 1) == '\"' && is_space(*(input + 2)) && is_space(*(input - 1)) \
+			&& inside_single_quotes == false)
 		{
 			modified[i++] = *input;
-			modified[i++] = separator;
-		}
-		else
+			input++;
 			modified[i++] = *input;
+			input++;
+		}
+		// else if (*input == '\"' && *(input + 1) == '\"' && !is_space(*(input + 2)) && !is_space(*(input - 1)) \
+		// 	&& inside_single_quotes == false)
+		// 	input += 2;
+		// if (*input == '\'' && *(input + 1) == '\'' && is_space(*(input + 2)) && is_space(*(input - 1)) \
+		//  	&& inside_double_quotes == false)
+		// {
+		// 	modified[i++] = *input;
+		// 	input++;
+		// 	modified[i++] = *input;
+		// 	input++;
+		// }
+
+		// else if (*input == '\'' && *(input + 1) == '\'' && !is_space(*(input + 2)) && !is_space(*(input - 1)) \
+		//  	&& inside_double_quotes == false)
+		// 	input += 2;
+		modified[i++] = *input;
 		input++;
 	}
 	modified[i] = '\0';
@@ -201,9 +218,12 @@ char	*isolate_compound(char *input, char *target, char separator)
  * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
  * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
-void	strextract(t_minivault *minivault, char *input)
+bool	strextract(t_minivault *minivault, char *input)
 {
-	input = remove_spaces(input, '\31');
+	input = remove_spaces(minivault, input, '\31');
+	if (!input)
+		return (false);
+	input = remove_empty_quotes(input, '\31');	
 	input = isolate_compound(input, ">>", '\"');
 	input = isolate_compound(input, "<<", '\"');
 	input = isolate_char(input, '|', '\31');
@@ -211,4 +231,7 @@ void	strextract(t_minivault *minivault, char *input)
 	input = isolate_char(input, '>', '\31');
 	if (input)
 		minivault->input = ft_split(input, '\31');
+	// printf("strextract\n");
+	// call_debug(minivault);
+	return (true);
 }

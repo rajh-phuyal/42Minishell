@@ -146,6 +146,7 @@ void	grow_baobab(t_minivault	*minivault)
 			- (2 * (command_count == 1));
 		i++;
 	}
+	// printf("grow baobab\n");
 	// call_debug(minivault);
 	// print_tree(minivault);
 }

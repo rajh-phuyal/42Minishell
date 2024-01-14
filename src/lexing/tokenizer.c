@@ -85,15 +85,35 @@ void    remove_token(t_token *head, t_token *node)
     free(temp);
 }
 
+bool str_is_all_same_char(const char *str, char c) 
+{
+	if (!str)
+		return false;
+    while (*str) 
+	{
+        if (*str != c)
+			return false;
+		str++;
+	}
+	return (true);
+}
+
 void	tokenizer(t_minivault *minivault, int seq)
 {
 	int i = 0;
 
 	(void)seq;
 	// ? what is seq for?
-	while (minivault->input[i])
+	// printf("before tokenizer\n");
+	// call_debug(minivault);
+	while (minivault->input && minivault->input[i])
 	{
-		add_token(minivault, minivault->input[i]);
+		// if (str_is_all_same_char(minivault->input[i], '\"') || str_is_all_same_char(minivault->input[i], '\''))
+		// 	i++;
+		if (minivault->input[i])
+			add_token(minivault, minivault->input[i]);
 		i++;
 	}
+	// printf("tokenizer\n");
+	// call_debug(minivault);
 }

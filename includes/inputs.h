@@ -76,7 +76,7 @@ typedef struct s_minivault t_minivault;
 
 // lexing
 bool		lexer(t_minivault *minivault, char *input);
-void		strextract(t_minivault *minivault, char *input);
+bool		strextract(t_minivault *minivault, char *input);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 void		tokenizer(t_minivault *minivault, int seq);
