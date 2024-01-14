@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/07 18:12:14 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/09 19:57:13 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ typedef struct s_envs
 
 typedef struct s_strexp
 {
+	char	*_pos;
 	bool	quoted;
 	bool	singleq;
 	bool	isHereDoc;
+	bool	expandable;
 } t_strexp;
 
 // the minieverything
@@ -123,6 +125,6 @@ void		liberation(t_minivault *minivault);
 
 // utils
 char    	*concat_all(va_list args);
-char		*exe_concat(char *dummy, ...);
+char		*exe_concat(char *prev, ...);
 
 #endif
