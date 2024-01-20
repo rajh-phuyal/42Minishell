@@ -23,9 +23,19 @@
  * heredoc
 */
 
+int	launch_heredoc(t_minivault *minivault, t_token *token)
+{
+	if (!(token->next->next))
+	{
+		error(minivault, FAILURE, true, "syntax error near unexpected token `newline'", NULL);
+		return (-1);
+	}
+	return (heredoc(minivault, (t_heredoc){{-1, -1}, !((token->next->next)->type == QUOTED), (token->next->next)->content}));
+}
+
 // TODO: ERROR HANDLING
 // TODO: HEREDOC
-int	assign_fd(t_operation operator, char *file)
+int	assign_fd(t_minivault *minivault, t_operation operator, char *file, t_token *token)
 {
 	int fd;
 
@@ -49,8 +59,7 @@ int	assign_fd(t_operation operator, char *file)
 	}
 	else if (operator == DLESS)
 	{
-		// fd = heredoc
-		return (fd);
+		return (launch_heredoc(minivault, token));
 	}
 	return (-1);
 }
@@ -71,7 +80,7 @@ t_operation	find_redirection_type(t_token *token)
 	return (ERROR);
 }
 
-t_redir *create_redirection_node(t_token *token, t_token *next)
+t_redir *create_redirection_node(t_minivault *minivault, t_token *token, t_token *next)
 {
 	t_redir *redir;
 
@@ -85,7 +94,7 @@ t_redir *create_redirection_node(t_token *token, t_token *next)
 	if (next->type == QUOTED)
 		remove_quotes(next->content);
 	redir->word = next->content;
-	redir->fd = assign_fd(redir->operator, next->content);
+	redir->fd = assign_fd(minivault, redir->operator, next->content, token);
 	// if (redir->fd == -1)
 		// something is fucked
 	redir->next = NULL;
@@ -101,15 +110,13 @@ void add_redir_back(t_redir **redir, t_redir *token)
         *redir = token;
         return;
     }
-
     while (current->next)
         current = current->next;
-
     current->next = token;
 }
 
 
-void	add_redirection(t_command **command, t_token *token, t_token *next)
+void	add_redirection(t_minivault *minivault, t_command **command, t_token *token, t_token *next)
 {
 	t_redir *redir;
     t_redir **head_in = &(*command)->redir_in;
@@ -117,7 +124,7 @@ void	add_redirection(t_command **command, t_token *token, t_token *next)
 
 	redir = NULL;
 	if(token && next)
-		redir = create_redirection_node(token, next);
+		redir = create_redirection_node(minivault, token, next);
 	if (!redir) // something is fucked handle this case // || redir->operator == ERROR
 		return ;
 	if (redir->operator == DGREAT || redir->operator == GREAT)

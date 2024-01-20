@@ -27,6 +27,7 @@ SRC = src/core/main.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \
 	src/parsing/word.c \
+	src/heredoc/heredoc.c \
 	src/executor/config_io.c \
 	src/executor/close_pipes.c \
 	src/executor/executor.c \
@@ -84,5 +85,8 @@ re: fclean all
 
 run:
 	@make re -s && ./minishell
+
+light-run:
+	@make -s && ./minishell
 
 .PHONY: all
