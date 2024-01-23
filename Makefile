@@ -23,6 +23,7 @@ SRC = src/core/main.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \
 	src/lexing/strextract.c \
+	src/lexing/strexpand.c \
 	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \
@@ -84,5 +85,8 @@ re: fclean all
 
 run:
 	@make re -s && ./minishell
+
+light-run:
+	@make -s && ./minishell
 
 .PHONY: all
