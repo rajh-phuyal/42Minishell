@@ -92,7 +92,7 @@ t_baobab	*create_baobab_node(t_token *token, int node_type);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
 void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);
-void		add_redirection(t_command **command, t_token *token, t_token *next);
+void		add_redirection(t_minivault *minivault, t_command **command, t_token *token, t_token *next);
 int			count_tokens(t_content_type token_type, t_token *tokens);
 
 #endif

@@ -117,7 +117,7 @@ char	*isolate_quotes(char *input, char separator)
 
 /**
  * * isolate_char
- * @brief	if the target char is found inside the input string (outside of single or double quotes) 
+ * @brief	if the target char is found inside the input string (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>1 becomes hello > 1
  * @param input is the input string
  * @param target is the target char
@@ -154,7 +154,7 @@ char	*isolate_char(char *input, char target, char separator)
 
 /**
  * * isolate_compund
- * @brief	if the target string is found inside the input string (outside of single or double quotes) 
+ * @brief	if the target string is found inside the input string (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
  * @param input is the input string
  * @param target is the target string
@@ -179,8 +179,8 @@ char	*isolate_compound(char *input, char *target, char separator)
 			&& inside_double_quotes == false && inside_single_quotes == false)
 		{
 			modified[i++] = separator;
-			modified[i++] = *(input++);
-			modified[i++] = *(input++);
+			modified[i++] = (*(input++)) * -1;
+			modified[i++] = (*(input++)) * -1;
 			modified[i++] = separator;
 		}
 		else
@@ -191,7 +191,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 }
 
 /**
- * * strextract 
+ * * strextract
  * @brief	 spaces, isolates special chars and splits the input string into a vector 2D ARRAY
  * @param minivault is a pointer to the "general" structure
  * @param input is the input string
@@ -204,11 +204,19 @@ char	*isolate_compound(char *input, char *target, char separator)
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input, '\31');
-	input = isolate_compound(input, ">>", '\"');
-	input = isolate_compound(input, "<<", '\"');
+	input = isolate_compound(input, ">>", '\31');
+	input = isolate_compound(input, "<<", '\31');
 	input = isolate_char(input, '|', '\31');
 	input = isolate_char(input, '<', '\31');
 	input = isolate_char(input, '>', '\31');
+
+	char *temp = input;
+	while (temp && *temp)
+	{
+		if (*temp < 0)
+			*temp = (*temp) * -1;
+		temp++;
+	}
 	if (input)
 		minivault->input = ft_split(input, '\31');
 }
