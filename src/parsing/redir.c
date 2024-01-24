@@ -49,6 +49,9 @@ int	assign_fd(t_operation operator, char *file)
 	}
 	else if (operator == DLESS)
 	{
+
+		// set_signals(SIG_STATE_HD_CHILD) in heredoc process
+		// set_signals(SIG_STATE_IGNORE) in main process
 		// fd = heredoc
 		return (fd);
 	}

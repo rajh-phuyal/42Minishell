@@ -10,6 +10,7 @@ LFT   = libft/libft.a
 
 SRC = src/core/main.c \
 	src/core/inputs.c \
+	src/core/signals.c \
 	src/data/environment.c \
 	src/data/initialization.c \
 	src/builtins/export.c \

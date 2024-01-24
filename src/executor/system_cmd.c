@@ -90,6 +90,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
     }
     if (child == 0) // Child process
 	{
+		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
         execve(cmd_path, arg, minivault->env_list);
         perror(RED"Execve failed"RESET_COLOR);
@@ -100,6 +101,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 	{
         int status;
 
+		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
         waitpid(child, &status, 0);
         if (WIFEXITED(status))

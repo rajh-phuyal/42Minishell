@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:46:00 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/24 18:36:38 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include "inputs.h"
 # include "executor.h"
+# include "signals.h"
 # include <sys/stat.h>
 
 // handy macros
@@ -63,6 +64,7 @@ typedef struct s_minivault
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
+	t_sig_state	sig_state;
 }	t_minivault;
 
 // minishell
