@@ -83,8 +83,8 @@ bool	_check_heredoc_deli(char *str, char **vector)
 	{
 		if (!ft_strncmp(*vector, "<<", ft_strlen(*vector)))
 		{
-			if (vector && *(vector + 1) != str)
-				return (true);
+			if (vector && *(vector + 1) == str)
+				return (false);
 		}
 		vector++;
 	}
@@ -136,7 +136,6 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 	_put_end_break(start, data);
 	while (start && *start)
 	{
-		printf("current char: %c\n", *start);
 		if (!*(start + 1) || *start == DOLLAR || *start == '\'' || *start == '"')
 		{
 			if (*(start + 1))
@@ -159,7 +158,7 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 					if (!_built)
 						_built = exe_concat(_built, value, suffix, NULL);
 					else
-						_built = exe_concat(_built, "''", _built, "''", value, suffix, NULL);
+						_built = exe_concat(_built, "'", _built, "'", value, suffix, NULL);
 				}
 				if (!_built)
 					_built = exe_concat(_built, "", value, suffix, NULL);
@@ -199,21 +198,22 @@ void	strexpand(t_minivault *minivault, char **vector)
 	while (v_iter && *v_iter)
 	{
 		s_iter = *v_iter;
-		if (data.expandable && !_check_heredoc_deli(s_iter, vector))
+		if (_check_heredoc_deli(s_iter, vector))
 		{
 			while (s_iter && *s_iter)
 			{
 				_cleaner(&data);
-				_exp_validator(s_iter, &data);
-				printf("is expandable: %d\n", data.expandable);
+				if (*(s_iter + 1) != DOLLAR)
+					_exp_validator(s_iter, &data);
 				if (*s_iter == DOLLAR && data.expandable)
 				{
-					printf("seding for expansion: %s\n", s_iter);
+					printf("sending for expansion: %s\n", s_iter);
 					if (!*(s_iter + 1))
 						break ;
 					_magic = alchemy(minivault, &data, s_iter);
 					if (!_magic)
 						break ;
+					printf("magic before: %s %d %d\n", _magic, data.quoted, data.singleq);
 					*(s_iter - (data.quoted + data.singleq)) = '\0';
 					_magic = exe_concat(_magic, *v_iter, _magic, NULL);
 					free(*v_iter);
