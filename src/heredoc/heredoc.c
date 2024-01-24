@@ -29,7 +29,7 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 	{
 		// g_signal_status = SIGINTERRUPT; // for now asuming siginterupt
         set_env(minivault, "?", ft_itoa(WEXITSTATUS(_stat)), (1 << 1));
-		close (doc->fds[READ]);
+		close(doc->fds[READ]);
 		return (-1);
 	}
 	else
@@ -47,6 +47,7 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
     char    *line;
 
     // TODO: handel signals and fds
+    close(doc->fds[WRITE]);
     while (true)
     {
         line = readline("doc> ");
