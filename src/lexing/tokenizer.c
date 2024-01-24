@@ -64,6 +64,15 @@ void	add_token(t_minivault *minivault, char *token)
     head->next = token_node;
 }
 
+t_token *get_tail(t_token *head)
+{
+    if (!head)
+        return (NULL);
+    while (head->next)
+        head = head->next;
+    return (head);
+}
+
 // remove the token from the list of tokens
 void    remove_token(t_token *head, t_token *node)
 {

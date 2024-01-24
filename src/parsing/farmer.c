@@ -54,7 +54,7 @@ void	print_tree(t_minivault *minivault)
 
 //-----------------------  ↑ SHITY PRINTS ↑  ----------------------- //
 
-t_command	*split_list(t_token *list, t_content_type type)
+t_command	*split_list(t_minivault *minivault, t_token *list, t_content_type type)
 {
     static t_token* current = NULL;
 	t_command *command = NULL;
@@ -78,7 +78,7 @@ t_command	*split_list(t_token *list, t_content_type type)
         if (current && current->next && current->type == REDIRECTION && \
 		(current->next->type == LITERAL || current->next->type == QUOTED))
 		{
-			add_redirection(&command, current, current->next);
+			add_redirection(minivault, &command, current, current->next);
 			current = current->next->next;
 		}
 		if (current && (current->type == LITERAL || current->type == QUOTED))
@@ -138,7 +138,7 @@ void	grow_baobab(t_minivault	*minivault)
 	while (i < command_count)
 	{
 		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
-		minivault->baobab->pipeline[i] = split_list(minivault->tokens, PIPE);
+		minivault->baobab->pipeline[i] = split_list(minivault, minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
 			break ;
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
