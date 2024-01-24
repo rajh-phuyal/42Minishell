@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **envs)
 {
 	t_minivault	minivault;
 
+	set_signals(SIG_STATE_MAIN);
 	init_minivault(&minivault, envs);
 	if (argc != 1)
 		handle_input_file(argv);
