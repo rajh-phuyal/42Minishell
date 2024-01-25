@@ -12,7 +12,7 @@ void	clean_heredoc_child(t_minivault *minivault, char *input, int fds[2], int st
 	close(fds[WRITE]);
     set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
     if (input)
-        free(input);
+		free(input);
 	clean_exit(minivault, status);
 }
 
@@ -23,8 +23,10 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 	_stat = 0;
 	close(doc->fds[WRITE]);
     // TODO: config signal handler, to ignore all signals
+	set_signals(SIG_STATE_IGNORE);
 	waitpid(pid, &_stat, 0);
     // TODO: config signal handler, to handle child signals
+	set_signals(SIG_STATE_HD_CHILD);
 	if (_stat != EXIT_SUCCESS)
 	{
 		// g_signal_status = SIGINTERRUPT; // for now asuming siginterupt
@@ -47,11 +49,13 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
     char    *line;
 
     // TODO: handel signals and fds
+	set_signals(SIG_STATE_HD_CHILD);
     close(doc->fds[WRITE]);
     while (true)
     {
         line = readline("doc> ");
         // TODO: handel signals before continuing
+		// ? : What signal
         if (line && line[0] != '\0')
         {
             if (!ft_strncmp(line, doc->delimiter, ft_strlen(doc->delimiter)))
