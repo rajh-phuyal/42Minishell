@@ -37,32 +37,15 @@ int	launch_heredoc(t_minivault *minivault, t_token *token)
 // TODO: HEREDOC
 int	assign_fd(t_minivault *minivault, t_operation operator, char *file, t_token *token)
 {
-	int fd;
-
-	fd = -1;
 	if (operator == GREAT)
-	{
-		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		return (fd);
-		// deal with the
-	}
+		return (open(file, O_CREAT | O_RDWR | O_TRUNC, 0644));
 	else if (operator == DGREAT)
-	{
-		fd = open(file, O_CREAT | O_RDWR, 0644);
-		return (fd);
-	}
+		return (open(file, O_CREAT | O_RDWR, 0644));
 	else if (operator == LESS)
-	{
-		fd = open(file, O_RDONLY);
-		return (fd);
-		// ! bash: <file>: No such file or directory
-	}
+		return (open(file, O_RDONLY));
+	// ! bash: <file>: No such file or directory
 	else if (operator == DLESS)
-	{
-		// set_signals(SIG_STATE_HD_CHILD) in heredoc process
-		// set_signals(SIG_STATE_IGNORE) in main process
 		return (launch_heredoc(minivault, token));
-	}
 	return (-1);
 }
 

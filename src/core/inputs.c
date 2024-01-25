@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/24 20:07:37 by codespace        ###   ########.fr       */
+/*   Updated: 2024/01/25 19:24:40 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ void	handle_input(t_minivault *minivault, char *input)
 	set_signals(SIG_STATE_MAIN);
 	if (!input)
 		_exit_vault(minivault, NULL);
+	minivault->line = input;
 	if (lexer(minivault, input))
 	{
 		grow_baobab(minivault);
 		executor(minivault, minivault->baobab->pipeline);
 	}
+	call_debug(minivault);
 	cycle_reset(minivault);
 }

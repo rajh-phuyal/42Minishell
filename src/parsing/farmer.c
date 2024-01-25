@@ -28,24 +28,23 @@ void    print_words(t_word *head)
     }
 }
 
-void	print_tree(t_minivault *minivault)
+void	print_baobab(t_minivault *minivault)
 {
 	int i = 0;
-
-
-	printf("\n----------TREE--------\n");
+	if (!minivault->baobab || !minivault->baobab->pipeline)
+		return ;
 	while (minivault->baobab->pipeline[i])
 	{
-		if(i != 0)
+		if (i != 0)
 			printf("\n----------------------\n");
 		printf("Command: %d\n", i);
 		printf("Command pos: %d", minivault->baobab->pipeline[i]->pos);
 		printf("\n----------------------\n");
-		// if (minivault->baobab->pipeline[i]->redir_in)
+		if (minivault->baobab->pipeline[i]->redir_in)
 			print_redirs(minivault->baobab->pipeline[i]->redir_in);
 		if (minivault->baobab->pipeline[i]->words)
 			print_words(minivault->baobab->pipeline[i]->words);
-		// if (minivault->baobab->pipeline[i]->redir_out)
+		if (minivault->baobab->pipeline[i]->redir_out)
 			print_redirs(minivault->baobab->pipeline[i]->redir_out);
 		printf(RESET_COLOR);
 		i++;

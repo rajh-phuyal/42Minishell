@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/24 18:36:38 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/01/25 19:07:20 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_envs
 // the minieverything
 typedef struct s_minivault
 {
+	char		*line;
 	char		**input;
 	char		**path;
 	char		**env_list;
@@ -103,7 +104,6 @@ void		print_argv(int argc, char **argv);
 void		print_envs(t_envs *envs);
 void		print_vector(char **vector);
 void		print_tokens(t_token *head);
-void		print_baobab(t_baobab *root, int indent_level);
 
 // the liberator
 void		liberate_envs(t_envs *head);
@@ -112,6 +112,7 @@ void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
+void		print_baobab(t_minivault *minivault);
 void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
 

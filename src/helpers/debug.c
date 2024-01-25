@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 23:05:14 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/16 20:39:46 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/25 19:06:11 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,42 +55,3 @@ void    print_tokens(t_token *head)
         head = head->next;
     }
 }
-
-/*
-// ! stolen from anatollii
-void	print_baobab(t_baobab *root, int indent_level)
-{
-	int		type;
-	char	*code;
-	int		distance;
-	if (root == NULL)
-		return ;
-	distance = 7;
-	indent_level += distance;
-	print_baobab(root->right, indent_level);
-	type = root->type;
-	if (type == ARG)
-		code = ft_strdup("arg");
-	else if (type == CMD)
-		code = ft_strdup("cmd");
-	else if (type == PIPE)
-		code = ft_strdup("|");
-	else if (type == APPEND)
-		code = ft_strdup(">>");
-	else if (type == HEREDOC)
-		code = ft_strdup("<<");
-	else if (type == REDIRECTION_IN)
-		code = ft_strdup("<");
-	else if (type == REDIRECTION_OUT)
-		code = ft_strdup(">");
-	printf("\n");
-	for (int i = distance; i < indent_level; i++)
-		printf(" ");
-	if (root->token->content)
-		printf("[%d] (%s)\n", type, root->token->content);
-	else
-		printf("[%s]\n", code);
-	free(code);
-	print_baobab(root->left, indent_level);
-}
-*/
