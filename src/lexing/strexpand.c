@@ -1,17 +1,5 @@
 # include "minishell.h"
 
-// figure out the quotes suitation around the dollar
-// go through the string
-	// if a dollar is found
-		// if no char after the dollar
-			// terminate string with the dollar
-		// else go through each character
-			// if dollar is found and no value yet
-				// save the position of the dollar (the $ and the character after the dollar are removed)
-			// else dollar is found and value is found
-				// replace the $key with the value
-			// continue until the end of the string
-
 void	_cleaner(t_strexp *data)
 {
 	data->quoted = false;
@@ -28,6 +16,8 @@ static	void	_exp_validator(char *str, t_strexp *data)
 	end = str;
 	while (end && *(end + 1))
 		end++;
+	while (str && *str && *str != DOLLAR && *str != '\'' && *str != '"')
+		str++;
 	if (*str == DOLLAR)
 		data->expandable = true;
 	if (*str == *end && *end == '\'')
@@ -100,7 +90,6 @@ char *get_suffix(char *pos)
 	suffix = NULL;
 	start = pos;
 	temp = '\0';
-	printf("pos: %s\n", pos);
 	while (pos && *pos)
 	{
 		if (!*(pos + 1) || *pos == DOLLAR || *pos == '\'' || *pos == '"')
@@ -150,7 +139,6 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 			}
 			else if (_pos)
 				value = get_env(minivault, _pos + 1);
-			printf("key used: %s\n", _pos);
 			if (value)
 			{
 				if (*(start) == '\'' && *(_pos - 1) == '\'')
@@ -184,6 +172,8 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 	}
 	if (!_built)
 		_built = exe_concat(NULL, PLACEHOLDER, NULL);
+	if (data->singleq)
+		_built = exe_concat(NULL, "'", _built, "'", NULL);
 	return (_built);
 }
 
@@ -198,22 +188,19 @@ void	strexpand(t_minivault *minivault, char **vector)
 	while (v_iter && *v_iter)
 	{
 		s_iter = *v_iter;
+		_cleaner(&data);
+		_exp_validator(s_iter, &data);
 		if (_check_heredoc_deli(s_iter, vector))
 		{
 			while (s_iter && *s_iter)
 			{
-				_cleaner(&data);
-				if (*(s_iter + 1) != DOLLAR)
-					_exp_validator(s_iter, &data);
 				if (*s_iter == DOLLAR && data.expandable)
 				{
-					printf("sending for expansion: %s\n", s_iter);
 					if (!*(s_iter + 1))
 						break ;
 					_magic = alchemy(minivault, &data, s_iter);
 					if (!_magic)
 						break ;
-					printf("magic before: %s %d %d\n", _magic, data.quoted, data.singleq);
 					*(s_iter - (data.quoted + data.singleq)) = '\0';
 					_magic = exe_concat(_magic, *v_iter, _magic, NULL);
 					free(*v_iter);
