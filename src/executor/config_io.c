@@ -2,6 +2,8 @@
 
 // if there is input dont read from previous pipe, if there is an outfile dont write to the next pipe
 
+void	_dup_file(int *fds, int new_fd, int old_fd);
+
 void	config_io_single(t_minivault *minivault, t_command *command)
 {
 	t_redir	*infile;
@@ -28,6 +30,7 @@ void	config_io_first(t_minivault	*minivault, t_command *command)
 	t_redir	*infile;
 	t_redir	*outfile;
 
+	dprintf(2, "i am here\n");
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
 	if (infile)
@@ -54,11 +57,15 @@ void	config_io_middle(t_minivault	*minivault, t_command *command, int pos)
 	t_redir	*infile;
 	t_redir	*outfile;
 
+	dprintf(2, "i am here in the mid\n");
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
+	dprintf(2, "i am here in the mid %p\n", infile);
+	dprintf(2, "i am here in the mid %p\n", outfile);
 	// Setup input from the previous pipe if no infile
 	if (!infile)
 	{
+		dprintf(2, "i am here in the mid inside the condition\n");
 		close(minivault->baobab->pipe_fd[pos - 1][WRITE]); // Close unused write end
 		dup2(minivault->baobab->pipe_fd[pos - 1][READ], STDIN_FILENO);
 		close(minivault->baobab->pipe_fd[pos - 1][READ]);
@@ -76,6 +83,7 @@ void	config_io_middle(t_minivault	*minivault, t_command *command, int pos)
 	}
 	else
 	{
+		dprintf(2, "i am here in the mid again\n");
 		dup2(outfile->fd, STDOUT_FILENO);
 		close(outfile->fd);
 	}
@@ -90,6 +98,7 @@ void	config_io_last(t_minivault	*minivault, t_command *command)
 
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
+	dprintf(2, "i am here in the last\n");
 	// Setup input from the last pipe if no infile
 	if (!infile)
 	{

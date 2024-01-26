@@ -51,6 +51,7 @@ void	reset_path(t_minivault *minivault)
 void	cycle_reset(t_minivault *minivault)
 {
 	// clear out the memory stuffs only necessary for the cycle
+	// clean_pip_fds(minivault->baobab->)
 	if (minivault->input)
 		liberate_vector(minivault->input);
 	if (minivault->baobab)

@@ -19,4 +19,5 @@ void	builtin_command(t_minivault	*minivault, t_command *command, int pos)
 		_env(minivault);
 	else if (!ft_strncmp(command->words->word, "exit", 5))
 		_exit_vault(minivault, command->words->next);
+	close_pipes(minivault, command, pos);
 }

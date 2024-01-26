@@ -53,4 +53,6 @@ void    _echo(t_minivault *minivault, t_word *args)
     }
     else
         ft_putchar_fd('\n', STDOUT_FILENO);
+
+    dprintf(2, "i am here in echo\n");
 }

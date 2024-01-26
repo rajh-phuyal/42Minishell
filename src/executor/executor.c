@@ -14,14 +14,14 @@ bool is_cmd_builtin(char **builtin_list, char *cmd)
 }
 
 
-void	execute_command(t_minivault *minivault, t_command *command, int pos)
+void	execute_command(t_minivault *minivault, t_command *command)
 {
 	if (command->words)
 	{
 		if (is_cmd_builtin((char *[]){"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL}, command->words->word))
-			builtin_command(minivault, command, pos);
+			builtin_command(minivault, command, command->pos);
 		else
-			system_command(minivault, command, pos);
+			system_command(minivault, command, command->pos);
 	}
 	// TODO: execution with only redirections e.g. $ > file or $ > file >> file2
 }
@@ -32,5 +32,5 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	if (!pipeline)		// deal with it
 		return ;
 	while (pipeline[++pos])
-		execute_command(minivault, pipeline[pos], pos);
+		execute_command(minivault, pipeline[pos]);
 }
