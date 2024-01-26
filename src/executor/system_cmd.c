@@ -76,7 +76,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 	}
 	else if (!cmd_path)
 	{
-		error(minivault, FAILURE, true, command->words->word, ": ", "command not found", NULL);
+		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", "command not found", NULL);
 		return ;
 	}
     char **arg = get_arguments(command->words);

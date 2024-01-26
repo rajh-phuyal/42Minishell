@@ -54,6 +54,7 @@ void    error(t_minivault *minivault, t_status status, int prompt, ...)
 			printf("minibaiters: %s\n", _string);
     	free(_string);
 	}
-    cycle_reset(minivault);
+	if (status != CMDNOTFOUND) //! Fix me!!!
+    	cycle_reset(minivault);
     set_env(minivault, "?", ft_itoa(status), (1 << 1));
 }
