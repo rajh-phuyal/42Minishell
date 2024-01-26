@@ -1,9 +1,5 @@
 #include "minishell.h"
 
-// if there is input dont read from previous pipe, if there is an outfile dont write to the next pipe
-
-void	_dup_file(int *fds, int new_fd, int old_fd);
-
 void	config_io_single(t_minivault *minivault, t_command *command)
 {
 	t_redir	*infile;
