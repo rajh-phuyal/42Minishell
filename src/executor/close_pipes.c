@@ -26,7 +26,6 @@ void	close_pipes_last(t_minivault *minivault)
 
 void	close_pipes(t_minivault	*minivault, t_command *command, int pos)
 {
-    dprintf(2, "pos: %d\n", pos);
     if (command->pos == FIRST)
         close_pipes_first(minivault);
     if (command->pos == MIDDLE)

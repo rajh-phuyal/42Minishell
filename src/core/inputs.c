@@ -20,13 +20,13 @@ void	handle_input(t_minivault *minivault, char *input)
 {
 	set_signals(SIG_STATE_MAIN);
 	if (!input)
-		_exit_vault(minivault, NULL);
+		_exit_vault(minivault, NULL, STDOUT_FILENO);
 	minivault->line = input;
 	if (lexer(minivault, input))
 	{
 		grow_baobab(minivault);
 		executor(minivault, minivault->baobab->pipeline);
-		call_debug(minivault);
+		// call_debug(minivault);
 	}
 	cycle_reset(minivault);
 }

@@ -35,6 +35,7 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 	int	fd;
 	t_redir	*outfile;
 
+	(void)minivault;
 	fd = STDOUT_FILENO;
 	outfile = get_last_token(command->redir_out);
 	if (outfile)
@@ -51,8 +52,8 @@ int	config_io_last_output(t_minivault	*minivault, t_command *command)
 {
 	int	fd;
 	t_redir	*outfile;
-	int last_pipe_index;
 
+	(void)minivault;
 	fd = STDOUT_FILENO;
 	outfile = get_last_token(command->redir_out);
 	if (outfile)
@@ -60,17 +61,17 @@ int	config_io_last_output(t_minivault	*minivault, t_command *command)
 	return (fd);
 }
 
-int	config_io_builtin(t_minivault	*minivault, t_command *command, int pos)
+int	config_io_builtin(t_minivault *minivault, t_command *command, int pos)
 {
 	int fd;
 
 	if (command->pos == SINGLE)
-		fd = config_io_single(minivault, command);
+		fd = config_io_single_output(minivault, command);
 	else if (command->pos == FIRST)
-		fd = config_io_first(minivault, command);
+		fd = config_io_first_output(minivault, command);
 	else if (command->pos == MIDDLE)
-		fd = config_io_middle(minivault, command, pos);
+		fd = config_io_middle_output(minivault, command, pos);
 	else if (command->pos == LAST)
-		fd = config_io_last(minivault,command);
+		fd = config_io_last_output(minivault,command);
 	return(fd);
 }
