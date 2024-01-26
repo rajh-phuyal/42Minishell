@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   inputs.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/27 23:15:36 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/25 19:24:40 by jalves-c         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 // closes the readline library
@@ -38,7 +26,7 @@ void	handle_input(t_minivault *minivault, char *input)
 	{
 		grow_baobab(minivault);
 		executor(minivault, minivault->baobab->pipeline);
+		call_debug(minivault);
 	}
-	call_debug(minivault);
 	cycle_reset(minivault);
 }

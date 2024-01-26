@@ -168,6 +168,8 @@ char	*isolate_compound(char *input, char *target, char separator)
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
+	if(!input)
+		return (NULL);
 	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + 1); // + 1 should be + sizeof(char) ?
 	if (!modified)
 		return (NULL);
@@ -204,12 +206,23 @@ char	*isolate_compound(char *input, char *target, char separator)
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input, '\31');
+	if (!input)
+		return ;
 	input = isolate_compound(input, ">>", '\31');
+	if (!input)
+		return ;
 	input = isolate_compound(input, "<<", '\31');
+	if (!input)
+		return ;
 	input = isolate_char(input, '|', '\31');
+	if (!input)
+		return ;
 	input = isolate_char(input, '<', '\31');
+	if (!input)
+		return ;
 	input = isolate_char(input, '>', '\31');
-
+	if (!input)
+		return ;
 	char *temp = input;
 	while (temp && *temp)
 	{

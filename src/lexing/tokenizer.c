@@ -100,7 +100,7 @@ void	tokenizer(t_minivault *minivault, int seq)
 
 	(void)seq;
 	// ? what is seq for?
-	while (minivault->input[i])
+	while (minivault->input && minivault->input[i])
 	{
 		add_token(minivault, minivault->input[i]);
 		i++;

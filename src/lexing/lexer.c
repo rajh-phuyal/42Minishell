@@ -89,7 +89,8 @@ bool	lexer(t_minivault *minivault, char *input)
 	if (!input)
 		return (false);
 	strextract(minivault, input);
+	if (!input)
+		return (false);
 	tokenizer(minivault, 0);
-	// remove_quotes(minivault);
 	return(check_syntax(minivault));
 }

@@ -107,7 +107,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
         if (WIFEXITED(status))
 			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
 		// else
-            // dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
+        //     dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }
     free(cmd_path);
 	// free arg
