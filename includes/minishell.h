@@ -77,13 +77,13 @@ void		set_env(t_minivault *minivault, char *key, char *value, int identifier);
 void   		add_env_node(t_minivault *minivault, char *key, char *value, int identifier);
 
 // builtin functions
-void    	_env(t_minivault *minivault);
-void		_pwd(t_minivault *minivault);
+void    	_env(t_minivault *minivault, int out_fd);
+void		_pwd(t_minivault *minivault, int out_fd);
 void		_cd(t_minivault *minivault, t_word *args);
-void		_echo(t_minivault *minivault, t_word *args);
+void		_echo(t_minivault *minivault, t_word *args, int out_fd);
 void    	_unset(t_minivault *minivault, t_word *args);
-void		_export(t_minivault *minivault, t_word *args);
-void    	_exit_vault(t_minivault *minivault, t_word *args);
+void		_export(t_minivault *minivault, t_word *args, int out_fd);
+void    	_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
 
 
 // debug functions

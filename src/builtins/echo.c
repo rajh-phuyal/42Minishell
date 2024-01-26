@@ -34,7 +34,7 @@ static  t_word  *_skip_options(t_word *args)
     return (args);
 }
 
-void    _echo(t_minivault *minivault, t_word *args)
+void    _echo(t_minivault *minivault, t_word *args, int out_fd)
 {
     (void)minivault;
     _existance(false, false);
@@ -43,16 +43,14 @@ void    _echo(t_minivault *minivault, t_word *args)
         args = _skip_options(args);
         while (args)
         {
-            ft_putstr_fd(args->word, STDOUT_FILENO);
+            ft_putstr_fd(args->word, out_fd);
             if (args->next)
-                ft_putchar_fd(' ', STDOUT_FILENO);
+                ft_putchar_fd(' ', out_fd);
             args = args->next;
         }
         if (!_existance(false, true))
-            ft_putchar_fd('\n', STDOUT_FILENO);
+            ft_putchar_fd('\n', out_fd);
     }
     else
-        ft_putchar_fd('\n', STDOUT_FILENO);
-
-    dprintf(2, "i am here in echo\n");
+        ft_putchar_fd('\n', out_fd);
 }

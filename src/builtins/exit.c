@@ -73,11 +73,11 @@ static bool _validate_long_long(char *str, int *status)
 	return (true);
 }
 
-void    _exit_vault(t_minivault *minivault, t_word *args)
+void    _exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 {
     int _status;
 
-    ft_putstr_fd("exit\n", STDOUT_FILENO);
+    ft_putstr_fd("exit\n", out_fd);
     if (!args || !(args->word))
         clean_exit(minivault, ft_atoi(get_env(minivault, "?")));
     else

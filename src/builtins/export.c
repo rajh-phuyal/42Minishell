@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-static void	_declare_session_envar(t_envs *curr, int outfd)
+static void	_declare_session_envar(t_envs *curr, int out_fd)
 {
-    ft_putstr_fd("declare -x ", outfd);
-    ft_putstr_fd(curr->key, outfd);
-    ft_putstr_fd("=\"", outfd);
-    ft_putstr_fd(curr->value, outfd);
-    ft_putstr_fd("\"\n", outfd);
+    ft_putstr_fd("declare -x ", out_fd);
+    ft_putstr_fd(curr->key, out_fd);
+    ft_putstr_fd("=\"", out_fd);
+    ft_putstr_fd(curr->value, out_fd);
+    ft_putstr_fd("\"\n", out_fd);
 }
 
 static void add_args_to_env(t_minivault *minivault, t_word *args)
@@ -41,7 +41,7 @@ static void add_args_to_env(t_minivault *minivault, t_word *args)
 }
 
 //? its not exporting shit, fix it!
-void    _export(t_minivault *minivault, t_word *args)
+void    _export(t_minivault *minivault, t_word *args, int out_fd)
 {
     t_envs  *curr;
     char    **iter;
@@ -57,7 +57,7 @@ void    _export(t_minivault *minivault, t_word *args)
         {
             curr = get_env_node(minivault, *iter);
             if (curr && (curr->session) && !(curr->internal))
-                _declare_session_envar(curr, STDOUT_FILENO);
+                _declare_session_envar(curr, out_fd);
             iter++;
         }
         if (sorted)

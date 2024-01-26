@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void    _env(t_minivault *minivault)
+void    _env(t_minivault *minivault, int out_fd)
 {
 	t_envs	*envs;
 
@@ -21,10 +21,10 @@ void    _env(t_minivault *minivault)
 	{
 		if (envs->session && !envs->internal)
 		{
-			ft_putstr_fd(envs->key, STDOUT_FILENO);
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putstr_fd(envs->value, STDOUT_FILENO);
-			ft_putstr_fd("\n", STDOUT_FILENO);
+			ft_putstr_fd(envs->key, out_fd);
+			ft_putstr_fd("=", out_fd);
+			ft_putstr_fd(envs->value, out_fd);
+			ft_putstr_fd("\n", out_fd);
 		}
 		envs = envs->next;
 	}

@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include <unistd.h>
 
-void    _pwd(t_minivault *minivault)
+void    _pwd(t_minivault *minivault, int out_fd)
 {
     char    buffer[PATH_MAX];
 
@@ -22,6 +22,6 @@ void    _pwd(t_minivault *minivault)
         set_env(minivault, "?", ft_itoa(FAILURE), (1 << 1));
     else
         set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
-    ft_putendl_fd(buffer, STDOUT_FILENO);
+    ft_putendl_fd(buffer, out_fd);
     return ;
 }
