@@ -2,12 +2,12 @@
 
 int	config_io_single_output(t_minivault *minivault, t_command *command)
 {
-	int		fd;
+	int	fd;
 	t_redir	*outfile;
 
 	(void)minivault;
 	fd = STDOUT_FILENO;
-	outfile = get_last_token(command->redir_in);
+	outfile = get_last_token(command->redir_out);
 	if (outfile)
 		fd = outfile->fd;
 	return (fd);
@@ -42,7 +42,7 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 		fd = outfile->fd;
 	else
 	{
-		// close(minivault->baobab->pipe_fd[pos][READ]);
+
 		fd = minivault->baobab->pipe_fd[pos][WRITE];
 	}
 	return (fd);
