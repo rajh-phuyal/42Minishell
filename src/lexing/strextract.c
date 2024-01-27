@@ -45,6 +45,7 @@ char	*remove_spaces(char *input, char separator)
 {
 	char	*modified;
 	char	*dst;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -52,6 +53,7 @@ char	*remove_spaces(char *input, char separator)
 	if (!modified)
 		return (NULL);
 	dst = modified;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -68,9 +70,13 @@ char	*remove_spaces(char *input, char separator)
 			ft_putendl_fd("Single quotes not closed.", 2);
 		else if (inside_double_quotes)
 			ft_putendl_fd("Double quotes not closed.", 2);
-		free (modified);
+		if (temp)
+			free(temp);
+		free(modified);
 		return (NULL);
 	}
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -85,6 +91,7 @@ char	*isolate_quotes(char *input, char separator)
 {
 	char	*modified;
 	int		i;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -92,6 +99,7 @@ char	*isolate_quotes(char *input, char separator)
 	if (!modified)
 		return (NULL);
 	i = 0;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -112,6 +120,8 @@ char	*isolate_quotes(char *input, char separator)
 		input++;
 	}
 	modified[i] = '\0';
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -127,6 +137,7 @@ char	*isolate_char(char *input, char target, char separator)
 {
 	char	*modified;
 	int		i;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -134,6 +145,7 @@ char	*isolate_char(char *input, char target, char separator)
 	if (!modified)
 		return (NULL);
 	i = 0;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -149,6 +161,8 @@ char	*isolate_char(char *input, char target, char separator)
 		input++;
 	}
 	modified[i] = '\0';
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -165,6 +179,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 {
 	char	*modified;
 	int		i;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -174,6 +189,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 	if (!modified)
 		return (NULL);
 	i = 0;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -189,6 +205,8 @@ char	*isolate_compound(char *input, char *target, char separator)
 			modified[i++] = *(input++);
 	}
 	modified[i] = '\0';
+	if (temp)
+		free(temp);
 	return (modified);
 }
 

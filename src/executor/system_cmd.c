@@ -95,6 +95,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
         execve(cmd_path, arg, minivault->env_list);
         perror(RED"Execve failed"RESET_COLOR);
         free(cmd_path);
+		liberation(minivault);
 		// free arg
     }
 	else // Parent process

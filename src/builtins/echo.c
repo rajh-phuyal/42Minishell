@@ -52,5 +52,5 @@ void    _echo(t_minivault *minivault, t_word *args, int out_fd)
     }
     else
         ft_putchar_fd('\n', out_fd);
-     set_env(minivault, PREVEXITSTAT, ft_itoa(SUCCESS), (1 << 1));
+    set_env(minivault, PREVEXITSTAT, ft_itoa(SUCCESS), (1 << 1));
 }

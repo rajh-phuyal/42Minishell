@@ -61,7 +61,8 @@ void	liberate_baobab(t_baobab *head)
 		liberate_redir(head->pipeline[i]->redir_in);
 		liberate_redir(head->pipeline[i]->redir_out);
 		free(head->pipeline[i]);
-		head->pipeline[i++] = NULL;
+		i++;
+		// head->pipeline[i++] = NULL;
 	}
 	free(head);
 	head = NULL;
@@ -71,6 +72,7 @@ void	liberate_baobab(t_baobab *head)
 void    liberation(t_minivault *minivault)
 {
 	cycle_reset(minivault);
+	close_readline();
 	if (minivault->path)
 		liberate_vector(minivault->path);
 	if (minivault->envs)

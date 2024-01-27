@@ -36,7 +36,6 @@ char	*get_env(t_minivault *minivault, char *key)
 	envs = minivault->envs;
 	while (envs)
 	{
-        // printf("envs->key: %s | key: %s | cmp: %d\n", envs->key, key, ft_strncmp(envs->key, key, ft_strlen(key)));
 		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 			return (envs->value);
 		envs = envs->next;
@@ -69,7 +68,7 @@ void	set_env(t_minivault *minivault, char *key, char *value, int identifier)
     envs = minivault->envs;
     while (envs)
     {
-        if (!ft_strncmp(envs->key, key, ft_strlen(envs->key)))
+        if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
         {
             free(envs->value);
             envs->value = value;
@@ -89,7 +88,7 @@ void    unset_env(t_minivault *minivault, char *key)
     envs = minivault->envs;
     while (envs)
     {
-        if (!ft_strncmp(envs->key, key, ft_strlen(key)))
+        if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
         {
             free(envs->value);
             free(envs->key);
