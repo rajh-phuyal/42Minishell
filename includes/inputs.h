@@ -91,13 +91,8 @@ void		remove_quotes(char *str);
 void    	grow_baobab(t_minivault *minivault);
 t_baobab	*search(t_baobab *root, char *token);
 void		add_word(t_word **word_list, t_token *token);
-<<<<<<< HEAD
-void		add_redirection(t_minivault *minivault, t_command **command, t_token *token, t_token *next);
-=======
-t_baobab	*create_baobab_node(t_token *token, int node_type);
->>>>>>> refs/rewritten/expansion-of-envars
 int			count_tokens(t_content_type token_type, t_token *tokens);
-void		add_redirection(t_command **command, t_token *token, t_token *next);
 void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
+void		add_redirection(t_minivault *minivault, t_command **command, t_token *token, t_token *next);
 
 #endif

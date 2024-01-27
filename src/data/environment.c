@@ -30,7 +30,9 @@ char	*get_env(t_minivault *minivault, char *key)
 	t_envs	*envs;
 
     if (!key)
+    {
         return (NULL);
+    }
 	envs = minivault->envs;
 	while (envs)
 	{
@@ -46,8 +48,10 @@ t_envs  *get_env_node(t_minivault *minivault, char *key)
 {
 	t_envs	*envs;
 
-    if (!key)
+     if (!key)
+    {
         return (NULL);
+    }
 	envs = minivault->envs;
 	while (envs)
 	{

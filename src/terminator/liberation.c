@@ -40,6 +40,10 @@ void	liberate_envs(t_envs *head)
 	{
 		tmp = head;
 		head = head->next;
+		if (tmp->key)
+			free(tmp->key);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 	}
 }

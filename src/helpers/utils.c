@@ -9,7 +9,9 @@ char    *concat_all(va_list args)
 	temp = NULL;
 	_string = va_arg(args, char *);
     if (!_string)
+    {
         return (temp);
+    }
 	_string = ft_strdup(_string);
 	iter = va_arg(args, char *);
     while (iter)

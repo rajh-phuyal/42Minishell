@@ -38,7 +38,7 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 		return (doc->fds[READ]);
 }
 
-char    *strexpand(t_minivault *minivault, char *line)
+char    *_strexpand(t_minivault *minivault, char *line)
 {
     (void)minivault;
     return (line);
@@ -64,7 +64,7 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
                 return ;
             }
             if (doc->expandable && line)
-				line = strexpand(minivault, line); // this needs to be hammered
+				line = _strexpand(minivault, line); // this needs to be hammered
             ft_putendl_fd(line, doc->fds[WRITE]);
         }
         else
