@@ -102,7 +102,9 @@ void	tokenizer(t_minivault *minivault, int seq)
 	// ? what is seq for?
 	while (minivault->input && minivault->input[i])
 	{
-		add_token(minivault, minivault->input[i]);
+        if (minivault->input[i] && \
+            !(minivault->input[i][FIRST_ELEM] == PLACEHOLDER[FIRST_ELEM]))
+		    add_token(minivault, minivault->input[i]);
 		i++;
 	}
 }

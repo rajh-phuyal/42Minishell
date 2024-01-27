@@ -29,10 +29,13 @@ char	*get_env(t_minivault *minivault, char *key)
 {
 	t_envs	*envs;
 
+    if (!key)
+        return (NULL);
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (!ft_strncmp(envs->key, key, ft_strlen(envs->key)))
+        // printf("envs->key: %s | key: %s | cmp: %d\n", envs->key, key, ft_strncmp(envs->key, key, ft_strlen(key)));
+		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 			return (envs->value);
 		envs = envs->next;
 	}
@@ -43,10 +46,12 @@ t_envs  *get_env_node(t_minivault *minivault, char *key)
 {
 	t_envs	*envs;
 
+    if (!key)
+        return (NULL);
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (!ft_strncmp(envs->key, key, ft_strlen(key)))
+		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 			return (envs);
 		envs = envs->next;
 	}

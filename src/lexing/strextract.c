@@ -203,6 +203,8 @@ char	*isolate_compound(char *input, char *target, char separator)
  * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
  * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
+
+
 void	strextract(t_minivault *minivault, char *input)
 {
 	input = remove_spaces(input, '\31');
@@ -231,5 +233,8 @@ void	strextract(t_minivault *minivault, char *input)
 		temp++;
 	}
 	if (input)
+	{
 		minivault->input = ft_split(input, '\31');
+		strexpand(minivault, minivault->input);
+	}
 }

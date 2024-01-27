@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
+/*   Updated: 2024/01/09 19:57:13 by rajphuyal        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> refs/rewritten/expansion-of-envars
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -19,6 +34,7 @@
 # define SECOND_ELEM 1
 
 // exit status related
+# define PREVEXITSTAT "?"
 # define MAXEXTSTATUS 256
 # define EXTSTATUSNONNUM 255
 
@@ -42,6 +58,15 @@ typedef struct s_envs
 	bool			internal;
 	struct s_envs	*next;
 }	t_envs;
+
+typedef struct s_strexp
+{
+	char	*_pos;
+	bool	quoted;
+	bool	singleq;
+	bool	isHereDoc;
+	bool	expandable;
+} t_strexp;
 
 // the minieverything
 typedef struct s_minivault
@@ -105,6 +130,7 @@ void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
 
 // utils
-
+char    	*concat_all(va_list args);
+char		*exe_concat(char *prev, ...);
 
 #endif
