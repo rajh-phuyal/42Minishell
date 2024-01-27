@@ -72,16 +72,16 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 	if (!cmd_path && !get_env(minivault, "PATH")) // cmd is not a builtin nor a system cmd
 	{
 		error(minivault, FAILURE, true, command->words->word, ": ", "No such file or directory", NULL);
+		close_pipes(minivault, command, pos);
 		return ;
 	}
 	else if (!cmd_path)
 	{
-		error(minivault, FAILURE, true, command->words->word, ": ", "command not found", NULL);
+		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", "command not found", NULL);
+		close_pipes(minivault, command, pos);
 		return ;
 	}
     char **arg = get_arguments(command->words);
-    if (!cmd_path)
-        return ;
     pid_t child = fork();
     if (child == -1)
     {
