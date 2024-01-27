@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/27 15:39:09 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static	void	_goto(t_minivault *minivault, char *path)
 	if (getcwd(buffer, sizeof(buffer)))
 	{
 		set_env(minivault, "PWD", ft_strdup(buffer), (1 << 1));
-		set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
+		set_env(minivault, PREVEXITSTAT, ft_itoa(SUCCESS), (1 << 1));
 	}
 }
 

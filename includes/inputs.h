@@ -4,9 +4,10 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# define MAX_FD 1000
 # define WRITE 1
 # define READ 0
+# define DOLLAR '$'
+# define PLACEHOLDER "\31"
 
 // TOKEN LIST
 typedef enum	e_content_type
@@ -75,24 +76,23 @@ typedef struct s_baobab
 typedef struct s_minivault t_minivault;
 
 // lexing
-bool		lexer(t_minivault *minivault, char *input);
-void		strextract(t_minivault *minivault, char *input);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);
+t_token 	*create_new(char *token);
+bool		lexer(t_minivault *minivault, char *input);
 void		tokenizer(t_minivault *minivault, int seq);
 void		remove_token(t_token *head, t_token *node);
-t_token 	*create_new(char *token);
 void		add_token(t_minivault *minivault, char *token);
+void		strextract(t_minivault *minivault, char *input);
+void    	strexpand(t_minivault *minivault, char **vector);
 
 // parser
+void		remove_quotes(char *str);
 void    	grow_baobab(t_minivault *minivault);
 t_baobab	*search(t_baobab *root, char *token);
-// t_token		*get_token(t_token *token, t_type type);
-t_baobab	*create_baobab_node(t_token *token, int node_type);
-void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
-void		remove_quotes(char *str);
 void		add_word(t_word **word_list, t_token *token);
-void		add_redirection(t_minivault *minivault, t_command **command, t_token *token, t_token *next);
 int			count_tokens(t_content_type token_type, t_token *tokens);
+void		connector(t_baobab *node, t_baobab *parent, t_baobab *left, t_baobab *right);
+void		add_redirection(t_minivault *minivault, t_command **command, t_token *token, t_token *next);
 
 #endif

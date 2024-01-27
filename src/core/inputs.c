@@ -10,7 +10,7 @@ char	*readaline(void)
 {
 	char	*line;
 
-	line = readline("minibaiters $ ");
+	line = readline("minibaiters$ ");
 	if (line && *line)
 		add_history(line);
 	return (line);
