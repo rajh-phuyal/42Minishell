@@ -3,14 +3,15 @@
 void	builtin_command(t_minivault	*minivault, t_command *command, int pos)
 {
 	int	fd;
+	int	_stat;
 
-	// run builtin commands here
+	_stat = -1;
 	set_signals(SIG_STATE_CHILD_BUILTIN);
 	fd = config_io_builtin(minivault, command, pos);
 	if (!ft_strncmp(command->words->word, "echo", 5))
 		_echo(minivault, command->words->next, fd);
 	else if (!ft_strncmp(command->words->word, "cd", 3))
-		_cd(minivault, command->words->next);
+		_stat = _cd(minivault, command->words->next);
 	else if (!ft_strncmp(command->words->word, "pwd", 4))
 		_pwd(minivault, fd);
 	else if (!ft_strncmp(command->words->word, "export", 7))
@@ -21,5 +22,8 @@ void	builtin_command(t_minivault	*minivault, t_command *command, int pos)
 		_env(minivault, fd);
 	else if (!ft_strncmp(command->words->word, "exit", 5))
 		_exit_vault(minivault, command->words->next, fd);
-	close_pipes(minivault, command, pos);
+	if (_stat >= 0)
+		set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
+	if (command->pos > 0)
+		close_pipes(minivault, command, pos);
 }

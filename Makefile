@@ -76,7 +76,7 @@ obj/%.o: src/%.c
 
 clean:
 	@make -sC libft clean
-	@rm -rf $(OBJ) obj
+	@rm -rf $(OBJ) obj readline.supp
 	@echo "$(CBOLD)$(BLUE)      Objects removed!    $(RESET)"
 
 fclean: clean
@@ -92,8 +92,11 @@ run:
 lrun:
 	@make -s && ./minishell
 
-vrun:
-	@make -s && valgrind --track-origins=yes --leak-check=full --track-fds=yes ./minishell 
+readline.supp:
+	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+
+vrun: readline.supp
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 mrun:
 	@make -s && valgrind --track-origins=yes --leak-check=full ./minishell

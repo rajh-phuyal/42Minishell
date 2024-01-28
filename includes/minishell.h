@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/09 19:57:13 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/28 19:44:04 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ extern int	g_signal_status;
 # define PREVEXITSTAT "?"
 # define MAXEXTSTATUS 256
 # define EXTSTATUSNONNUM 255
+
+// BUILTIN ERR msgs
+typedef enum e_builtin_err
+{
+	NOHOME,
+	NOPERM,
+	FILENOFOUND
+}	t_builtin_err;
 
 typedef enum e_status
 {
@@ -105,7 +113,7 @@ void   		add_env_node(t_minivault *minivault, char *key, char *value, int identi
 // builtin functions
 void    	_env(t_minivault *minivault, int out_fd);
 void		_pwd(t_minivault *minivault, int out_fd);
-void		_cd(t_minivault *minivault, t_word *args);
+int			_cd(t_minivault *minivault, t_word *args);
 void		_echo(t_minivault *minivault, t_word *args, int out_fd);
 void    	_unset(t_minivault *minivault, t_word *args);
 void		_export(t_minivault *minivault, t_word *args, int out_fd);
