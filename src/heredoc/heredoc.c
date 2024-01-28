@@ -52,9 +52,29 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 		return (doc->fds[READ]);
 }
 
-char    *_strexpand(t_minivault *minivault, char *line)
+char    *_str_expand(t_minivault *minivault, char *line)
 {
-    (void)minivault;
+    int     i;
+    char    **temp;
+    char    *_built;
+    // char    *freeable;
+
+    i = 0;
+    temp = ft_split(line, ' ');
+    if (!temp)
+        return (line);
+    strexpand(minivault, temp);
+    print_vector(temp);
+    _built = ft_strdup("");
+    while (temp && temp[i])
+    {
+        // freeable = _built;
+        _built = ft_strjoin(_built, temp[i]);
+        // free(freeable);
+        i++;
+    }
+    // liberate_vector(temp);
+    free(temp);
     return (line);
 }
 
@@ -64,6 +84,7 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
 
 	set_signals(SIG_STATE_HD_CHILD);
     close(doc->fds[WRITE]);
+    printf("is expandable: %d\n", doc->expandable);
     while (true)
     {
         line = readline("doc> ");
@@ -76,13 +97,13 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
                 return ;
             }
             if (doc->expandable && line)
-				line = _strexpand(minivault, line); // this needs to be hammered
+				line = _str_expand(minivault, line); // this needs to be hammered
             ft_putendl_fd(line, doc->fds[WRITE]);
         }
         else
             ft_putendl_fd("", doc->fds[WRITE]);
-        if (line)
-            free(line);
+        // if (line)
+        //     free(line);
     }
 }
 
