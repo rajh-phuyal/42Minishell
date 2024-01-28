@@ -62,7 +62,6 @@ t_command	*split_list(t_minivault *minivault, t_token *list, t_content_type type
 	command->words = NULL;
 	command->redir_in = NULL;
 	command->redir_out = NULL;
-	command->redir_out = NULL;
 	if(!command || !list)
         return (NULL);
     if (current == NULL)
@@ -105,6 +104,13 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
+void	_raw_init(t_command *command)
+{
+	command->words = NULL;
+	command->redir_in = NULL;
+	command->redir_out = NULL;
+}
+
 /*
 To calculate the position of the cmd
 asume there is always a command if it reaches this point
@@ -136,9 +142,8 @@ void	grow_baobab(t_minivault	*minivault)
 	minivault->baobab->pipeline[command_count] = NULL;
 	while (i < command_count)
 	{
-		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
 		minivault->baobab->pipeline[i] = split_list(minivault, minivault->tokens, PIPE);
-		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
+		if (minivault->baobab->pipeline[i] == NULL)
 			break ;
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
 				+ (i == (command_count - 1)))

@@ -47,6 +47,25 @@ void	reset_path(t_minivault *minivault)
 		minivault->path = NULL;
 }
 
+void	liberate_baobab(t_baobab *head)
+{
+	int	i;
+
+	i = 0;
+	if (!head)
+		return ;
+	while (head->pipeline && head->pipeline[i])
+	{
+		liberate_words(head->pipeline[i]->words);
+		liberate_redir(head->pipeline[i]->redir_in);
+		liberate_redir(head->pipeline[i]->redir_out);
+		free(head->pipeline[i]);
+		i++;
+	}
+	free(head->pipeline);
+	free(head);
+	head = NULL;
+}
 
 void	cycle_reset(t_minivault *minivault)
 {

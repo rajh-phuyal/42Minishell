@@ -9,10 +9,8 @@ void	liberate_vector(char **vector)
 	if (!vector)
 		return ;
 	while (vector && vector[i])
-	{
-		free(vector[i]);
-		vector[i++] = NULL;
-	}
+		free(vector[i++]);
+	free(vector);
 }
 
 // liberates the memory allocated for the tokens
@@ -46,26 +44,6 @@ void	liberate_envs(t_envs *head)
 			free(tmp->value);
 		free(tmp);
 	}
-}
-
-void	liberate_baobab(t_baobab *head)
-{
-	int	i;
-
-	i = 0;
-	if (!head)
-		return ;
-	while (head->pipeline[i])
-	{
-		liberate_words(head->pipeline[i]->words);
-		liberate_redir(head->pipeline[i]->redir_in);
-		liberate_redir(head->pipeline[i]->redir_out);
-		free(head->pipeline[i]);
-		i++;
-		// head->pipeline[i++] = NULL;
-	}
-	free(head);
-	head = NULL;
 }
 
 // liberates the memory allocated for the tokens and the baobab tree

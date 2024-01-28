@@ -19,6 +19,7 @@ char	*readaline(void)
 void	handle_input(t_minivault *minivault, char *input)
 {
 	set_signals(SIG_STATE_MAIN);
+	minivault->cycles++;
 	if (!input)
 		_exit_vault(minivault, NULL, STDOUT_FILENO);
 	minivault->line = input;
@@ -27,6 +28,6 @@ void	handle_input(t_minivault *minivault, char *input)
 		grow_baobab(minivault);
 		executor(minivault, minivault->baobab->pipeline);
 	}
-	call_debug(minivault);
+	// call_debug(minivault);
 	cycle_reset(minivault);
 }

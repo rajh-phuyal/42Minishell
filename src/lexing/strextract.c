@@ -254,5 +254,6 @@ void	strextract(t_minivault *minivault, char *input)
 	{
 		minivault->input = ft_split(input, '\31');
 		strexpand(minivault, minivault->input);
+		free(input);
 	}
 }

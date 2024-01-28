@@ -19,6 +19,9 @@
 # include "signals.h"
 # include <sys/stat.h>
 
+// set a global variable to check if a signal is received
+extern int	g_signal_status;
+
 // handy macros
 # define GET 0
 # define PUT 1
@@ -68,6 +71,7 @@ typedef struct s_strexp
 // the minieverything
 typedef struct s_minivault
 {
+	int			cycles;
 	char		*line;
 	char		**input;
 	char		**path;

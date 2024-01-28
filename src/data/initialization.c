@@ -33,14 +33,23 @@ void	init_envs(t_minivault *minivault, char **envs)
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
 }
 
+void	init_cycle_vars(t_minivault *minivault)
+{
+	minivault->input = NULL;
+	minivault->tokens = NULL;
+	minivault->baobab = NULL;
+}
+
 int	init_minivault(t_minivault *minivault, char **envs)
 {
+	minivault->cycles = 1;
 	minivault->envs = NULL;
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
 	minivault->env_list = envs;
 	init_envs(minivault, envs);
+	init_cycle_vars(minivault);
 	minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	return (0);
 }
