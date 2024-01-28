@@ -92,4 +92,13 @@ run:
 lrun:
 	@make -s && ./minishell
 
+vrun:
+	@make -s && valgrind --track-origins=yes --leak-check=full --track-fds=yes ./minishell 
+
+mrun:
+	@make -s && valgrind --track-origins=yes --leak-check=full ./minishell
+
+frun:
+	@make -s && valgrind --track-fds=yes ./minishell
+
 .PHONY: all

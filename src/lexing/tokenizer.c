@@ -107,4 +107,5 @@ void	tokenizer(t_minivault *minivault, int seq)
 		    add_token(minivault, minivault->input[i]);
 		i++;
 	}
+    free(minivault->input);
 }

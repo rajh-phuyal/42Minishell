@@ -84,7 +84,6 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
 
 	set_signals(SIG_STATE_HD_CHILD);
     close(doc->fds[WRITE]);
-    printf("is expandable: %d\n", doc->expandable);
     while (true)
     {
         line = readline("doc> ");

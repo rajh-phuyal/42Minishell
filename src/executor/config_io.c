@@ -10,6 +10,7 @@ void	config_io_single(t_minivault *minivault, t_command *command)
 	outfile = get_last_token(command->redir_out);
 	if (infile)
 	{
+		printf("infile fd: %d\n", infile->fd);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd);
 	}
@@ -30,6 +31,7 @@ void	config_io_first(t_minivault	*minivault, t_command *command)
 	outfile = get_last_token(command->redir_out);
 	if (infile)
 	{
+		printf("infile fd: %d\n", infile->fd);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd); // Close the file descriptor after dup2
 	}

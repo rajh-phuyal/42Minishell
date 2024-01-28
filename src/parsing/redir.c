@@ -25,12 +25,16 @@
 
 int	launch_heredoc(t_minivault *minivault, t_token *token)
 {
+	int doc_fd;
+
 	if (!(token->next))
 	{
 		error(minivault, FAILURE, true, "syntax error near unexpected token `newline'", NULL);
 		return (-1);
 	}
-	return (heredoc(minivault, (t_heredoc){{-1, -1}, !(token->next->type == QUOTED), token->next->content}));
+	doc_fd = heredoc(minivault, (t_heredoc){{-1, -1}, !(token->next->type == QUOTED), token->next->content});
+	printf("doc fd: %d\n", doc_fd);
+	return (doc_fd);
 }
 
 // TODO: ERROR HANDLING

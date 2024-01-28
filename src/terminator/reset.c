@@ -69,14 +69,12 @@ void	liberate_baobab(t_baobab *head)
 
 void	cycle_reset(t_minivault *minivault)
 {
-	// clear out the memory stuffs only necessary for the cycle
-	// clean_pip_fds(minivault->baobab->)
-	if (minivault->input)
-		liberate_vector(minivault->input);
 	if (minivault->baobab)
 		liberate_baobab(minivault->baobab);
 	if (minivault->tokens)
 		liberate_tokens(minivault->tokens);
+	else if (minivault->input)
+		liberate_vector(minivault->input);
 	reset_path(minivault);
 	minivault->input = NULL;
 	minivault->tokens = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/27 02:36:40 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/01/28 16:24:25 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,6 @@ static  bool    _valid_key(char *key)
 	return (true);
 }
 
-static char	*exe_concat_v2(char *prev, ...)
-{
-	va_list	args;
-	char	*_built;
-
-	va_start(args, prev);
-	_built = concat_all(args);
-	va_end(args);
-	return (_built);
-}
-
 static int  add_args_to_env(t_minivault *minivault, t_word *args)
 {
     int    _stat;
@@ -69,7 +58,7 @@ static int  add_args_to_env(t_minivault *minivault, t_word *args)
         }
         else
         {
-            err = exe_concat_v2(NULL, "minivault: export: `", args->word, "': ", "not a valid identifier", NULL);
+            err = exe_concat(NULL, "minivault: export: `", args->word, "': ", "not a valid identifier", NULL);
             printf("%s\n", err);
             free(err);
             _stat = FAILURE;

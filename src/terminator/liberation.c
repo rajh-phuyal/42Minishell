@@ -13,7 +13,6 @@ void	liberate_vector(char **vector)
 	free(vector);
 }
 
-// liberates the memory allocated for the tokens
 void	liberate_tokens(t_token *head)
 {
     t_token *tmp;
@@ -23,6 +22,7 @@ void	liberate_tokens(t_token *head)
     while (head)
     {
         tmp = head->next;
+		free(head->content);
         free(head);
         head = tmp;
     }
