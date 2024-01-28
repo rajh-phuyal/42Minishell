@@ -130,7 +130,7 @@ void	grow_baobab(t_minivault	*minivault)
 	while (i < FOPEN_MAX)
 		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
 	i = 0;
-	while (i < command_count - 1 && i < FOPEN_MAX) // what if there ar more commands than FOPEN_MAX
+	while (i < command_count - 1 && i < FOPEN_MAX)
 	{
 		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
 		{
@@ -150,6 +150,4 @@ void	grow_baobab(t_minivault	*minivault)
 			- (2 * (command_count == 1));
 		i++;
 	}
-	// call_debug(minivault);
-	// print_tree(minivault);
 }

@@ -24,6 +24,5 @@ void	builtin_command(t_minivault	*minivault, t_command *command, int pos)
 		_exit_vault(minivault, command->words->next, fd);
 	if (_stat >= 0)
 		set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
-	if (command->pos > 0)
-		close_pipes(minivault, command, pos);
+	close_pipes(minivault, command, pos);
 }
