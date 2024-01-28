@@ -33,7 +33,6 @@ void	handle_input(t_minivault *minivault, char *input)
 		executor(minivault, minivault->baobab->pipeline);
 		set_signals(SIG_STATE_MAIN);
 	}
-	// call_debug(minivault);
 	cycle_reset(minivault);
 	minivault->cycles++;
 }

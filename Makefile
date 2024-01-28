@@ -99,9 +99,7 @@ vrun: readline.supp
 	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 mrun:
-	@make -s && valgrind --track-origins=yes --leak-check=full ./minishell
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
 
-frun:
-	@make -s && valgrind --track-fds=yes ./minishell
 
 .PHONY: all

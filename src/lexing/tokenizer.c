@@ -15,7 +15,6 @@ bool is_quoted(char *token)
 	return(false);
 }
 
-// checks the type of token received
 int	token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", 1))
@@ -41,7 +40,6 @@ t_token *create_new(char *token)
     return (new);
 }
 
-// add tokens to the list of tokens
 void	add_token(t_minivault *minivault, char *token)
 {
     t_token *head;
