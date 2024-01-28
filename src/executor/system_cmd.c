@@ -49,7 +49,7 @@ char	*get_command_path(char **path_list, char *command)
 		freeable = temp;
 		temp = ft_strjoin(temp, command);
 		free(freeable);
-		if (access(temp, F_OK) == 0) // returns if the file exists in the path list
+		if (access(temp, F_OK) == 0)
 			return (temp);
 		free(temp);
 		i++;
@@ -88,32 +88,29 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
     pid_t child = fork();
     if (child == -1)
     {
-		free(cmd_path); // Free the memory allocated by get_command_path
+		free(cmd_path);
         return ;
     }
-    if (child == 0) // Child process
+    if (child == 0)
 	{
 		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
         execve(cmd_path, arg, minivault->env_list);
         perror(RED"Execve failed"RESET_COLOR);
+		free(arg);
         free(cmd_path);
-		liberate_vector(arg);
 		liberation(minivault);
-		// free arg
     }
-	else // Parent process
+	else
 	{
         int status;
 
+		free(arg);
 		free(cmd_path);
-		liberate_vector(arg);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
         waitpid(child, &status, 0);
         if (WIFEXITED(status))
 			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
-		// else
-        //     dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }
 }

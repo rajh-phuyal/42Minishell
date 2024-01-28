@@ -6,7 +6,7 @@
 /*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/28 19:44:04 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/01/28 20:35:20 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ typedef enum e_builtin_err
 {
 	NOHOME,
 	NOPERM,
-	FILENOFOUND
+	FILENOFOUND,
+	NOFILEORDIR
 }	t_builtin_err;
 
 typedef enum e_status

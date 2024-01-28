@@ -6,7 +6,7 @@
 /*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/28 19:47:00 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/01/28 20:37:40 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ static	char	*clear_buff(char *buffer)
 	return (buffer);
 }
 
-static	int	_display_err(t_builtin_err errnum)
+static	int	_display_err(t_builtin_err errnum, char *path)
 {
 	char	*err;
 	
 	err = NULL;
 	if (errnum == NOHOME)
 		err = exe_concat(NULL, "minivault: cd: ", "HOME not set", NULL);
+	if (errnum == NOFILEORDIR)
+		err = exe_concat(NULL, "minivault: cd: ", path, ": No such file or directory", NULL);
 	else if (errnum == NOPERM)
 		err = exe_concat(NULL, "minivault: cd: ", "permission denied", NULL);
 	else if (errnum == FILENOFOUND)
-		err = exe_concat(NULL, "minivault: ", "file not found", NULL);
+		err = exe_concat(NULL, "minivault: cd: ", "file not found", NULL);
 	if (err)
 	{
 		printf("%s\n", err);
@@ -48,7 +50,7 @@ static	int	_goto(t_minivault *minivault, char *path)
 	if (getcwd(buffer, sizeof(buffer)))
 		set_env(minivault, "OLDPWD", ft_strdup(buffer), (1 << 1));
 	if (chdir(path) < 0)
-		return (_display_err(NOPERM));
+		return (_display_err(NOFILEORDIR, path));
 	clear_buff(buffer);
 	if (getcwd(buffer, sizeof(buffer)))
 	{
@@ -69,15 +71,15 @@ static	int	_validate_path_types(t_minivault *minivault, char *path)
 			if (!access(path, X_OK))
 				return (_goto(minivault, path));
 			else
-				return (_display_err(NOPERM));
+				return (_display_err(NOPERM, path));
 		}
 		else if (S_ISREG(_file_stat.st_mode))
 			return (_goto(minivault, path));
 		else
-			return (_display_err(FILENOFOUND));
+			return (_display_err(NOFILEORDIR, path));
 	}
 	else
-		return (_display_err(FILENOFOUND));
+		return (_display_err(NOFILEORDIR, path));
 }
 
 int	_cd(t_minivault *minivault, t_word *args)
@@ -90,7 +92,7 @@ int	_cd(t_minivault *minivault, t_word *args)
 		if (homepath)
 			return (_goto(minivault, homepath));
 		else
-			return (_display_err(NOHOME));
+			return (_display_err(NOHOME, homepath));
 	}
 	else if (args && args->word)
 		return (_validate_path_types(minivault, args->word));
