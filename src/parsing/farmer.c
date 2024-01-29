@@ -98,7 +98,7 @@ t_command	*split_list(t_minivault *minivault, \
 		if (current && (current->type == LITERAL || current->type == QUOTED))
 		{
 			add_word(&(command->words), current);
-			current = current->next;
+			current = current->next->next;
 		}
 	}
 	return (command);
@@ -140,9 +140,9 @@ void	open_pipes(t_minivault *minivault, int i, int command_count)
  * asume there is always a command if it reaches this point
  * start with 1, everything after the first index
  * is asumed as middle (1 + (i > 0))
- * to find the last we can add one more to the first output 
+ * to find the last we can add one more to the first output
  * making it 3 (1 + (i > 0) + (i == (cmd_count - 1))).
- * Lastly subtract 2 if there is only one command to make the final output 0: 
+ * Lastly subtract 2 if there is only one command to make the final output 0:
  * (1 + (i > 0) + (i == (cmd_count - 1))) - (2 * (cmd_count == 1));
 */
 void	grow_baobab(t_minivault	*minivault)

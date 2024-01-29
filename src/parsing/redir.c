@@ -86,7 +86,7 @@ t_operation	find_redirection_type(t_token *token)
 t_redir	*create_redirection_node(t_minivault *minivault, \
 		t_command *command, t_token *token, t_token *next)
 {
-	t_redir	*temp;
+	int		fd;
 	t_redir	*redir;
 
 	if (!token || !next || !next->content)
@@ -95,21 +95,16 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 		"syntax error near unexpected token `newline'", NULL);
 		return (NULL);
 	}
+	if (next->type == QUOTED)
+		remove_quotes(next->content);
+	fd = assign_fd(minivault, command, \
+	find_redirection_type(token), next->content, token);
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
 	redir->operator = find_redirection_type(token);
-	redir->fd = -1;
-	temp = command->redir_in;
-	if (redir->operator == DLESS)
-		command->redir_in = redir;
-	if (next->type == QUOTED)
-		remove_quotes(next->content);
 	redir->word = next->content;
-	redir->fd = assign_fd(minivault, command, \
-	redir->operator, next->content, token);
-	if (redir->operator == DLESS)
-		command->redir_in = temp;
+	redir->fd = fd;
 	// if (redir->fd == -1)
 		// something is fucked
 	redir->next = NULL;

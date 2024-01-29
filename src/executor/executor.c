@@ -47,8 +47,5 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	if (!pipeline)
 		return ;
 	while (pipeline[++pos])
-	{
 		execute_command(minivault, pipeline[pos], pos);
-		printf("executed %d cmd\n", pos);
-	}
 }

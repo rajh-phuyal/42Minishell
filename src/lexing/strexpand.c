@@ -215,10 +215,11 @@ void	strexpand(t_minivault *minivault, char **vector)
 					if (!*(s_iter + 1))
 						break ;
 					_magic = alchemy(minivault, &data, s_iter);
-					if (!_magic)
-						break ;
-					*(s_iter - (data.quoted + data.singleq)) = '\0';
-					_magic = exe_concat(_magic, *v_iter, _magic, NULL);
+					if (_magic && !(_magic[FIRST_ELEM] == PLACEHOLDER[FIRST_ELEM]))
+					{
+						*(s_iter - (data.quoted + data.singleq)) = '\0';
+						_magic = exe_concat(_magic, *v_iter, _magic, NULL);
+					}
 					free(*v_iter);
 					*v_iter = _magic;
 					break ;
