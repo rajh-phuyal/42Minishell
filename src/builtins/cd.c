@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 19:55:58 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/28 20:37:40 by rphuyal          ###   ########.fr       */
+/*   Created: 2024/01/29 18:20:36 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:20:37 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ static	char	*clear_buff(char *buffer)
 static	int	_display_err(t_builtin_err errnum, char *path)
 {
 	char	*err;
-	
+
 	err = NULL;
 	if (errnum == NOHOME)
 		err = exe_concat(NULL, "minivault: cd: ", "HOME not set", NULL);
 	if (errnum == NOFILEORDIR)
-		err = exe_concat(NULL, "minivault: cd: ", path, ": No such file or directory", NULL);
+		err = exe_concat(NULL, "minivault: cd: ", path, \
+		": No such file or directory", NULL);
 	else if (errnum == NOPERM)
 		err = exe_concat(NULL, "minivault: cd: ", "permission denied", NULL);
 	else if (errnum == FILENOFOUND)
@@ -45,7 +46,7 @@ static	int	_display_err(t_builtin_err errnum, char *path)
 
 static	int	_goto(t_minivault *minivault, char *path)
 {
-	char    buffer[PATH_MAX];
+	char	buffer[PATH_MAX];
 
 	if (getcwd(buffer, sizeof(buffer)))
 		set_env(minivault, "OLDPWD", ft_strdup(buffer), (1 << 1));

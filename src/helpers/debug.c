@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:18:57 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:18:59 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -30,17 +41,18 @@ void	print_envs(t_envs *envs)
 {
 	while (envs)
 	{
-		printf("[ (key): %s | (value): %s | (internal): %d | (session): %d ]\n",
-				envs->key, envs->value, envs->internal, envs->session);
+		printf("[ (key): %s | (value): %s " \
+		"| (internal): %d | (session): %d ]\n", \
+		envs->key, envs->value, envs->internal, envs->session);
 		envs = envs->next;
 	}
 }
 
-void    print_tokens(t_token *head)
+void	print_tokens(t_token *head)
 {
-    while (head)
-    {
-        printf("TOKEN: %s | TYPE: %d\n", head->content, head->type);
-        head = head->next;
-    }
+	while (head)
+	{
+		printf("TOKEN: %s | TYPE: %d\n", head->content, head->type);
+		head = head->next;
+	}
 }

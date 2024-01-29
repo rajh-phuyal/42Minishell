@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
+/*   Created: 2024/01/29 18:20:04 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:20:06 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    _unset(t_minivault *minivault, t_word *args)
+void	_unset(t_minivault *minivault, t_word *args)
 {
-    t_envs	*curr;
+	t_envs	*curr;
 
 	while (args)
 	{

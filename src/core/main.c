@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:19:55 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:19:57 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -16,8 +27,8 @@ void	call_debug(t_minivault *minivault)
 	printf("\n----------TREE--------\n");
 	if (minivault)
 		print_baobab(minivault);
-	// printf("\n----------ENV---------\n");
-	// print_envs(minivault->envs);
+	printf("\n----------ENV---------\n");
+	print_envs(minivault->envs);
 }
 
 int	main(int argc, char **argv, char **envs)

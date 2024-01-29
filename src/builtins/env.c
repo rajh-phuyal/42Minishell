@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 19:55:46 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
+/*   Created: 2024/01/29 18:20:24 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:20:25 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    _env(t_minivault *minivault, int out_fd)
+void	_env(t_minivault *minivault, int out_fd)
 {
 	t_envs	*envs;
 

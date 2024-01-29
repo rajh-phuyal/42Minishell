@@ -1,4 +1,16 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strexpand.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:18:18 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:18:20 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 void	_cleaner(t_strexp *data)
 {
@@ -9,7 +21,7 @@ void	_cleaner(t_strexp *data)
 	data->_pos = NULL;
 }
 
-static	void	_exp_validator(char *str, t_strexp *data)
+static void	_exp_validator(char *str, t_strexp *data)
 {
 	char		*end;
 
@@ -81,7 +93,7 @@ bool	_check_heredoc_deli(char *str, char **vector)
 	return (true);
 }
 
-char *get_suffix(char *pos)
+char	*get_suffix(char *pos)
 {
 	char	temp;
 	char	*start;
@@ -109,7 +121,7 @@ char *get_suffix(char *pos)
 	return (suffix);
 }
 
-static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
+static char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 {
 	char	temp;
 	char	*_pos;
@@ -125,7 +137,8 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 	_put_end_break(start, data);
 	while (start && *start)
 	{
-		if (!*(start + 1) || *start == DOLLAR || *start == '\'' || *start == '"')
+		if (!*(start + 1) || *start == DOLLAR \
+		|| *start == '\'' || *start == '"')
 		{
 			if (*(start + 1))
 			{
@@ -146,7 +159,10 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 					if (!_built)
 						_built = exe_concat(_built, value, suffix, NULL);
 					else
-						_built = exe_concat(_built, "'", _built, "'", value, suffix, NULL);
+					{
+						_built = exe_concat(_built, "'", \
+						_built, "'", value, suffix, NULL);
+					}
 				}
 				if (!_built)
 					_built = exe_concat(_built, "", value, suffix, NULL);

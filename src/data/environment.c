@@ -1,25 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:19:48 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:19:49 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void    add_env_node(t_minivault *minivault, char *key, char *value, int identifier)
+void	add_env_node(t_minivault *minivault, char *key, \
+		char *value, int identifier)
 {
 	t_envs	*new;
-    t_envs	*envs;
+	t_envs	*envs;
 
 	new = (t_envs *)malloc(sizeof(t_envs));
 	if (!new)
 		return ;
 	new->key = key;
 	new->value = value;
-    new->internal = (identifier >> 1) & 1;
-    new->session = (identifier >> 2) & 1;
+	new->internal = (identifier >> 1) & 1;
+	new->session = (identifier >> 2) & 1;
 	new->next = NULL;
 	if (!minivault->envs)
-    {
-        minivault->envs = new;
-        return ;
-    }
-    envs = minivault->envs;
+	{
+		minivault->envs = new;
+		return ;
+	}
+	envs = minivault->envs;
 	while (envs->next)
 		envs = envs->next;
 	envs->next = new;
@@ -29,10 +41,10 @@ char	*get_env(t_minivault *minivault, char *key)
 {
 	t_envs	*envs;
 
-    if (!key)
-    {
-        return (NULL);
-    }
+	if (!key)
+	{
+		return (NULL);
+	}
 	envs = minivault->envs;
 	while (envs)
 	{
@@ -40,17 +52,17 @@ char	*get_env(t_minivault *minivault, char *key)
 			return (envs->value);
 		envs = envs->next;
 	}
-    return (NULL);
+	return (NULL);
 }
 
-t_envs  *get_env_node(t_minivault *minivault, char *key)
+t_envs	*get_env_node(t_minivault *minivault, char *key)
 {
 	t_envs	*envs;
 
-     if (!key)
-    {
-        return (NULL);
-    }
+	if (!key)
+	{
+		return (NULL);
+	}
 	envs = minivault->envs;
 	while (envs)
 	{
@@ -58,48 +70,48 @@ t_envs  *get_env_node(t_minivault *minivault, char *key)
 			return (envs);
 		envs = envs->next;
 	}
-    return (NULL);
+	return (NULL);
 }
 
 void	set_env(t_minivault *minivault, char *key, char *value, int identifier)
 {
-    t_envs	*envs;
+	t_envs	*envs;
 
-    envs = minivault->envs;
-    while (envs)
-    {
-        if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
-        {
-            free(envs->value);
-            envs->value = value;
-            return ;
-        }
-        envs = envs->next;
-    }
-    add_env_node(minivault, key, value, identifier);
+	envs = minivault->envs;
+	while (envs)
+	{
+		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
+		{
+			free(envs->value);
+			envs->value = value;
+			return ;
+		}
+		envs = envs->next;
+	}
+	add_env_node(minivault, key, value, identifier);
 }
 
-void    unset_env(t_minivault *minivault, char *key)
+void	unset_env(t_minivault *minivault, char *key)
 {
-    t_envs	*envs;
-    t_envs	*temp;
+	t_envs	*envs;
+	t_envs	*temp;
 
-    temp = NULL;
-    envs = minivault->envs;
-    while (envs)
-    {
-        if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
-        {
-            free(envs->value);
-            free(envs->key);
-            if (temp)
-                temp->next = envs->next;
-            if (envs == minivault->envs)
-                minivault->envs = envs->next;
-            free(envs);
-            break ;
-        }
-        temp = envs;
-        envs = envs->next;
-    }
+	temp = NULL;
+	envs = minivault->envs;
+	while (envs)
+	{
+		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
+		{
+			free(envs->value);
+			free(envs->key);
+			if (temp)
+				temp->next = envs->next;
+			if (envs == minivault->envs)
+				minivault->envs = envs->next;
+			free(envs);
+			break ;
+		}
+		temp = envs;
+		envs = envs->next;
+	}
 }

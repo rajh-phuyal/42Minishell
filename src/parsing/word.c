@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   word.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:17:43 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:17:44 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	trim_string(char *str, int len)
@@ -6,12 +18,12 @@ void	trim_string(char *str, int len)
 	{
 		str[len - 1] = '\0';
 		ft_memmove(str, str + 1, len);
-    }
+	}
 }
 
 // removes quotes from the end and the begginig of each token
 // TODO: handle tokens with only ""
-void remove_quotes(char *str)
+void	remove_quotes(char *str)
 {
 	size_t	len;
 
@@ -20,14 +32,15 @@ void remove_quotes(char *str)
 	{
 		if (is_double_quote(str[FIRST_ELEM]) && is_double_quote(str[len - 1]))
 			trim_string(str, len);
-		else if (is_single_quote(str[FIRST_ELEM]) && is_single_quote(str[len - 1]))
+		else if (is_single_quote(str[FIRST_ELEM]) && \
+		is_single_quote(str[len - 1]))
 			trim_string(str, len);
 	}
 }
 
-t_word *create_word_node(t_token *token)
+t_word	*create_word_node(t_token *token)
 {
-	t_word *word;
+	t_word	*word;
 
 	if (!token || !(token->type == LITERAL || token->type == QUOTED))
 		return (NULL);
