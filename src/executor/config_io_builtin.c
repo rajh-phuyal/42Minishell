@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   config_io_builtin.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 18:19:24 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/01/29 18:49:22 by jalves-c         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	config_io_single_output(t_minivault *minivault, t_command *command)
 {
-	int		fd;
+	int	fd;
 	t_redir	*outfile;
 
 	(void)minivault;
@@ -27,7 +15,7 @@ int	config_io_single_output(t_minivault *minivault, t_command *command)
 
 int	config_io_first_output(t_minivault	*minivault, t_command *command)
 {
-	int		fd;
+	int	fd;
 	t_redir	*outfile;
 
 	fd = STDOUT_FILENO;
@@ -36,15 +24,15 @@ int	config_io_first_output(t_minivault	*minivault, t_command *command)
 		fd = outfile->fd;
 	else
 	{
-		// close(minivault->baobab->pipe_fd[FIRST_ELEM][READ]);
-		fd = minivault->baobab->pipe_fd[FIRST_ELEM][WRITE];
+		// close(minivault->baobab->pipe_fd[0][READ]);
+		fd = minivault->baobab->pipe_fd[0][WRITE];
 	}
 	return (fd);
 }
 
 int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 {
-	int		fd;
+	int	fd;
 	t_redir	*outfile;
 
 	(void)minivault;
@@ -54,6 +42,7 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 		fd = outfile->fd;
 	else
 	{
+
 		fd = minivault->baobab->pipe_fd[pos][WRITE];
 	}
 	return (fd);
@@ -61,7 +50,7 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 
 int	config_io_last_output(t_minivault	*minivault, t_command *command)
 {
-	int		fd;
+	int	fd;
 	t_redir	*outfile;
 
 	(void)minivault;
@@ -74,7 +63,7 @@ int	config_io_last_output(t_minivault	*minivault, t_command *command)
 
 int	config_io_builtin(t_minivault *minivault, t_command *command, int pos)
 {
-	int	fd;
+	int fd;
 
 	fd = STDOUT_FILENO;
 	if (command->pos == SINGLE)
@@ -84,6 +73,6 @@ int	config_io_builtin(t_minivault *minivault, t_command *command, int pos)
 	else if (command->pos == MIDDLE)
 		fd = config_io_middle_output(minivault, command, pos);
 	else if (command->pos == LAST)
-		fd = config_io_last_output(minivault, command);
-	return (fd);
+		fd = config_io_last_output(minivault,command);
+	return(fd);
 }

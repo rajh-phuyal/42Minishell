@@ -1,43 +1,35 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   close_pipes.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 18:19:27 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/01/29 18:19:29 by jalves-c         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	close_pipes_first(t_minivault *minivault)
 {
-	close(minivault->baobab->pipe_fd[FIRST_ELEM][WRITE]);
+    // Close the write end of the first pipe, as the parent won't write to it
+    close(minivault->baobab->pipe_fd[0][WRITE]);
 }
 
 void	close_pipes_middle(t_minivault *minivault, int pos)
 {
-	close(minivault->baobab->pipe_fd[pos - 1][WRITE]);
-	close(minivault->baobab->pipe_fd[pos - 1][READ]);
-	close(minivault->baobab->pipe_fd[pos][WRITE]);
+    // Close the write end of the previous pipe, as the parent won't write to it
+    close(minivault->baobab->pipe_fd[pos - 1][WRITE]);
+
+    // Close the read end of the current pipe, as the parent won't read from it
+    close(minivault->baobab->pipe_fd[pos][WRITE]);
 }
 
 void	close_pipes_last(t_minivault *minivault)
 {
-	int	last_pipe_index;
+    int last_pipe_index;
 
-	last_pipe_index = count_tokens(PIPE, minivault->tokens) - 1;
-	close(minivault->baobab->pipe_fd[last_pipe_index][READ]);
+    last_pipe_index = count_tokens(PIPE, minivault->tokens) - 1;
+    // Close the read end of the last pipe, as the parent won't read from it
+    close(minivault->baobab->pipe_fd[last_pipe_index][READ]);
 }
 
 void	close_pipes(t_minivault	*minivault, t_command *command, int pos)
 {
-	if (command->pos == FIRST)
-		close_pipes_first(minivault);
-	if (command->pos == MIDDLE)
-		close_pipes_middle(minivault, pos);
-	if (command->pos == LAST)
-		close_pipes_last(minivault);
+    if (command->pos == FIRST)
+        close_pipes_first(minivault);
+    if (command->pos == MIDDLE)
+        close_pipes_middle(minivault, pos);
+    if (command->pos == LAST)
+        close_pipes_last(minivault);
 }
