@@ -1,10 +1,10 @@
 #include "minishell.h"
+int	g_signal_status;
 
-void    clean_exit(t_minivault *minivault, int status)
+void    clean_exit_herdoc(t_minivault *minivault, int status)
 {
-    (void)minivault;
-    (void)status;
-    return ;
+    liberation(minivault);
+    exit(status);
 }
 
 void	clean_heredoc_child(t_minivault *minivault, char *input, int fds[2], int status)
@@ -13,7 +13,24 @@ void	clean_heredoc_child(t_minivault *minivault, char *input, int fds[2], int st
     set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
     if (input)
 		free(input);
-	clean_exit(minivault, status);
+	clean_exit_herdoc(minivault, status);
+}
+
+static void	_check_sig_eof(t_minivault *minivault, t_command *command, t_heredoc *doc, char *input)
+{
+    char    *cycle;
+
+	if (g_signal_status == SIGNAL_EXIT_HD)
+        clean_heredoc_child(minivault, input, doc->fds, SUCCESS);
+	if (!input)
+	{
+        cycle = ft_itoa(minivault->cycles);
+        error(minivault, FAILURE, true, "warning: ",
+            "here-document at line ", cycle, " delimited by end-of-file (wanted `", doc->delimiter, "')", NULL);
+        free(cycle);
+        liberate_command(command);
+		clean_heredoc_child(minivault, input, doc->fds, SUCCESS);
+	}
 }
 
 int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
@@ -22,14 +39,12 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 
 	_stat = 0;
 	close(doc->fds[WRITE]);
-    // TODO: config signal handler, to ignore all signals
 	set_signals(SIG_STATE_IGNORE);
 	waitpid(pid, &_stat, 0);
-    // TODO: config signal handler, to handle child signals
 	set_signals(SIG_STATE_HD_CHILD);
-	if (_stat != EXIT_SUCCESS)
+	if (_stat != SUCCESS)
 	{
-		// g_signal_status = SIGINTERRUPT; // for now asuming siginterupt
+		g_signal_status = SIGNAL_EXIT_HD;
         set_env(minivault, "?", ft_itoa(WEXITSTATUS(_stat)), (1 << 1));
 		close(doc->fds[READ]);
 		return (-1);
@@ -38,33 +53,42 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 		return (doc->fds[READ]);
 }
 
-char    *strexpand(t_minivault *minivault, char *line)
+/* fake a 2D array that the expansion needs, \31 doesn't exist on the str */
+char    *_str_expand(t_minivault *minivault, char *line)
 {
-    (void)minivault;
-    return (line);
+    char    **temp;
+    char    *_built;
+
+    temp = ft_split(line, '\31');
+    if (!temp)
+        return (line);
+    strexpand(minivault, temp);
+    _built = temp[FIRST_ELEM];
+    free(temp);
+    return (_built);
 }
 
-void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
+void    start_heredoc(t_minivault *minivault, t_command *command, t_heredoc *doc)
 {
     char    *line;
 
-    // TODO: handel signals and fds
 	set_signals(SIG_STATE_HD_CHILD);
-    close(doc->fds[WRITE]);
+    close(doc->fds[READ]);
     while (true)
     {
         line = readline("doc> ");
-        // TODO: handel signals before continuing
-		// ? : What signal
-        if (line && line[0] != '\0')
+        _check_sig_eof(minivault, command, doc, line);
+        if (line && line[FIRST_ELEM] != '\0')
         {
-            if (!ft_strncmp(line, doc->delimiter, ft_strlen(doc->delimiter)))
+            if (ft_strncmp(line, doc->delimiter, ft_strlen(doc->delimiter)) == 0)
             {
-                clean_heredoc_child(minivault, line, doc->fds, EXIT_SUCCESS);
+                printf("HERDOC %p\n", command->redir_in);
+                liberate_command(command);
+                clean_heredoc_child(minivault, line, doc->fds, SUCCESS);
                 return ;
             }
             if (doc->expandable && line)
-				line = strexpand(minivault, line); // this needs to be hammered
+				line = _str_expand(minivault, line);
             ft_putendl_fd(line, doc->fds[WRITE]);
         }
         else
@@ -74,22 +98,24 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
     }
 }
 
-int heredoc(t_minivault *minivault, t_heredoc doc)
+int heredoc(t_minivault *minivault, t_command *command, t_heredoc doc)
 {
     pid_t   pid;
 
     if (pipe(doc.fds) < 0)
     {
-        clean_exit(minivault, EXIT_FAILURE);
+        liberate_command(command);
+        clean_exit_herdoc(minivault, FAILURE);
         return (-1);
     }
     pid = fork();
     if (pid == -1)
     {
-        clean_exit(minivault, EXIT_FAILURE);
+        liberate_command(command);
+        clean_exit_herdoc(minivault, FAILURE);
         return (-1);
     }
     if (pid == 0)
-        start_heredoc(minivault, &doc);
+        start_heredoc(minivault, command, &doc);
     return (handle_parent(minivault, &doc, pid));
 }

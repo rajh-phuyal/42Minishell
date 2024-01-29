@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
+/*   Updated: 2024/01/28 20:35:20 by rphuyal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -7,6 +19,9 @@
 # include "signals.h"
 # include <sys/stat.h>
 #include <errno.h>
+
+// set a global variable to check if a signal is received
+extern int	g_signal_status;
 
 // handy macros
 # define GET 0
@@ -20,8 +35,18 @@
 # define SECOND_ELEM 1
 
 // exit status related
+# define PREVEXITSTAT "?"
 # define MAXEXTSTATUS 256
 # define EXTSTATUSNONNUM 255
+
+// BUILTIN ERR msgs
+typedef enum e_builtin_err
+{
+	NOHOME,
+	NOPERM,
+	FILENOFOUND,
+	NOFILEORDIR
+}	t_builtin_err;
 
 typedef enum e_status
 {
@@ -44,9 +69,19 @@ typedef struct s_envs
 	struct s_envs	*next;
 }	t_envs;
 
+typedef struct s_strexp
+{
+	char	*_pos;
+	bool	quoted;
+	bool	singleq;
+	bool	isHereDoc;
+	bool	expandable;
+} t_strexp;
+
 // the minieverything
 typedef struct s_minivault
 {
+	int			cycles;
 	char		*line;
 	char		**input;
 	char		**path;
@@ -80,7 +115,7 @@ void   		add_env_node(t_minivault *minivault, char *key, char *value, int identi
 // builtin functions
 void    	_env(t_minivault *minivault, int out_fd);
 void		_pwd(t_minivault *minivault, int out_fd);
-void		_cd(t_minivault *minivault, t_word *args);
+int			_cd(t_minivault *minivault, t_word *args);
 void		_echo(t_minivault *minivault, t_word *args, int out_fd);
 void    	_unset(t_minivault *minivault, t_word *args);
 void		_export(t_minivault *minivault, t_word *args, int out_fd);
@@ -101,11 +136,13 @@ void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
+void		liberate_command(t_command *command);
 void		print_baobab(t_minivault *minivault);
 void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
 
 // utils
-
+char    	*concat_all(va_list args);
+char		*exe_concat(char *prev, ...);
 
 #endif

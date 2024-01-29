@@ -20,24 +20,16 @@ void	call_debug(t_minivault *minivault)
 	// print_envs(minivault->envs);
 }
 
-
-void	handle_input_file(char **argv)
-{
-	(void)argv;
-}
-
 int	main(int argc, char **argv, char **envs)
 {
 	t_minivault	minivault;
 
+	(void)argc;
+	(void)argv;
 	set_signals(SIG_STATE_MAIN);
 	init_minivault(&minivault, envs);
-	if (argc != 1)
-		handle_input_file(argv);
 	while (true)
 		handle_input(&minivault, readaline());
-	close_readline();
-	liberation(&minivault);
 	return (0);
 }
 

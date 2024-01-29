@@ -35,6 +35,25 @@ char	**get_arguments(t_word *words)
 	return (arguments);
 }
 
+
+
+char	*get_command_path(char **path_list, char *command)
+{
+	char *temp;
+	int i = 0;
+
+	while (path_list && path_list[i])
+	{
+		temp = ft_strjoin(path_list[i], "/");
+		temp = ft_strjoin(temp, command);
+		if (access(temp, F_OK) == 0) // returns if the file exists in the path list
+			return (temp);
+		free(temp);
+		i++;
+	}
+	return (NULL);
+}
+
 t_redir *get_last_token(t_redir *head)
 {
 	t_redir *current;
@@ -64,29 +83,28 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
     pid_t child = fork();
     if (child == -1)
     {
-		free(cmd_path); // Free the memory allocated by get_command_path
+		free(cmd_path);
         return ;
     }
-    if (child == 0) // Child process
+    if (child == 0)
 	{
 		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
         execve(cmd_path, arg, minivault->env_list);
-		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", strerror(errno), NULL); // ? check this later
-        // free(cmd_path);
+        perror(RED"Execve failed"RESET_COLOR);
+        free(cmd_path);
 		// free arg
     }
-	else // Parent process
+	else
 	{
         int status;
 
+		free(arg);
+		free(cmd_path);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
         waitpid(child, &status, 0);
         if (WIFEXITED(status))
 			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
-		// else
-        //     dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }
-	// free arg
 }

@@ -43,6 +43,7 @@ char	*remove_spaces(char *input, char separator)
 {
 	char	*modified;
 	char	*dst;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -50,6 +51,7 @@ char	*remove_spaces(char *input, char separator)
 	if (!modified)
 		return (NULL);
 	dst = modified;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -66,9 +68,13 @@ char	*remove_spaces(char *input, char separator)
 			ft_putendl_fd("Single quotes not closed.", 2);
 		else if (inside_double_quotes)
 			ft_putendl_fd("Double quotes not closed.", 2);
-		free (modified);
+		if (temp)
+			free(temp);
+		free(modified);
 		return (NULL);
 	}
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -83,6 +89,7 @@ char	*isolate_quotes(char *input, char separator)
 {
 	char	*modified;
 	int		i;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -90,6 +97,7 @@ char	*isolate_quotes(char *input, char separator)
 	if (!modified)
 		return (NULL);
 	i = 0;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -110,6 +118,8 @@ char	*isolate_quotes(char *input, char separator)
 		input++;
 	}
 	modified[i] = '\0';
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -125,6 +135,7 @@ char	*isolate_char(char *input, char target, char separator)
 {
 	char	*modified;
 	int		i;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -132,6 +143,7 @@ char	*isolate_char(char *input, char target, char separator)
 	if (!modified)
 		return (NULL);
 	i = 0;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
@@ -147,6 +159,8 @@ char	*isolate_char(char *input, char target, char separator)
 		input++;
 	}
 	modified[i] = '\0';
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -163,6 +177,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 {
 	char	*modified;
 	int		i;
+	char	*temp;
 	bool	inside_double_quotes = false;
 	bool	inside_single_quotes = false;
 
@@ -172,10 +187,11 @@ char	*isolate_compound(char *input, char *target, char separator)
 	if (!modified)
 		return (NULL);
 	i = 0;
+	temp = input;
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
-		if (*input == target[0] && *(input + 1) == target[1] \
+		if (*input == target[FIRST_ELEM] && *(input + 1) == target[SECOND_ELEM] \
 			&& inside_double_quotes == false && inside_single_quotes == false)
 		{
 			modified[i++] = separator;
@@ -187,6 +203,8 @@ char	*isolate_compound(char *input, char *target, char separator)
 			modified[i++] = *(input++);
 	}
 	modified[i] = '\0';
+	if (temp)
+		free(temp);
 	return (modified);
 }
 
@@ -278,11 +296,13 @@ void process_strings(char ***input)
  * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
  * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
+
+
 void	strextract(t_minivault *minivault, char *input)
 {
 	
 	// printf("input before                   : %s\n", input);
-	input = remove_spaces(input, '_');
+	input = remove_spaces(input, '\31');
 	// printf("input after remove_spaces      : %s\n", input);
 	if (!input)
 		return ;
@@ -290,24 +310,23 @@ void	strextract(t_minivault *minivault, char *input)
 	// if (!input)
 	// 	return ;
 	// printf("input after isolate_quotes     : %s\n", input);
-	input = isolate_compound(input, ">>", '_');
+	input = isolate_compound(input, ">>", '\31');
 	// printf("input after isolate_compound >>: %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_compound(input, "<<", '_');
+	input = isolate_compound(input, "<<", '\31');
 	// printf("input after isolate_compound <<: %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_char(input, '|', '_');
+	input = isolate_char(input, '|', '\31');
 	// printf("input after isolate_char |     : %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_char(input, '<', '_');
+	input = isolate_char(input, '<', '\31');
 	// printf("input after isolate_char <     : %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_char(input, '>', '_');
-	// printf("input after isolate_char >     : %s\n", input);
+	input = isolate_char(input, '>', '\31');
 	if (!input)
 		return ;
 	char *temp = input;
@@ -318,6 +337,8 @@ void	strextract(t_minivault *minivault, char *input)
 		temp++;
 	}
 	if (input)
-		minivault->input = ft_split(input, '_');
+		minivault->input = ft_split(input, '\31');
 	process_strings(&minivault->input);
+	strexpand(minivault, minivault->input);
+	free(input);
 }

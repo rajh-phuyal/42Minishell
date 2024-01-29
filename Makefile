@@ -2,7 +2,7 @@ NAME  = minishell
 
 CC    = @cc
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 INC = -I./includes
 
@@ -21,9 +21,11 @@ SRC = src/core/main.c \
 	src/builtins/exit.c \
 	src/builtins/unset.c \
 	src/helpers/debug.c \
+	src/helpers/utils.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \
 	src/lexing/strextract.c \
+	src/lexing/strexpand.c \
 	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \
@@ -37,7 +39,6 @@ SRC = src/core/main.c \
 	src/executor/system_cmd.c \
 	src/executor/builtin_cmd.c \
 	src/exceptions/errors.c \
-	src/terminator/utils.c \
 	src/terminator/reset.c \
 	src/terminator/liberation.c
 
@@ -76,7 +77,7 @@ obj/%.o: src/%.c
 
 clean:
 	@make -sC libft clean
-	@rm -rf $(OBJ) obj
+	@rm -rf $(OBJ) obj readline.supp
 	@echo "$(CBOLD)$(BLUE)      Objects removed!    $(RESET)"
 
 fclean: clean
@@ -91,5 +92,15 @@ run:
 
 lrun:
 	@make -s && ./minishell
+
+readline.supp:
+	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+
+vrun: readline.supp
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
+mrun:
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
+
 
 .PHONY: all

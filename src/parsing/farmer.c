@@ -62,7 +62,6 @@ t_command	*split_list(t_minivault *minivault, t_token *list, t_content_type type
 	command->words = NULL;
 	command->redir_in = NULL;
 	command->redir_out = NULL;
-	command->redir_out = NULL;
 	if(!command || !list)
         return (NULL);
     if (current == NULL)
@@ -105,6 +104,21 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
+void	open_pipes(t_minivault *minivault, int i, int command_count)
+{
+	while (i < FOPEN_MAX)
+		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
+	i = 0;
+	while (i < command_count - 1 && i < FOPEN_MAX)
+	{
+		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
+		{
+			// Handle error
+		}
+		i++;
+	}
+}
+
 /*
 To calculate the position of the cmd
 asume there is always a command if it reaches this point
@@ -121,30 +135,20 @@ void	grow_baobab(t_minivault	*minivault)
 	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
 	i = 0;
-	while (i < FOPEN_MAX)
-		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
-	i = 0;
-	while (i < command_count - 1 && i < FOPEN_MAX) // what if there ar more commands than FOPEN_MAX
-	{
-		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
-		{
-			// Handle error
-		}
-		i++;
-	}
-	i = 0;
 	minivault->baobab->pipeline[command_count] = NULL;
 	while (i < command_count)
 	{
-		minivault->baobab->pipeline[i] = (t_command *)malloc(sizeof(t_command));
+		minivault->baobab->pipeline[i] = NULL;
 		minivault->baobab->pipeline[i] = split_list(minivault, minivault->tokens, PIPE);
-		if (minivault->baobab->pipeline[i] == NULL) // something is fucked
+		if (minivault->baobab->pipeline[i] == NULL)
 			break ;
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
 				+ (i == (command_count - 1)))
 			- (2 * (command_count == 1));
 		i++;
 	}
-	// call_debug(minivault);
-	// print_tree(minivault);
+	open_pipes(minivault, 0, command_count);
+	// printf("----------------------\n");
+	// print_baobab(minivault);
+	// printf("----------------------\n\n\n");
 }

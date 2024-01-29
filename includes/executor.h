@@ -21,6 +21,6 @@ char	*handle_path(t_minivault *minivault, char *cmd);
 void	system_command(t_minivault *minivault, t_command *command, int pos);
 void	close_pipes(t_minivault	*minivault, t_command *command, int pos);
 void	builtin_command(t_minivault	*minivault, t_command *command, int pos);
-int 	heredoc(t_minivault *minivault, t_heredoc doc);
+int     heredoc(t_minivault *minivault, t_command *command, t_heredoc doc);
 
 #endif

@@ -24,8 +24,8 @@ int	config_io_first_output(t_minivault	*minivault, t_command *command)
 		fd = outfile->fd;
 	else
 	{
-		// close(minivault->baobab->pipe_fd[0][READ]);
-		fd = minivault->baobab->pipe_fd[0][WRITE];
+		// close(minivault->baobab->pipe_fd[FIRST_ELEM][READ]);
+		fd = minivault->baobab->pipe_fd[FIRST_ELEM][WRITE];
 	}
 	return (fd);
 }

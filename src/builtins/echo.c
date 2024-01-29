@@ -36,7 +36,6 @@ static  t_word  *_skip_options(t_word *args)
 
 void    _echo(t_minivault *minivault, t_word *args, int out_fd)
 {
-    (void)minivault;
     _existance(false, false);
     if (args)
     {
@@ -53,4 +52,5 @@ void    _echo(t_minivault *minivault, t_word *args, int out_fd)
     }
     else
         ft_putchar_fd('\n', out_fd);
+    set_env(minivault, PREVEXITSTAT, ft_itoa(SUCCESS), (1 << 1));
 }

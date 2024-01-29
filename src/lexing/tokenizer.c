@@ -7,15 +7,14 @@ bool is_quoted(char *token)
 	len = ft_strlen(token);
 	if (len >= 2)
 	{
-		if (is_double_quote(token[0]) && is_double_quote(token[len - 1]))
+		if (is_double_quote(token[FIRST_ELEM]) && is_double_quote(token[len - 1]))
 			return(true);
-		else if (is_single_quote(token[0]) && is_single_quote(token[len - 1]))
+		else if (is_single_quote(token[FIRST_ELEM]) && is_single_quote(token[len - 1]))
 			return(true);
 	}
 	return(false);
 }
 
-// checks the type of token received
 int	token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", 1))
@@ -41,7 +40,6 @@ t_token *create_new(char *token)
     return (new);
 }
 
-// add tokens to the list of tokens
 void	add_token(t_minivault *minivault, char *token)
 {
     t_token *head;
@@ -102,7 +100,12 @@ void	tokenizer(t_minivault *minivault, int seq)
 	// ? what is seq for?
 	while (minivault->input && minivault->input[i])
 	{
-		add_token(minivault, minivault->input[i]);
+        if (minivault->input[i] && \
+            !(minivault->input[i][FIRST_ELEM] == PLACEHOLDER[FIRST_ELEM]))
+		    add_token(minivault, minivault->input[i]);
+        else
+            free(minivault->input[i]);
 		i++;
 	}
+    free(minivault->input);
 }
