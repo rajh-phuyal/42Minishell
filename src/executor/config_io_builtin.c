@@ -6,7 +6,7 @@
 /*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:19:24 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/01/29 18:19:26 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/01/29 18:49:22 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 	if (outfile)
 		fd = outfile->fd;
 	else
+	{
 		fd = minivault->baobab->pipe_fd[pos][WRITE];
+	}
 	return (fd);
 }
 
