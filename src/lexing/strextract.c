@@ -212,7 +212,7 @@ static char *strip_double_quotes(char *input)
 {
     char *new_str;
 
-    if (!input || strlen(input) != 2)
+    if (!input || ft_strlen(input) != 2)
         return (input);
     if ((is_single_quote(input[0]) && is_single_quote(input[1])) ||
         (is_double_quote(input[0]) && is_double_quote(input[1])))
