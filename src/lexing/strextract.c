@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strextract.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:18:14 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:18:16 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -33,11 +44,13 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
 
 /**
  * * remove_spaces
- * @brief 	if one or multiple spaces are found outside of a quotes, they are replaced by the separator
- * 			E.g.: hello        world "   again" -> hello\world\"   again" <- where \ is the separator
+ * @brief 	if one or multiple spaces are found outside of a quotes,
+ *  they are replaced by the separator
+ * 			E.g.: hello        world "   again"
+ * 			 	 hello\world\"   again" 
+ *       where \ is the separator
+ * 
  * 			It also checks if there are unclosed quotes in the input string
- * ! FIX: This segfaults in the case of unclosed quotes, can't just return NULL
- * ! If a quote is missing it should return the prompt util the quotes are closed
  * @param input is the input string
  * @param separator the char used to replace the spaces
 */
@@ -46,9 +59,11 @@ char	*remove_spaces(char *input, char separator)
 	char	*modified;
 	char	*dst;
 	char	*temp;
-	bool	inside_double_quotes = false;
-	bool	inside_single_quotes = false;
+	bool	inside_double_quotes;
+	bool	inside_single_quotes;
 
+	inside_double_quotes = false;
+	inside_single_quotes = false;
 	modified = (char *)malloc(sizeof(char) * ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
@@ -57,7 +72,8 @@ char	*remove_spaces(char *input, char separator)
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
-		if (is_space(*input) && inside_double_quotes == false && inside_single_quotes == false)
+		if (is_space(*input) && inside_double_quotes == false && \
+		inside_single_quotes == false)
 			*(dst++) = separator;
 		else
 			*(dst++) = *input;
@@ -82,7 +98,8 @@ char	*remove_spaces(char *input, char separator)
 
 /**
  * * isolate_quotes
- * @brief	a quoted string is found inside of the input string it is isolated by the separator.
+ * @brief	a quoted string is found inside of the input string 
+ * 			it is isolated by the separator.
  * 			E.g.: hello"world"123 becomes hello "world" 123
  * @param input is the input string
  * @param separator the char used to isolate the quoted string in the input
@@ -92,9 +109,11 @@ char	*isolate_quotes(char *input, char separator)
 	char	*modified;
 	int		i;
 	char	*temp;
-	bool	inside_double_quotes = false;
-	bool	inside_single_quotes = false;
+	bool	inside_double_quotes;
+	bool	inside_single_quotes;
 
+	inside_double_quotes = false;
+	inside_single_quotes = false;
 	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + 1);
 	if (!modified)
 		return (NULL);
@@ -103,14 +122,18 @@ char	*isolate_quotes(char *input, char separator)
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
-		if ((is_single_quote(*input) && inside_single_quotes == true && inside_double_quotes == false) || \
-			(is_double_quote(*input) && inside_double_quotes == true && inside_single_quotes == false))
+		if ((is_single_quote(*input) && inside_single_quotes == true \
+		&& inside_double_quotes == false) \
+		|| (is_double_quote(*input) && inside_double_quotes == true \
+		&& inside_single_quotes == false))
 		{
 			modified[i++] = separator;
 			modified[i++] = *input;
 		}
-		else if ((is_single_quote(*input) && inside_single_quotes == false && inside_double_quotes == false) || \
-				(is_double_quote(*input) && inside_double_quotes == false && inside_single_quotes == false))
+		else if ((is_single_quote(*input) && inside_single_quotes == false \
+		&& inside_double_quotes == false) \
+		|| (is_double_quote(*input) && inside_double_quotes == false \
+		&& inside_single_quotes == false))
 		{
 			modified[i++] = *input;
 			modified[i++] = separator;
@@ -127,7 +150,8 @@ char	*isolate_quotes(char *input, char separator)
 
 /**
  * * isolate_char
- * @brief	if the target char is found inside the input string (outside of single or double quotes)
+ * @brief	if the target char is found inside the input string
+ *          (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>1 becomes hello > 1
  * @param input is the input string
  * @param target is the target char
@@ -138,9 +162,11 @@ char	*isolate_char(char *input, char target, char separator)
 	char	*modified;
 	int		i;
 	char	*temp;
-	bool	inside_double_quotes = false;
-	bool	inside_single_quotes = false;
+	bool	inside_double_quotes;
+	bool	inside_single_quotes;
 
+	inside_double_quotes = false;
+	inside_single_quotes = false;
 	modified = (char *)malloc(2 * (ft_strlen(input) + 1) + 1);
 	if (!modified)
 		return (NULL);
@@ -168,24 +194,29 @@ char	*isolate_char(char *input, char target, char separator)
 
 /**
  * * isolate_compund
- * @brief	if the target string is found inside the input string (outside of single or double quotes)
+ * @brief	if the target string is found inside the input string
+ *          (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
  * @param input is the input string
  * @param target is the target string
  * @param separator the char used to isolate the target in the input
  * ! FIX: the only chars "used" from the target string are the first two
 */
+
 char	*isolate_compound(char *input, char *target, char separator)
 {
 	char	*modified;
 	int		i;
 	char	*temp;
-	bool	inside_double_quotes = false;
-	bool	inside_single_quotes = false;
+	bool	inside_double_quotes;
+	bool	inside_single_quotes;
 
-	if(!input)
+	inside_double_quotes = false;
+	inside_single_quotes = false;
+	if (!input)
 		return (NULL);
-	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + 1); // + 1 should be + sizeof(char) ?
+	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) \
+	+ sizeof(char));
 	if (!modified)
 		return (NULL);
 	i = 0;
@@ -210,21 +241,98 @@ char	*isolate_compound(char *input, char *target, char separator)
 	return (modified);
 }
 
+static char	*strip_double_quotes(char *input)
+{
+	char	*new_str;
+
+	if (!input || ft_strlen(input) != 2)
+		return (input);
+	if ((is_single_quote(input[0]) && is_single_quote(input[1])) \
+	|| (is_double_quote(input[0]) && is_double_quote(input[1])))
+	{
+		new_str = malloc(2);
+		if (new_str)
+		{
+			new_str[0] = '\31';
+			new_str[1] = '\0';
+			return (new_str);
+		}
+	}
+	return (input);
+}
+
+static char	*clean_quotes(char *input)
+{
+	int		len;
+	int		i;
+	int		j;
+	char	*cleaned;
+	bool	in_double_quotes;
+	bool	in_single_quotes;
+
+	len = ft_strlen(input);
+	if (!input || (len < 2))
+		return (input);
+	in_double_quotes = false;
+	in_single_quotes = false;
+	cleaned = malloc(len + sizeof(char));
+	if (!cleaned)
+		return (NULL);
+	j = 0;
+	i = -1;
+	while (++i < len)
+	{
+		toggle_quotes(input[i], &in_double_quotes, &in_single_quotes);
+		if ((!is_single_quote(input[i]) && !is_double_quote(input[i])) \
+		|| (in_single_quotes && is_double_quote(input[i])) \
+		|| (in_double_quotes && is_single_quote(input[i])))
+			cleaned[j++] = input[i];
+	}
+	cleaned[j] = '\0';
+	return (cleaned);
+}
+
+void	process_strings(char ***input)
+{
+	char	*temp;
+	char	*temp2;
+	int		i;
+
+	if (!input || !*input)
+		return ;
+	i = 0;
+	while ((*input)[i])
+	{
+		temp = strip_double_quotes((*input)[i]);
+		if (temp != (*input)[i])
+		{
+			free((*input)[i]);
+			(*input)[i] = temp;
+		}
+		temp2 = clean_quotes((*input)[i]);
+		if (temp2 != (*input)[i])
+		{
+			free((*input)[i]);
+			(*input)[i] = temp2;
+		}
+		i++;
+	}
+}
+
 /**
  * * strextract
- * @brief	 spaces, isolates special chars and splits the input string into a vector 2D ARRAY
+ * @brief	 spaces, isolates special chars and splits the 
+ *           input string into a vector 2D ARRAY
  * @param minivault is a pointer to the "general" structure
  * @param input is the input string
  * ? Can this be made in a more efficient way
- * TODO: Check how () works. It has the same logic as quotes?
  * TODO: Realloc beffore splitting
- * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
- * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
 */
-
 
 void	strextract(t_minivault *minivault, char *input)
 {
+	char	*temp;
+
 	input = remove_spaces(input, '\31');
 	if (!input)
 		return ;
@@ -243,7 +351,7 @@ void	strextract(t_minivault *minivault, char *input)
 	input = isolate_char(input, '>', '\31');
 	if (!input)
 		return ;
-	char *temp = input;
+	temp = input;
 	while (temp && *temp)
 	{
 		if (*temp < 0)
@@ -251,9 +359,8 @@ void	strextract(t_minivault *minivault, char *input)
 		temp++;
 	}
 	if (input)
-	{
 		minivault->input = ft_split(input, '\31');
-		strexpand(minivault, minivault->input);
-		free(input);
-	}
+	process_strings(&minivault->input);
+	strexpand(minivault, minivault->input);
+	free(input);
 }

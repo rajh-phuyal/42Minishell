@@ -1,111 +1,137 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 18:18:09 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:34:41 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-bool is_quoted(char *token)
+bool	is_quoted(char *token)
 {
-	size_t len;
+	size_t	len;
 
 	len = ft_strlen(token);
 	if (len >= 2)
 	{
-		if (is_double_quote(token[FIRST_ELEM]) && is_double_quote(token[len - 1]))
-			return(true);
-		else if (is_single_quote(token[FIRST_ELEM]) && is_single_quote(token[len - 1]))
-			return(true);
+		if (is_double_quote(token[FIRST_ELEM]) \
+		&& is_double_quote(token[len - 1]))
+			return (true);
+		else if (is_single_quote(token[FIRST_ELEM]) \
+		&& is_single_quote(token[len - 1]))
+			return (true);
 	}
-	return(false);
+	return (false);
 }
+
+bool	is_pipe(char *token)
+{
+	return (!ft_strncmp(token, "|", 1));
+}
+
+bool	is_redirection(char *token)
+{
+	if (!ft_strncmp(token, ">", 1) || !ft_strncmp(token, "<", 1) \
+	|| !ft_strncmp(token, ">>", 2) || !ft_strncmp(token, "<<", 2))
+		return (true);
+	return (false);
+}
+
 
 int	token_type(char *token)
 {
-	if (!ft_strncmp(token, "|", 1))
+	if (is_pipe(token))
 		return (PIPE);
-	else if (!ft_strncmp(token, ">", 1 ) || !ft_strncmp(token, "<", 1) || \
-			!ft_strncmp(token, ">>", 2 ) || !ft_strncmp(token, "<<", 2) )
+	else if (is_redirection(token))
 		return (REDIRECTION);
-	else if (is_quoted(token))
+	if (is_quoted(token))
 		return (QUOTED);
 	return (LITERAL);
 }
 
-t_token *create_new(char *token)
+t_token	*create_new(char *token)
 {
-    t_token *new;
+	t_token	*new;
 
-    new = (t_token *)malloc(sizeof(t_token));
-    if (!new)
-        return (NULL);
-    new->next = NULL;
-    new->type = token_type(token);
-    new->content = token;
-    return (new);
+	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->next = NULL;
+	new->type = token_type(token);
+	new->content = token;
+	return (new);
 }
 
 void	add_token(t_minivault *minivault, char *token)
 {
-    t_token *head;
-    t_token *token_node;
+	t_token	*head;
+	t_token	*token_node;
 
-    head = minivault->tokens;
-    token_node = create_new(token);
-    if (!head)
-    {
-        minivault->tokens = token_node;
-        return ;
-    }
-    if (head && !head->next)
-    {
-        head->next = token_node;
-        return ;
-    }
-    while (head->next)
-        head = head->next;
-    head->next = token_node;
+	head = minivault->tokens;
+	token_node = create_new(token);
+	if (!head)
+	{
+		minivault->tokens = token_node;
+		return ;
+	}
+	if (head && !head->next)
+	{
+		head->next = token_node;
+		return ;
+	}
+	while (head->next)
+		head = head->next;
+	head->next = token_node;
 }
 
-t_token *get_tail(t_token *head)
+t_token	*get_tail(t_token *head)
 {
-    if (!head)
-        return (NULL);
-    while (head->next)
-        head = head->next;
-    return (head);
+	if (!head)
+		return (NULL);
+	while (head->next)
+		head = head->next;
+	return (head);
 }
 
 // remove the token from the list of tokens
-void    remove_token(t_token *head, t_token *node)
+void	remove_token(t_token *head, t_token *node)
 {
-    t_token *temp;
+	t_token	*temp;
 
-    if (!node)
-        return ;
-    if (!node->next)
-    {
-        while (head->next != node)
-            head = head->next;
-        free(node);
-        head->next = NULL;
-        return ;
-    }
-    temp = node->next;
-    node->content = temp->content;
-    node->next = temp->next;
-    free(temp);
+	if (!node)
+		return ;
+	if (!node->next)
+	{
+		while (head->next != node)
+			head = head->next;
+		free(node);
+		head->next = NULL;
+		return ;
+	}
+	temp = node->next;
+	node->content = temp->content;
+	node->next = temp->next;
+	free(temp);
 }
 
-void	tokenizer(t_minivault *minivault, int seq)
+void	tokenizer(t_minivault *minivault)
 {
-	int i = 0;
+	int	i;
 
-	(void)seq;
-	// ? what is seq for?
+	i = 0;
 	while (minivault->input && minivault->input[i])
 	{
-        if (minivault->input[i] && \
-            !(minivault->input[i][FIRST_ELEM] == PLACEHOLDER[FIRST_ELEM]))
-		    add_token(minivault, minivault->input[i]);
-        else
-            free(minivault->input[i]);
+		if (minivault->input[i] && \
+			!(minivault->input[i][FIRST_ELEM] == PLACEHOLDER[FIRST_ELEM]))
+			add_token(minivault, minivault->input[i]);
+		else
+			free(minivault->input[i]);
 		i++;
 	}
-    free(minivault->input);
+	free(minivault->input);
 }

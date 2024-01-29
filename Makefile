@@ -35,6 +35,7 @@ SRC = src/core/main.c \
 	src/executor/close_pipes.c \
 	src/executor/config_io_builtin.c \
 	src/executor/executor.c \
+	src/executor/path.c \
 	src/executor/system_cmd.c \
 	src/executor/builtin_cmd.c \
 	src/exceptions/errors.c \

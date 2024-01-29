@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jalves-c < jalves-c@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/28 16:09:03 by rphuyal          ###   ########.fr       */
+/*   Created: 2024/01/29 18:19:41 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/01/29 18:19:43 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	_free_or_not(char **vec)
 {
@@ -25,6 +24,7 @@ void	_free_or_not(char **vec)
 		i++;
 	}
 }
+
 /*
 to set only the internal to true -> (1 << 1)
 to set only the session to true -> (1 << 2)
@@ -40,7 +40,8 @@ void	init_envs(t_minivault *minivault, char **envs)
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		add_env_node(minivault, splitted[FIRST_ELEM], splitted[SECOND_ELEM], (1 << 2));
+		add_env_node(minivault, splitted[FIRST_ELEM], \
+		splitted[SECOND_ELEM], (1 << 2));
 		_free_or_not(splitted);
 		free(splitted);
 	}
