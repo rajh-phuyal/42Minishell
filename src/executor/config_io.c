@@ -10,7 +10,6 @@ void	config_io_single(t_minivault *minivault, t_command *command)
 	outfile = get_last_token(command->redir_out);
 	if (infile)
 	{
-		printf("infile fd: %d\n", infile->fd);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd);
 	}
@@ -30,7 +29,6 @@ void	config_io_first(t_minivault	*minivault, t_command *command)
 	outfile = get_last_token(command->redir_out);
 	if (infile)
 	{
-		printf("infile fd: %d\n", infile->fd);
 		dup2(infile->fd, STDIN_FILENO);
 		close(infile->fd);
 	}
@@ -41,9 +39,9 @@ void	config_io_first(t_minivault	*minivault, t_command *command)
 	}
 	else
 	{
-		close(minivault->baobab->pipe_fd[0][READ]);
-		dup2(minivault->baobab->pipe_fd[0][WRITE], STDOUT_FILENO);
-		close(minivault->baobab->pipe_fd[0][WRITE]);
+		close(minivault->baobab->pipe_fd[FIRST_ELEM][READ]);
+		dup2(minivault->baobab->pipe_fd[FIRST_ELEM][WRITE], STDOUT_FILENO);
+		close(minivault->baobab->pipe_fd[FIRST_ELEM][WRITE]);
 	}
 }
 

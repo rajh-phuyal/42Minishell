@@ -16,7 +16,7 @@ void	clean_heredoc_child(t_minivault *minivault, char *input, int fds[2], int st
 	clean_exit_herdoc(minivault, status);
 }
 
-static void	_check_sig_eof(t_minivault *minivault, t_heredoc *doc, char *input)
+static void	_check_sig_eof(t_minivault *minivault, t_command *command, t_heredoc *doc, char *input)
 {
     char    *cycle;
 
@@ -28,6 +28,7 @@ static void	_check_sig_eof(t_minivault *minivault, t_heredoc *doc, char *input)
         error(minivault, FAILURE, true, "warning: ",
             "here-document at line ", cycle, " delimited by end-of-file (wanted `", doc->delimiter, "')", NULL);
         free(cycle);
+        liberate_command(command);
 		clean_heredoc_child(minivault, input, doc->fds, SUCCESS);
 	}
 }
@@ -52,6 +53,7 @@ int handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 		return (doc->fds[READ]);
 }
 
+/* fake a 2D array that the expansion needs, \31 doesn't exist on the str */
 char    *_str_expand(t_minivault *minivault, char *line)
 {
     char    **temp;
@@ -61,12 +63,12 @@ char    *_str_expand(t_minivault *minivault, char *line)
     if (!temp)
         return (line);
     strexpand(minivault, temp);
-    _built = temp[0];
+    _built = temp[FIRST_ELEM];
     free(temp);
     return (_built);
 }
 
-void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
+void    start_heredoc(t_minivault *minivault, t_command *command, t_heredoc *doc)
 {
     char    *line;
 
@@ -75,11 +77,13 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
     while (true)
     {
         line = readline("doc> ");
-        _check_sig_eof(minivault, doc, line);
-        if (line && line[0] != '\0')
+        _check_sig_eof(minivault, command, doc, line);
+        if (line && line[FIRST_ELEM] != '\0')
         {
             if (ft_strncmp(line, doc->delimiter, ft_strlen(doc->delimiter)) == 0)
             {
+                printf("HERDOC %p\n", command->redir_in);
+                liberate_command(command);
                 clean_heredoc_child(minivault, line, doc->fds, SUCCESS);
                 return ;
             }
@@ -94,22 +98,24 @@ void    start_heredoc(t_minivault *minivault, t_heredoc *doc)
     }
 }
 
-int heredoc(t_minivault *minivault, t_heredoc doc)
+int heredoc(t_minivault *minivault, t_command *command, t_heredoc doc)
 {
     pid_t   pid;
 
     if (pipe(doc.fds) < 0)
     {
+        liberate_command(command);
         clean_exit_herdoc(minivault, FAILURE);
         return (-1);
     }
     pid = fork();
     if (pid == -1)
     {
+        liberate_command(command);
         clean_exit_herdoc(minivault, FAILURE);
         return (-1);
     }
     if (pid == 0)
-        start_heredoc(minivault, &doc);
+        start_heredoc(minivault, command, &doc);
     return (handle_parent(minivault, &doc, pid));
 }

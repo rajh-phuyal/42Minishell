@@ -135,6 +135,7 @@ void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
 void		liberate_baobab(t_baobab *head);
+void		liberate_command(t_command *command);
 void		print_baobab(t_minivault *minivault);
 void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);

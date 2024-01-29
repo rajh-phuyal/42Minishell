@@ -104,11 +104,19 @@ int		count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
-void	_raw_init(t_command *command)
+void	open_pipes(t_minivault *minivault, int i, int command_count)
 {
-	command->words = NULL;
-	command->redir_in = NULL;
-	command->redir_out = NULL;
+	while (i < FOPEN_MAX)
+		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
+	i = 0;
+	while (i < command_count - 1 && i < FOPEN_MAX)
+	{
+		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
+		{
+			// Handle error
+		}
+		i++;
+	}
 }
 
 /*
@@ -127,21 +135,10 @@ void	grow_baobab(t_minivault	*minivault)
 	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
 	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) * (command_count + 1));
 	i = 0;
-	while (i < FOPEN_MAX)
-		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
-	i = 0;
-	while (i < command_count - 1 && i < FOPEN_MAX)
-	{
-		if (pipe(minivault->baobab->pipe_fd[i]) < 0)
-		{
-			// Handle error
-		}
-		i++;
-	}
-	i = 0;
 	minivault->baobab->pipeline[command_count] = NULL;
 	while (i < command_count)
 	{
+		minivault->baobab->pipeline[i] = NULL;
 		minivault->baobab->pipeline[i] = split_list(minivault, minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL)
 			break ;
@@ -150,4 +147,8 @@ void	grow_baobab(t_minivault	*minivault)
 			- (2 * (command_count == 1));
 		i++;
 	}
+	open_pipes(minivault, 0, command_count);
+	// printf("----------------------\n");
+	// print_baobab(minivault);
+	// printf("----------------------\n\n\n");
 }

@@ -2,7 +2,7 @@
 
 void	close_pipes_first(t_minivault *minivault)
 {
-    close(minivault->baobab->pipe_fd[0][WRITE]);
+    close(minivault->baobab->pipe_fd[FIRST_ELEM][WRITE]);
 }
 
 void	close_pipes_middle(t_minivault *minivault, int pos)

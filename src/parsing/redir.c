@@ -23,7 +23,7 @@
  * heredoc
 */
 
-int	launch_heredoc(t_minivault *minivault, t_token *token)
+int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
 {
 	int doc_fd;
 
@@ -32,14 +32,13 @@ int	launch_heredoc(t_minivault *minivault, t_token *token)
 		error(minivault, FAILURE, true, "syntax error near unexpected token `newline'", NULL);
 		return (-1);
 	}
-	doc_fd = heredoc(minivault, (t_heredoc){{-1, -1}, !(token->next->type == QUOTED), token->next->content});
-	printf("doc fd: %d\n", doc_fd);
+	doc_fd = heredoc(minivault, command, (t_heredoc){{-1, -1}, !(token->next->type == QUOTED), token->next->content});
 	return (doc_fd);
 }
 
 // TODO: ERROR HANDLING
 // TODO: HEREDOC
-int	assign_fd(t_minivault *minivault, t_operation operator, char *file, t_token *token)
+int	assign_fd(t_minivault *minivault, t_command *command, t_operation operator, char *file, t_token *token)
 {
 	if (operator == GREAT)
 		return (open(file, O_CREAT | O_RDWR | O_TRUNC, 0644));
@@ -49,7 +48,7 @@ int	assign_fd(t_minivault *minivault, t_operation operator, char *file, t_token 
 		return (open(file, O_RDONLY));
 	// ! bash: <file>: No such file or directory
 	else if (operator == DLESS)
-		return (launch_heredoc(minivault, token));
+		return (launch_heredoc(minivault, command, token));
 	return (-1);
 }
 
@@ -69,21 +68,30 @@ t_operation	find_redirection_type(t_token *token)
 	return (ERROR);
 }
 
-t_redir *create_redirection_node(t_minivault *minivault, t_token *token, t_token *next)
+t_redir *create_redirection_node(t_minivault *minivault, t_command *command, t_token *token, t_token *next)
 {
+	t_redir *temp;
 	t_redir *redir;
 
 	if (!token || !next || !next->content)
+	{
+		error(minivault, FAILURE, true, "syntax error near unexpected token `newline'", NULL);
 		return (NULL);
-		//bash: syntax error near unexpected token `newline'
+	}
 	redir = (t_redir *)malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
 	redir->operator = find_redirection_type(token);
+	redir->fd = -1;
+	temp = command->redir_in;
+	if (redir->operator == DLESS)
+		command->redir_in = redir;
 	if (next->type == QUOTED)
 		remove_quotes(next->content);
 	redir->word = next->content;
-	redir->fd = assign_fd(minivault, redir->operator, next->content, token);
+	redir->fd = assign_fd(minivault, command, redir->operator, next->content, token);
+	if (redir->operator == DLESS)
+		command->redir_in = temp;
 	// if (redir->fd == -1)
 		// something is fucked
 	redir->next = NULL;
@@ -113,7 +121,7 @@ void	add_redirection(t_minivault *minivault, t_command **command, t_token *token
 
 	redir = NULL;
 	if(token && next)
-		redir = create_redirection_node(minivault, token, next);
+		redir = create_redirection_node(minivault, *command, token, next);
 	if (!redir) // something is fucked handle this case // || redir->operator == ERROR
 		return ;
 	if (redir->operator == DGREAT || redir->operator == GREAT)

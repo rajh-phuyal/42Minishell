@@ -21,7 +21,7 @@ void	handle_input(t_minivault *minivault, char *input)
 	set_signals(SIG_STATE_MAIN);
 	if (!input)
 		_exit_vault(minivault, NULL, STDOUT_FILENO);
-	else if (input && input[0] == '\0')
+	else if (input && input[FIRST_ELEM] == '\0')
 	{
 		free(input);
 		return ;

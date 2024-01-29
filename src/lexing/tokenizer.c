@@ -7,9 +7,9 @@ bool is_quoted(char *token)
 	len = ft_strlen(token);
 	if (len >= 2)
 	{
-		if (is_double_quote(token[0]) && is_double_quote(token[len - 1]))
+		if (is_double_quote(token[FIRST_ELEM]) && is_double_quote(token[len - 1]))
 			return(true);
-		else if (is_single_quote(token[0]) && is_single_quote(token[len - 1]))
+		else if (is_single_quote(token[FIRST_ELEM]) && is_single_quote(token[len - 1]))
 			return(true);
 	}
 	return(false);
@@ -103,6 +103,8 @@ void	tokenizer(t_minivault *minivault, int seq)
         if (minivault->input[i] && \
             !(minivault->input[i][FIRST_ELEM] == PLACEHOLDER[FIRST_ELEM]))
 		    add_token(minivault, minivault->input[i]);
+        else
+            free(minivault->input[i]);
 		i++;
 	}
     free(minivault->input);

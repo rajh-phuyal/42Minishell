@@ -24,7 +24,8 @@ void	liberate_redir(t_redir *head)
 	{
 		tmp = head;
 		head = head->next;
-		close(tmp->fd);
+		if (tmp->fd != -1)
+			close(tmp->fd);
 		free(tmp);
 	}
 }
@@ -47,6 +48,16 @@ void	reset_path(t_minivault *minivault)
 		minivault->path = NULL;
 }
 
+void	liberate_command(t_command *command)
+{
+	if (!command)
+		return ;
+	liberate_words(command->words);
+	liberate_redir(command->redir_in);
+	liberate_redir(command->redir_out);
+	free(command);
+}
+
 void	liberate_baobab(t_baobab *head)
 {
 	int	i;
@@ -55,13 +66,7 @@ void	liberate_baobab(t_baobab *head)
 	if (!head)
 		return ;
 	while (head->pipeline && head->pipeline[i])
-	{
-		liberate_words(head->pipeline[i]->words);
-		liberate_redir(head->pipeline[i]->redir_in);
-		liberate_redir(head->pipeline[i]->redir_out);
-		free(head->pipeline[i]);
-		i++;
-	}
+		liberate_command(head->pipeline[i++]);
 	free(head->pipeline);
 	free(head);
 	head = NULL;

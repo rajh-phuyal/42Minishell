@@ -40,7 +40,7 @@ void	init_envs(t_minivault *minivault, char **envs)
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		add_env_node(minivault, splitted[0], splitted[1], (1 << 2));
+		add_env_node(minivault, splitted[FIRST_ELEM], splitted[SECOND_ELEM], (1 << 2));
 		_free_or_not(splitted);
 		free(splitted);
 	}

@@ -18,9 +18,9 @@ void remove_quotes(char *str)
 	len = ft_strlen(str);
 	if (len >= 2)
 	{
-		if (is_double_quote(str[0]) && is_double_quote(str[len - 1]))
+		if (is_double_quote(str[FIRST_ELEM]) && is_double_quote(str[len - 1]))
 			trim_string(str, len);
-		else if (is_single_quote(str[0]) && is_single_quote(str[len - 1]))
+		else if (is_single_quote(str[FIRST_ELEM]) && is_single_quote(str[len - 1]))
 			trim_string(str, len);
 	}
 }

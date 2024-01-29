@@ -99,6 +99,7 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
         perror(RED"Execve failed"RESET_COLOR);
 		free(arg);
         free(cmd_path);
+		close_pipes(minivault, command, pos);
 		liberation(minivault);
     }
 	else

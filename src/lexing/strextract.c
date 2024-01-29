@@ -193,7 +193,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 	while (input && *input)
 	{
 		toggle_quotes(*input, &inside_double_quotes, &inside_single_quotes);
-		if (*input == target[0] && *(input + 1) == target[1] \
+		if (*input == target[FIRST_ELEM] && *(input + 1) == target[SECOND_ELEM] \
 			&& inside_double_quotes == false && inside_single_quotes == false)
 		{
 			modified[i++] = separator;

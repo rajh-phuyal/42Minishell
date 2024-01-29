@@ -38,7 +38,7 @@ static  bool    _valid_key(char *key)
 {
 	if (!key)
 		return (false);
-	if (key[0] != '_' && !ft_isalpha(key[0]))
+	if (key[FIRST_ELEM] != '_' && !ft_isalpha(key[FIRST_ELEM]))
 		return (false);
 	key++;
 	while (*key)
