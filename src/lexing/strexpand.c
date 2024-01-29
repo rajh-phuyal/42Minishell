@@ -172,7 +172,7 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 	}
 	if (!_built)
 		_built = exe_concat(NULL, PLACEHOLDER, NULL);
-	else if (data->singleq)
+	else if (_built && data->singleq)
 		_built = exe_concat(_built, "'", _built, "'", NULL);
 	return (_built);
 }

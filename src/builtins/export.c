@@ -65,9 +65,9 @@ static int  add_args_to_env(t_minivault *minivault, t_word *args)
         if (_valid_key(iter[FIRST_ELEM]))
         {
             if (iter[FIRST_ELEM] && iter[SECOND_ELEM])
-                add_env_node(minivault, iter[FIRST_ELEM], iter[SECOND_ELEM], (1 << 2));
+                set_env(minivault, iter[FIRST_ELEM], iter[SECOND_ELEM], (1 << 2));
             else if (iter[FIRST_ELEM])
-                add_env_node(minivault, iter[FIRST_ELEM], "", (1 << 2));
+                set_env(minivault, iter[FIRST_ELEM], "", (1 << 2));
             _free_or_not_free(iter);
             free(iter);
         }
