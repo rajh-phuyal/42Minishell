@@ -27,6 +27,6 @@ void	handle_input(t_minivault *minivault, char *input)
 		grow_baobab(minivault);
 		executor(minivault, minivault->baobab->pipeline);
 	}
-	call_debug(minivault);
+	// call_debug(minivault);
 	cycle_reset(minivault);
 }

@@ -83,10 +83,32 @@ bool	check_syntax(t_minivault *minivault)
 	return (true);
 }
 
+bool is_valid(t_minivault *minivault, const char *str) 
+{
+    if (!str) 
+		return false;
+    while (*str) 
+	{
+        if (*str > LOWER_BOUND && *str < UPPER_BOUND)
+		{
+			str++;
+			continue;
+		}
+		else
+        {
+			error(minivault, FAILURE, true, "syntax error ", NULL);
+			return (false);
+		}
+        str++;
+    }
+    return (true);
+}
+
+
 /* atempting to create tokens based on the received input str for the readline */
 bool	lexer(t_minivault *minivault, char *input)
 {
-	if (!input)
+	if (!input || !is_valid(minivault, input))
 		return (false);
 	strextract(minivault, input);
 	if (!input)

@@ -35,25 +35,6 @@ char	**get_arguments(t_word *words)
 	return (arguments);
 }
 
-
-
-char	*get_command_path(char **path_list, char *command)
-{
-	char *temp;
-	int i = 0;
-
-	while (path_list && path_list[i])
-	{
-		temp = ft_strjoin(path_list[i], "/");
-		temp = ft_strjoin(temp, command);
-		if (access(temp, F_OK) == 0) // returns if the file exists in the path list
-			return (temp);
-		free(temp);
-		i++;
-	}
-	return (NULL);
-}
-
 t_redir *get_last_token(t_redir *head)
 {
 	t_redir *current;
@@ -66,18 +47,16 @@ t_redir *get_last_token(t_redir *head)
 	return (current);
 }
 
+
+
+
 void system_command(t_minivault *minivault, t_command *command, int pos)
 {
-    char *cmd_path = get_command_path(minivault->path, command->words->word);
-	if (!cmd_path && !get_env(minivault, "PATH")) // cmd is not a builtin nor a system cmd
+    char *cmd_path;
+	
+	cmd_path = handle_path(minivault, command->words->word);
+	if(!cmd_path)
 	{
-		error(minivault, FAILURE, true, command->words->word, ": ", "No such file or directory", NULL);
-		close_pipes(minivault, command, pos);
-		return ;
-	}
-	else if (!cmd_path)
-	{
-		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", "command not found", NULL);
 		close_pipes(minivault, command, pos);
 		return ;
 	}
@@ -93,8 +72,8 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
         execve(cmd_path, arg, minivault->env_list);
-        perror(RED"Execve failed"RESET_COLOR);
-        free(cmd_path);
+		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", strerror(errno), NULL); // ? check this later
+        // free(cmd_path);
 		// free arg
     }
 	else // Parent process
@@ -109,6 +88,5 @@ void system_command(t_minivault *minivault, t_command *command, int pos)
 		// else
         //     dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
     }
-    free(cmd_path);
 	// free arg
 }

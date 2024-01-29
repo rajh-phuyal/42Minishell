@@ -6,6 +6,7 @@
 # include "executor.h"
 # include "signals.h"
 # include <sys/stat.h>
+#include <errno.h>
 
 // handy macros
 # define GET 0

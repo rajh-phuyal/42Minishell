@@ -36,8 +36,6 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
  * @brief 	if one or multiple spaces are found outside of a quotes, they are replaced by the separator
  * 			E.g.: hello        world "   again" -> hello\world\"   again" <- where \ is the separator
  * 			It also checks if there are unclosed quotes in the input string
- * ! FIX: This segfaults in the case of unclosed quotes, can't just return NULL
- * ! If a quote is missing it should return the prompt util the quotes are closed
  * @param input is the input string
  * @param separator the char used to replace the spaces
 */
@@ -170,7 +168,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 
 	if(!input)
 		return (NULL);
-	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + 1); // + 1 should be + sizeof(char) ?
+	modified = (char *)malloc(2 * (ft_strlen(input) * sizeof(char)) + sizeof(char)); // + 1 should be + sizeof(char) ?
 	if (!modified)
 		return (NULL);
 	i = 0;
@@ -192,6 +190,83 @@ char	*isolate_compound(char *input, char *target, char separator)
 	return (modified);
 }
 
+static char *strip_double_quotes(char *input)
+{
+    char *new_str;
+
+    if (!input || strlen(input) != 2)
+        return (input);
+    if ((is_single_quote(input[0]) && is_single_quote(input[1])) ||
+        (is_double_quote(input[0]) && is_double_quote(input[1])))
+    {
+        new_str = malloc(2);
+        if (new_str)
+        {
+            new_str[0] = '\31';
+            new_str[1] = '\0';
+            return (new_str);
+        }
+    }
+    return (input);
+}
+
+static char *clean_quotes(char *input)
+{
+    int     len;
+    int     i;
+    int     j;
+    char    *cleaned;
+    bool    in_double_quotes;
+    bool    in_single_quotes;
+
+    if (!input || (len = strlen(input)) < 2)
+        return (input);
+    in_double_quotes = false;
+    in_single_quotes = false;
+    cleaned = malloc(len + 1);
+    if (!cleaned)
+        return (NULL);
+    j = 0;
+    i = -1;
+    while (++i < len)
+    {
+        toggle_quotes(input[i], &in_double_quotes, &in_single_quotes);
+        if ((!is_single_quote(input[i]) && !is_double_quote(input[i])) ||
+            (in_single_quotes && is_double_quote(input[i])) ||
+            (in_double_quotes && is_single_quote(input[i])))
+            cleaned[j++] = input[i];
+    }
+    cleaned[j] = '\0';
+    return (cleaned);
+}
+
+void process_strings(char ***input)
+{
+    char    *temp;
+    char    *temp2;
+    int     i;
+
+    if (!input || !*input)
+        return ;
+    i = 0;
+    while ((*input)[i])
+    {
+        temp = strip_double_quotes((*input)[i]);
+        if (temp != (*input)[i])
+        {
+            free((*input)[i]);
+            (*input)[i] = temp;
+        }
+        temp2 = clean_quotes((*input)[i]);
+        if (temp2 != (*input)[i])
+        {
+            free((*input)[i]);
+            (*input)[i] = temp2;
+        }
+        i++;
+    }
+}
+
 /**
  * * strextract
  * @brief	 spaces, isolates special chars and splits the input string into a vector 2D ARRAY
@@ -205,22 +280,34 @@ char	*isolate_compound(char *input, char *target, char separator)
 */
 void	strextract(t_minivault *minivault, char *input)
 {
-	input = remove_spaces(input, '\31');
+	
+	// printf("input before                   : %s\n", input);
+	input = remove_spaces(input, '_');
+	// printf("input after remove_spaces      : %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_compound(input, ">>", '\31');
+	// input = isolate_quotes(input, '_');
+	// if (!input)
+	// 	return ;
+	// printf("input after isolate_quotes     : %s\n", input);
+	input = isolate_compound(input, ">>", '_');
+	// printf("input after isolate_compound >>: %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_compound(input, "<<", '\31');
+	input = isolate_compound(input, "<<", '_');
+	// printf("input after isolate_compound <<: %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_char(input, '|', '\31');
+	input = isolate_char(input, '|', '_');
+	// printf("input after isolate_char |     : %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_char(input, '<', '\31');
+	input = isolate_char(input, '<', '_');
+	// printf("input after isolate_char <     : %s\n", input);
 	if (!input)
 		return ;
-	input = isolate_char(input, '>', '\31');
+	input = isolate_char(input, '>', '_');
+	// printf("input after isolate_char >     : %s\n", input);
 	if (!input)
 		return ;
 	char *temp = input;
@@ -231,5 +318,6 @@ void	strextract(t_minivault *minivault, char *input)
 		temp++;
 	}
 	if (input)
-		minivault->input = ft_split(input, '\31');
+		minivault->input = ft_split(input, '_');
+	process_strings(&minivault->input);
 }

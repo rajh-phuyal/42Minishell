@@ -4,6 +4,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+# define LOWER_BOUND 0
+# define UPPER_BOUND 127
+
 # define MAX_FD 1000
 # define WRITE 1
 # define READ 0
@@ -58,13 +61,13 @@ typedef	enum e_cmd_pos
 	LAST
 } t_cmd_pos;
 
-typedef struct s_command
+typedef struct 	s_command
 {
-	t_cmd_pos	pos;
-	t_word		*words;
-	t_redir		*redir_in;
-	t_redir		*redir_out;
-}				t_command;
+	t_cmd_pos		pos;
+	t_word			*words;
+	t_redir			*redir_in;
+	t_redir			*redir_out;
+}					t_command;
 
 typedef struct s_baobab
 {
