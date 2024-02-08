@@ -1,6 +1,8 @@
 
 #include "minishell.h"
 
+int g_signal_status = 0;
+
 /* call the debug functions to check the state of the program variables*/
 void	call_debug(t_minivault *minivault)
 {

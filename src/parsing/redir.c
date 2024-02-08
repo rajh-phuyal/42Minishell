@@ -43,7 +43,7 @@ int	assign_fd(t_minivault *minivault, t_command *command, t_operation operator, 
 	if (operator == GREAT)
 		return (open(file, O_CREAT | O_RDWR | O_TRUNC, 0644));
 	else if (operator == DGREAT)
-		return (open(file, O_CREAT | O_RDWR, 0644));
+		return (open(file, O_CREAT | O_RDWR | O_APPEND, 0644));
 	else if (operator == LESS)
 		return (open(file, O_RDONLY));
 	// ! bash: <file>: No such file or directory
@@ -84,14 +84,12 @@ t_redir *create_redirection_node(t_minivault *minivault, t_command *command, t_t
 	redir->operator = find_redirection_type(token);
 	redir->fd = -1;
 	temp = command->redir_in;
-	if (redir->operator == DLESS)
-		command->redir_in = redir;
+	command->redir_in = redir;
 	if (next->type == QUOTED)
 		remove_quotes(next->content);
 	redir->word = next->content;
 	redir->fd = assign_fd(minivault, command, redir->operator, next->content, token);
-	if (redir->operator == DLESS)
-		command->redir_in = temp;
+	command->redir_in = temp;
 	// if (redir->fd == -1)
 		// something is fucked
 	redir->next = NULL;

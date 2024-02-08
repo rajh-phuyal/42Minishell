@@ -1,5 +1,4 @@
 #include "minishell.h"
-int	g_signal_status;
 
 void    clean_exit_herdoc(t_minivault *minivault, int status)
 {
@@ -82,7 +81,6 @@ void    start_heredoc(t_minivault *minivault, t_command *command, t_heredoc *doc
         {
             if (ft_strncmp(line, doc->delimiter, ft_strlen(doc->delimiter)) == 0)
             {
-                printf("HERDOC %p\n", command->redir_in);
                 liberate_command(command);
                 clean_heredoc_child(minivault, line, doc->fds, SUCCESS);
                 return ;

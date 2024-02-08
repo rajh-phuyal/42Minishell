@@ -108,4 +108,5 @@ void	tokenizer(t_minivault *minivault, int seq)
 		i++;
 	}
     free(minivault->input);
+    minivault->input = NULL;
 }

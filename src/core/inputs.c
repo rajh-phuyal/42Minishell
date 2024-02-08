@@ -23,6 +23,7 @@ void	handle_input(t_minivault *minivault, char *input)
 		_exit_vault(minivault, NULL, STDOUT_FILENO);
 	else if (input && input[FIRST_ELEM] == '\0')
 	{
+		minivault->cycles++;
 		free(input);
 		return ;
 	}
@@ -33,6 +34,6 @@ void	handle_input(t_minivault *minivault, char *input)
 		executor(minivault, minivault->baobab->pipeline);
 		set_signals(SIG_STATE_MAIN);
 	}
-	cycle_reset(minivault);
 	minivault->cycles++;
+	cycle_reset(minivault);
 }
