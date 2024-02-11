@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 21:35:41 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/28 16:09:03 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/02/11 16:40:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	_free_or_not(char **vec)
 			free(vec[i]);
 		i++;
 	}
+	free(vec);
 }
 /*
 to set only the internal to true -> (1 << 1)
@@ -42,7 +43,6 @@ void	init_envs(t_minivault *minivault, char **envs)
 		splitted = ft_split(envs[i], '=');
 		add_env_node(minivault, splitted[FIRST_ELEM], splitted[SECOND_ELEM], (1 << 2));
 		_free_or_not(splitted);
-		free(splitted);
 	}
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
 }

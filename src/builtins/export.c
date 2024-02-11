@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 19:59:53 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/11 16:14:04 by codespace        ###   ########.fr       */
+/*   Updated: 2024/02/11 16:44:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	_free_or_not_free(bool exist, char **vec)
 			free(vec[i]);
 		i++;
 	}
+    free(vec);
 }
 
 static void	_declare_session_envar(t_envs *curr, int out_fd)
@@ -38,9 +39,15 @@ static void	_declare_session_envar(t_envs *curr, int out_fd)
 
 static  bool    _valid_key(t_minivault *minivault, char *key, bool *exist)
 {
+    char    *val;
+
 	if (!key)
 		return (false);
-    *exist = get_env(minivault, key);
+    val = get_env(minivault, key);
+    if (val)
+    {
+        *exist = true;
+    }
 	if (key[FIRST_ELEM] != '_' && !ft_isalpha(key[FIRST_ELEM]))
 		return (false);
 	key++;
@@ -61,6 +68,7 @@ static int  add_args_to_env(t_minivault *minivault, t_word *args)
     char    **iter;
 
     _stat = SUCCESS;
+    exist = false;
     while (args)
     {
         iter = ft_split(args->word, '=');
@@ -71,9 +79,8 @@ static int  add_args_to_env(t_minivault *minivault, t_word *args)
             if (iter[FIRST_ELEM] && iter[SECOND_ELEM])
                 set_env(minivault, iter[FIRST_ELEM], iter[SECOND_ELEM], (1 << 2));
             else if (iter[FIRST_ELEM])
-                set_env(minivault, iter[FIRST_ELEM], NULL, (1 << 2));
+                set_env(minivault, iter[FIRST_ELEM], ft_strdup("\31"), (1 << 2));
             _free_or_not_free(exist, iter);
-            free(iter);
         }
         else
         {
