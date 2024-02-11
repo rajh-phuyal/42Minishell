@@ -85,6 +85,7 @@ t_redir *create_redirection_node(t_minivault *minivault, t_command *command, t_t
 	redir->fd = -1;
 	temp = command->redir_in;
 	command->redir_in = redir;
+	redir->next = NULL;
 	if (next->type == QUOTED)
 		remove_quotes(next->content);
 	redir->word = next->content;
@@ -92,7 +93,6 @@ t_redir *create_redirection_node(t_minivault *minivault, t_command *command, t_t
 	command->redir_in = temp;
 	// if (redir->fd == -1)
 		// something is fucked
-	redir->next = NULL;
 	return (redir);
 }
 
