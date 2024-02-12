@@ -58,10 +58,10 @@ void	print_baobab(t_minivault *minivault)
 t_command	*split_list(t_minivault *minivault, \
 			t_token *list, t_content_type type)
 {
-	static t_token	*current;
+	static t_token	*current = NULL;
 	t_command		*command;
 
-	current = NULL;
+
 	command = NULL;
 	command = (t_command *)malloc(sizeof(t_command));
 	command->words = NULL;
@@ -143,7 +143,7 @@ void	grow_baobab(t_minivault	*minivault)
 	{
 		minivault->baobab->pipeline[i] = NULL;
 		minivault->baobab->pipeline[i] = split_list(minivault, \
-										minivault->tokens, PIPE);
+				minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL)
 			break ;
 		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
