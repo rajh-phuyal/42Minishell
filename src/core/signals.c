@@ -52,7 +52,7 @@ void	set_signals(t_sig_state	sig_state)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 	}
-	else if (sig_state == SIG_STATE_CHILD_BUILTIN)
+	else if (sig_state == SIG_STATE_BUILTIN)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);

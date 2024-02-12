@@ -6,7 +6,7 @@ void	builtin_command(t_minivault	*minivault, t_command *command, int pos)
 	int	_stat;
 
 	_stat = -1;
-	set_signals(SIG_STATE_CHILD_BUILTIN);
+	set_signals(SIG_STATE_BUILTIN);
 	fd = config_io_builtin(minivault, command, pos);
 	if (!ft_strncmp(command->words->word, "echo", 5))
 		_echo(minivault, command->words->next, fd);

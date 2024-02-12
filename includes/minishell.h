@@ -56,7 +56,7 @@ typedef enum e_status
 }	t_status;
 
 // forward declaration for builtins
-typedef struct s_word t_word;
+typedef struct s_word	t_word; // ! WTF IS THIS?
 
 // the env list
 typedef struct s_envs
@@ -73,9 +73,9 @@ typedef struct s_strexp
 	char	*_pos;
 	bool	quoted;
 	bool	singleq;
-	bool	isHereDoc;
+	bool	isHereDoc; // ! this is not a valid na,e
 	bool	expandable;
-} t_strexp;
+}			t_strexp;
 
 // the minieverything
 typedef struct s_minivault
@@ -100,26 +100,27 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
 // error handeler
-void    	panic_attack(t_minivault *minivault);
-void    	error(t_minivault *minivault, t_status status, int prompt, ...);
+void		panic_attack(t_minivault *minivault);
+void		error(t_minivault *minivault, t_status status, int prompt, ...);
 
 // environment functions
 char		**envsort(t_envs *envs);
 char		*get_env(t_minivault *minivault, char *key);
 void		unset_env(t_minivault *minivault, char *key);
-t_envs  	*get_env_node(t_minivault *minivault, char *key);
-void		set_env(t_minivault *minivault, char *key, char *value, int identifier);
-void   		add_env_node(t_minivault *minivault, char *key, char *value, int identifier);
+t_envs		*get_env_node(t_minivault *minivault, char *key);
+void		set_env(t_minivault *minivault, char *key, \
+			char *value, int identifier);
+void		add_env_node(t_minivault *minivault, char *key, \
+			char *value, int identifier);
 
 // builtin functions
-void    	_env(t_minivault *minivault, int out_fd);
+void		_env(t_minivault *minivault, int out_fd);
 void		_pwd(t_minivault *minivault, int out_fd);
 int			_cd(t_minivault *minivault, t_word *args);
 void		_echo(t_minivault *minivault, t_word *args, int out_fd);
-void    	_unset(t_minivault *minivault, t_word *args);
+void		_unset(t_minivault *minivault, t_word *args);
 void		_export(t_minivault *minivault, t_word *args, int out_fd);
-void    	_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
-
+void		_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
 
 // debug functions
 void		call_debug(t_minivault *minivault);
@@ -141,7 +142,7 @@ void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
 
 // utils
-char    	*concat_all(va_list args);
+char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
 
 #endif
