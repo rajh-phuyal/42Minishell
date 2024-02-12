@@ -6,12 +6,12 @@ void	trim_string(char *str, int len)
 	{
 		str[len - 1] = '\0';
 		ft_memmove(str, str + 1, len);
-    }
+	}
 }
 
 // removes quotes from the end and the begginig of each token
 // TODO: handle tokens with only ""
-void remove_quotes(char *str)
+void	remove_quotes(char *str)
 {
 	size_t	len;
 
@@ -20,14 +20,15 @@ void remove_quotes(char *str)
 	{
 		if (is_double_quote(str[FIRST_ELEM]) && is_double_quote(str[len - 1]))
 			trim_string(str, len);
-		else if (is_single_quote(str[FIRST_ELEM]) && is_single_quote(str[len - 1]))
+		else if (is_single_quote(str[FIRST_ELEM]) && \
+				is_single_quote(str[len - 1]))
 			trim_string(str, len);
 	}
 }
 
-t_word *create_word_node(t_token *token)
+t_word	*create_word_node(t_token *token)
 {
-	t_word *word;
+	t_word	*word;
 
 	if (!token || !(token->type == LITERAL || token->type == QUOTED))
 		return (NULL);
@@ -49,7 +50,7 @@ void	add_word(t_word **word_list, t_token *token)
 	word = NULL;
 	if (token)
 		word = create_word_node(token);
-	if (!word) // something is fucked;
+	if (!word) // ! something is fucked;
 		return ;
 	head = (*word_list);
 	if (!head)
