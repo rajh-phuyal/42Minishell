@@ -125,7 +125,8 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 	_put_end_break(start, data);
 	while (start && *start)
 	{
-		if (!*(start + 1) || *start == DOLLAR || *start == '\'' || *start == '"')
+		if (!*(start + 1) || *start == DOLLAR || \
+			*start == '\'' || *start == '"')
 		{
 			if (*(start + 1))
 			{
@@ -146,7 +147,8 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 					if (!_built)
 						_built = exe_concat(_built, value, suffix, NULL);
 					else
-						_built = exe_concat(_built, "'", _built, "'", value, suffix, NULL);
+						_built = exe_concat(_built, "'", \
+							_built, "'", value, suffix, NULL);
 				}
 				if (!_built)
 					_built = exe_concat(_built, "", value, suffix, NULL);

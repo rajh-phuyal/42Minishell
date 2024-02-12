@@ -83,7 +83,7 @@ bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 t_token		*create_new(char *token);
 bool		lexer(t_minivault *minivault, char *input);
-void		tokenizer(t_minivault *minivault, int seq);
+void		tokenizer(t_minivault *minivault);
 void		remove_token(t_token *head, t_token *node);
 void		add_token(t_minivault *minivault, char *token);
 void		strextract(t_minivault *minivault, char *input);

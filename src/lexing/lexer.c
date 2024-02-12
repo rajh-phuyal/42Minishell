@@ -91,6 +91,6 @@ bool	lexer(t_minivault *minivault, char *input)
 	strextract(minivault, input);
 	if (!input)
 		return (false);
-	tokenizer(minivault, 0);
-	return(check_syntax(minivault));
+	tokenizer(minivault);
+	return (check_syntax(minivault));
 }
