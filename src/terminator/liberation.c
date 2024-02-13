@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	liberate_vector(char **vector)
@@ -15,26 +14,26 @@ void	liberate_vector(char **vector)
 
 void	liberate_tokens(t_token *head)
 {
-    t_token *tmp;
+	t_token	*tmp;
 
 	if (!head)
 		return ;
-    while (head)
-    {
-        tmp = head->next;
+	while (head)
+	{
+		tmp = head->next;
 		free(head->content);
-        free(head);
-        head = tmp;
-    }
+		free(head);
+		head = tmp;
+	}
 }
 
 void	liberate_envs(t_envs *head)
 {
-    t_envs *tmp;
+	t_envs	*tmp;
 
 	if (!head)
 		return ;
-    while (head)
+	while (head)
 	{
 		tmp = head;
 		head = head->next;
@@ -47,7 +46,7 @@ void	liberate_envs(t_envs *head)
 }
 
 // liberates the memory allocated for the tokens and the baobab tree
-void    liberation(t_minivault *minivault)
+void	liberation(t_minivault *minivault)
 {
 	cycle_reset(minivault);
 	close_readline();
