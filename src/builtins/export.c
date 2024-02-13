@@ -1,21 +1,5 @@
 #include "minishell.h"
 
-void	_free_or_not_free(bool exist, char **vec)
-{
-	int	i;
-
-	i = 0;
-	while (vec && vec[i])
-	{
-		if (i == 0 && exist)
-			free(vec[i]);
-		if (i >= 2)
-			free(vec[i]);
-		i++;
-	}
-	free(vec);
-}
-
 static void	_declare_session_envar(t_envs *curr, int out_fd)
 {
 	ft_putstr_fd("declare -x ", out_fd);
@@ -63,23 +47,14 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 		if (!iter)
 			break ;
 		if (_valid_key(minivault, iter[FIRST_ELEM], &exist))
-		{
-			if (iter[FIRST_ELEM] && iter[SECOND_ELEM])
-				set_env(minivault, iter[FIRST_ELEM], \
-						iter[SECOND_ELEM], (1 << 2));
-			else if (iter[FIRST_ELEM])
-				set_env(minivault, iter[FIRST_ELEM], \
-						ft_strdup("\31"), (1 << 2));
-			_free_or_not_free(exist, iter);
-		}
+			add_env_key_val(minivault, iter, exist);
 		else
 		{
 			liberate_vector(iter);
 			err = exe_concat(NULL, "minivault: export: `", args->word, \
 							"': ", "not a valid identifier", NULL);
-			printf("%s\n", err);
+			_stat = FAILURE + (0 * printf("%s\n", err));
 			free(err);
-			_stat = FAILURE;
 		}
 		args = args->next;
 	}
