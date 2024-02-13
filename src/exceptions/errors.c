@@ -1,14 +1,13 @@
 #include "minishell.h"
 
 // add a panic attack that will kill all the process and exit minishell
+// don't know what is the exact use case of panic mode
+// if its to exit with a status, call the
+// internal exit function _exit instead
+// if just to clean the cycle, call cycle_reset
 void	panic_attack(t_minivault *minivault)
 {
-	// don't know what is the exact use case of panic mode
-	// if its to exit with a status, call the 
-	// internal exit function _exit instead
-	// if just to clean the cycle, call cycle_reset
 	cycle_reset(minivault);
-	// exit(FAILURE);
 }
 
 // using int instead of bool because va_start
@@ -29,7 +28,7 @@ void	error(t_minivault *minivault, t_status status, int prompt, ...)
 			printf("minibaiters: %s\n", _string);
 		free(_string);
 	}
-	if (status != CMDNOTFOUND) //! Fix me!!!
+	if (status != CMDNOTFOUND)
 		cycle_reset(minivault);
 	set_env(minivault, "?", ft_itoa(status), (1 << 1));
 }

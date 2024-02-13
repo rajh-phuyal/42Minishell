@@ -6,7 +6,7 @@
 /*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/13 22:51:50 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/02/13 23:12:00 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_strexp
 	char	*_pos;
 	bool	quoted;
 	bool	singleq;
-	bool	isHereDoc; // ! this is not a valid na,e
 	bool	expandable;
 }			t_strexp;
 

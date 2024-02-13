@@ -43,7 +43,7 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
-/* 
+/*
 TODO 	havig the node called word and the string
 TODO 	word aswell is confusing this could change
 */
@@ -88,6 +88,11 @@ void		remove_token(t_token *head, t_token *node);
 void		add_token(t_minivault *minivault, char *token);
 void		strextract(t_minivault *minivault, char *input);
 void		strexpand(t_minivault *minivault, char **vector);
+
+// expansion utils
+char		*get_suffix(char *pos);
+bool		_check_heredoc_deli(char *str, char **vector);
+void		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
 
 // parser
 void		remove_quotes(char *str);

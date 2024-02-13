@@ -1,12 +1,11 @@
 #include "minishell.h"
 
-void	_cleaner(t_strexp *data)
+static	void	_cleaner(t_strexp *data)
 {
 	data->quoted = false;
 	data->singleq = false;
-	data->isHereDoc = false;
 	data->expandable = false;
-	data->_pos = NULL;
+	data->pos = NULL;
 }
 
 static void	_exp_validator(char *str, t_strexp *data)
@@ -19,25 +18,16 @@ static void	_exp_validator(char *str, t_strexp *data)
 	while (str && *str && *str != DOLLAR && *str != '\'' && *str != '"')
 		str++;
 	if (*str == DOLLAR)
-		data->expandable = true;
+		unpack_var(data, false, false, true);
 	if (*str == *end && *end == '\'')
 	{
-		data->quoted = true;
-		data->singleq = true;
-		data->expandable = false;
+		unpack_var(data, true, true, false);
 		return ;
 	}
 	else if (*str == *end && *end == '"' && *(str + 1) == '\'')
-	{
-		data->singleq = true;
-		data->quoted = true;
-		data->expandable = true;
-	}
+		unpack_var(data, true, true, true);
 	else if (*str == *end && *end == '"')
-	{
-		data->quoted = true;
-		data->expandable = true;
-	}
+		unpack_var(data, true, false, true);
 	data->expandable = true;
 }
 
@@ -52,77 +42,17 @@ static	void	_put_end_break(char *start, t_strexp *data)
 		*(end - (data->singleq)) = '\0';
 }
 
-char	*exe_concat(char *prev, ...)
-{
-	va_list	args;
-	char	*_built;
-
-	va_start(args, prev);
-	_built = concat_all(args);
-	va_end(args);
-	if (prev)
-		free(prev);
-	return (_built);
-}
-
-bool	_check_heredoc_deli(char *str, char **vector)
-{
-	if (vector && *vector == str)
-		return (true);
-	while (vector && *vector)
-	{
-		if (!ft_strncmp(*vector, "<<", ft_strlen(*vector)))
-		{
-			if (vector && *(vector + 1) == str)
-				return (false);
-		}
-		vector++;
-	}
-	return (true);
-}
-
-char	*get_suffix(char *pos)
-{
-	char	temp;
-	char	*start;
-	char	*suffix;
-
-	suffix = NULL;
-	start = pos;
-	temp = '\0';
-	while (pos && *pos)
-	{
-		if (!*(pos + 1) || *pos == DOLLAR || *pos == '\'' || *pos == '"')
-		{
-			if (*(pos + 1))
-			{
-				temp = *pos;
-				*pos = '\0';
-			}
-			suffix = exe_concat(NULL, start, NULL);
-			if (temp)
-				*pos = temp;
-			break ;
-		}
-		pos++;
-	}
-	return (suffix);
-}
-
 static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 {
-	char	temp;
-	char	*_pos;
-	char	*value;
-	char	*_built;
-	char	*suffix;
+	char			temp;
+	char			*value;
+	char			*_built;
+	static	char	*suffix = NULL;
 
-	_pos = start;
+	data->pos = start;
 	start++;
 	temp = '\0';
-	_built = NULL;
 	suffix = NULL;
-	_put_end_break(start, data);
 	while (start && *start)
 	{
 		if (!*(start + 1) || *start == DOLLAR || \
@@ -133,16 +63,16 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 				temp = *start;
 				*start = '\0';
 			}
-			if (_pos && *(_pos + 1) == PREVEXITSTAT[FIRST_ELEM])
+			if (data->pos && *(data->pos + 1) == PREVEXITSTAT[FIRST_ELEM])
 			{
-				suffix = get_suffix(_pos + 2);
+				suffix = get_suffix(data->pos + 2);
 				value = get_env(minivault, PREVEXITSTAT);
 			}
-			else if (_pos)
-				value = get_env(minivault, _pos + 1);
+			else if (data->pos)
+				value = get_env(minivault, data->pos + 1);
 			if (value)
 			{
-				if (*(start) == '\'' && *(_pos - 1) == '\'')
+				if (*(start) == '\'' && *(data->pos - 1) == '\'')
 				{
 					if (!_built)
 						_built = exe_concat(_built, value, suffix, NULL);
@@ -166,9 +96,9 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 				temp = '\0';
 			}
 			if (*start == DOLLAR)
-				_pos = start;
+				data->pos = start;
 			else
-				_pos = NULL;
+				data->pos = NULL;
 		}
 		start++;
 	}
@@ -200,6 +130,7 @@ void	strexpand(t_minivault *minivault, char **vector)
 				{
 					if (!*(s_iter + 1))
 						break ;
+					_put_end_break(start, data);
 					_magic = alchemy(minivault, &data, s_iter);
 					if (!_magic)
 						break ;
