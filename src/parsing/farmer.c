@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	print_redirs(t_redir *head)
@@ -60,7 +59,6 @@ t_command	*split_list(t_minivault *minivault, \
 {
 	static t_token	*current = NULL;
 	t_command		*command;
-
 
 	command = NULL;
 	command = (t_command *)malloc(sizeof(t_command));

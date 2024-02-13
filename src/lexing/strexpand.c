@@ -1,4 +1,4 @@
-# include "minishell.h"
+#include "minishell.h"
 
 void	_cleaner(t_strexp *data)
 {
@@ -9,7 +9,7 @@ void	_cleaner(t_strexp *data)
 	data->_pos = NULL;
 }
 
-static	void	_exp_validator(char *str, t_strexp *data)
+static void	_exp_validator(char *str, t_strexp *data)
 {
 	char		*end;
 
@@ -81,7 +81,7 @@ bool	_check_heredoc_deli(char *str, char **vector)
 	return (true);
 }
 
-char *get_suffix(char *pos)
+char	*get_suffix(char *pos)
 {
 	char	temp;
 	char	*start;

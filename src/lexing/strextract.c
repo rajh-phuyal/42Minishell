@@ -68,10 +68,10 @@ char	*remove_spaces(char *input, char separator)
 	*dst = '\0';
 	if (inside_double_quotes || inside_single_quotes == true)
 	{
-		if (inside_single_quotes)
-			ft_putendl_fd("Single quotes not closed.", 2); // ! change this to error
-		else if (inside_double_quotes)
-			ft_putendl_fd("Double quotes not closed.", 2); // ! change this to error
+		if (inside_single_quotes) // ! change this to error
+			ft_putendl_fd("Single quotes not closed.", 2);
+		else if (inside_double_quotes) // ! change this to error
+			ft_putendl_fd("Double quotes not closed.", 2);
 		if (temp)
 			free(temp);
 		free(modified);
@@ -226,7 +226,7 @@ char	*isolate_compound(char *input, char *target, char separator)
 	return (modified);
 }
 
-static char *strip_double_quotes(char *input)
+static char	*strip_double_quotes(char *input)
 {
 	char	*new_str;
 
@@ -246,7 +246,7 @@ static char *strip_double_quotes(char *input)
 	return (input);
 }
 
-static char *clean_quotes(char *input)
+static char	*clean_quotes(char *input)
 {
 	int		len;
 	int		i;
@@ -255,7 +255,8 @@ static char *clean_quotes(char *input)
 	bool	in_double_quotes;
 	bool	in_single_quotes;
 
-	if (!input || (len = strlen(input)) < 2)
+	len = ft_strlen(input);
+	if (!input || len < 2)
 		return (input);
 	in_double_quotes = false;
 	in_single_quotes = false;
@@ -313,13 +314,13 @@ void	process_strings(char ***input)
  * TODO: Check how () works. It has the same logic as quotes?
  * TODO: Realloc beffore splitting
  * TODO: ERROR MANAGEMENT like -> bash: syntax error near unexpected token`token'
- * ! FIX: The separator for the isolate compount cant be \", because input: echo ">>" will be the same as echo >>
+ * ! FIX: The separator for the isolate compount cant be \",
+ * ! because input: echo ">>" will be the same as echo >>
 */
-
 
 void	strextract(t_minivault *minivault, char *input)
 {
-	char *temp;
+	char	*temp;
 
 	input = remove_spaces(input, '\31');
 	if (!input)

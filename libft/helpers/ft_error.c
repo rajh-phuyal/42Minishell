@@ -12,7 +12,6 @@
 
 #include "../libft.h"
 
-
 /*
 result:
 	[0]-> number of lines the text will be printed (only for the message)

@@ -13,18 +13,18 @@
 #include "../libft.h"
 
 // free_multiple(number of args to free, arg1, arg2, ..., argn)
-void    free_multiple(unsigned int count, ...)
+void	free_multiple(unsigned int count, ...)
 {
-    va_list args;
-    void    *arg;
+	va_list	args;
+	void	*arg;
 
-    va_start(args, count);
-    while (count)
-    {
-        arg = va_arg(args, void *);
-        if (arg)
-            free(arg);
-        count--;
-    }
-    va_end(args);
+	va_start(args, count);
+	while (count)
+	{
+		arg = va_arg(args, void *);
+		if (arg)
+			free(arg);
+		count--;
+	}
+	va_end(args);
 }
