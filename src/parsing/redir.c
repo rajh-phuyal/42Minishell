@@ -117,7 +117,6 @@ void	add_redir_back(t_redir **redir, t_redir *token)
 	current->next = token;
 }
 
-
 void	add_redirection(t_minivault *minivault, \
 		t_command **command, t_token *token, t_token *next)
 {
