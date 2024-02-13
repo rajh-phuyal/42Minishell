@@ -2,7 +2,7 @@
 
 int	config_io_single_output(t_minivault *minivault, t_command *command)
 {
-	int	fd;
+	int		fd;
 	t_redir	*outfile;
 
 	(void)minivault;
@@ -15,7 +15,7 @@ int	config_io_single_output(t_minivault *minivault, t_command *command)
 
 int	config_io_first_output(t_minivault	*minivault, t_command *command)
 {
-	int	fd;
+	int		fd;
 	t_redir	*outfile;
 
 	fd = STDOUT_FILENO;
@@ -23,16 +23,13 @@ int	config_io_first_output(t_minivault	*minivault, t_command *command)
 	if (outfile)
 		fd = outfile->fd;
 	else
-	{
-		// close(minivault->baobab->pipe_fd[FIRST_ELEM][READ]);
 		fd = minivault->baobab->pipe_fd[FIRST_ELEM][WRITE];
-	}
 	return (fd);
 }
 
 int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 {
-	int	fd;
+	int		fd;
 	t_redir	*outfile;
 
 	(void)minivault;
@@ -41,16 +38,13 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 	if (outfile)
 		fd = outfile->fd;
 	else
-	{
-
 		fd = minivault->baobab->pipe_fd[pos][WRITE];
-	}
 	return (fd);
 }
 
 int	config_io_last_output(t_minivault	*minivault, t_command *command)
 {
-	int	fd;
+	int		fd;
 	t_redir	*outfile;
 
 	(void)minivault;
@@ -73,6 +67,6 @@ int	config_io_builtin(t_minivault *minivault, t_command *command, int pos)
 	else if (command->pos == MIDDLE)
 		fd = config_io_middle_output(minivault, command, pos);
 	else if (command->pos == LAST)
-		fd = config_io_last_output(minivault,command);
-	return(fd);
+		fd = config_io_last_output(minivault, command);
+	return (fd);
 }

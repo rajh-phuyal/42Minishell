@@ -1,37 +1,39 @@
 #include "minishell.h"
 
-
-void init_fds(int *fds)
+void	init_fds(int *fds)
 {
-    int i = 0;
+	int	i;
 
-    while (i < FOPEN_MAX)
-        fds[i++] = -1;
+	i = 0;
+	while (i < FOPEN_MAX)
+		fds[i++] = -1;
 }
 
-void insert_fd(int *fds, int fd)
+void	insert_fd(int *fds, int fd)
 {
-    int i = 0;
+	int	i;
 
-    while (i < FOPEN_MAX)
-    {
-        if (fds[i]== -1)
-        {
-            fds[i] = fd;
-            break ;
-        }
-        i++;
-    }
+	i = 0;
+	while (i < FOPEN_MAX)
+	{
+		if (fds[i] == -1)
+		{
+			fds[i] = fd;
+			break ;
+		}
+		i++;
+	}
 }
 
-void    clean_fds(int *fds)
+void	clean_fds(int *fds)
 {
-    int i = 0;
+	int	i;
 
-    while (i < FOPEN_MAX)
-    {
-        if (fds[i] != -1)
-            close(fds[i]);
-        i++;
-    }
+	i = 0;
+	while (i < FOPEN_MAX)
+	{
+		if (fds[i] != -1)
+			close(fds[i]);
+		i++;
+	}
 }

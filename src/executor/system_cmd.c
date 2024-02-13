@@ -2,9 +2,10 @@
 
 size_t	get_list_size(t_word *head)
 {
-	t_word *current;
-	size_t size = 0;
+	t_word	*current;
+	size_t	size;
 
+	size = 0;
 	if (!head)
 		return (size);
 	current = head;
@@ -18,31 +19,33 @@ size_t	get_list_size(t_word *head)
 
 char	**get_arguments(t_word *words)
 {
-	int		i = 0;
-	char	**arguments = NULL;
+	int		i;
+	int		list_size;
+	char	**arguments;
 
-	int list_size = get_list_size(words);
+	i = 0;
+	arguments = NULL;
+	list_size = get_list_size(words);
 	arguments = (char **)malloc((list_size + 1) * sizeof(char *));
 	if (!arguments)
 		return (NULL);
 	while (words)
 	{
-        arguments[i] = words->word;
-        words = words->next;
+		arguments[i] = words->word;
+		words = words->next;
 		i++;
-    }
+	}
 	arguments[i] = NULL;
 	return (arguments);
 }
 
-
-
 char	*get_command_path(char **path_list, char *command)
 {
-	char 	*temp;
+	char	*temp;
 	char	*freeable;
-	int 	i = 0;
+	int		i;
 
+	i = 0;
 	while (path_list && path_list[i])
 	{
 		temp = ft_strjoin(path_list[i], "/");
@@ -57,9 +60,9 @@ char	*get_command_path(char **path_list, char *command)
 	return (NULL);
 }
 
-t_redir *get_last_token(t_redir *head)
+t_redir	*get_last_token(t_redir *head)
 {
-	t_redir *current;
+	t_redir	*current;
 
 	if (!head)
 		return (NULL);
@@ -69,49 +72,54 @@ t_redir *get_last_token(t_redir *head)
 	return (current);
 }
 
-void system_command(t_minivault *minivault, t_command *command, int pos)
+void	system_command(t_minivault *minivault, t_command *command, int pos)
 {
-    char *cmd_path = get_command_path(minivault->path, command->words->word);
+	int		status;
+	char	*cmd_path;
+	pid_t	child;
+	char	**arg;
+
+	cmd_path = get_command_path(minivault->path, command->words->word);
 	if (!cmd_path && !get_env(minivault, "PATH"))
 	{
-		error(minivault, FAILURE, true, command->words->word, ": ", "No such file or directory", NULL);
+		error(minivault, FAILURE, true, command->words->word, \
+			": ", "No such file or directory", NULL);
 		close_pipes(minivault, command, pos);
 		return ;
 	}
 	else if (!cmd_path)
 	{
-		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", "command not found", NULL);
+		error(minivault, CMDNOTFOUND, true, command->words->word, \
+			": ", "command not found", NULL);
 		close_pipes(minivault, command, pos);
 		return ;
 	}
-    char **arg = get_arguments(command->words);
-    pid_t child = fork();
-    if (child == -1)
-    {
+	arg = get_arguments(command->words);
+	child = fork();
+	if (child == -1)
+	{
 		free(cmd_path);
-        return ;
-    }
-    if (child == 0)
+		return ;
+	}
+	if (child == 0)
 	{
 		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
-        execve(cmd_path, arg, minivault->env_list);
-        perror(RED"Execve failed"RESET_COLOR);
+		execve(cmd_path, arg, minivault->env_list);
+		perror(RED"Execve failed"RESET_COLOR);
 		free(arg);
-        free(cmd_path);
+		free(cmd_path);
 		close_pipes(minivault, command, pos);
 		liberation(minivault);
-    }
+	}
 	else
 	{
-        int status;
-
 		free(arg);
 		free(cmd_path);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
-        waitpid(child, &status, 0);
-        if (WIFEXITED(status))
+		waitpid(child, &status, 0);
+		if (WIFEXITED(status))
 			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
-    }
+	}
 }
