@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    add_env_node(t_minivault *minivault, char *key, \
+void	add_env_node(t_minivault *minivault, char *key, \
 								char *value, int identifier)
 {
 	t_envs	*new;

@@ -13,6 +13,7 @@ void	_free_or_not(char **vec)
 	}
 	free(vec);
 }
+
 /*
 to set only the internal to true -> (1 << 1)
 to set only the session to true -> (1 << 2)
