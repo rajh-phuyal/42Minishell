@@ -1,24 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 19:58:52 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static void	clean_exit(t_minivault *minivault, int status)
 {
-    liberation(minivault);
-    exit(status);
+	liberation(minivault);
+	exit(status);
 }
 
-static  bool _str_long_long(char *str, long long *result)
+static bool	_str_long_long(char *str, long long *result)
 {
 	while (*str != '\0')
 	{
@@ -35,24 +23,24 @@ static  bool _str_long_long(char *str, long long *result)
 	return (true);
 }
 
-static bool    _is_long_min(const char *str1, const char *str2)
+static bool	_is_long_min(const char *str1, const char *str2)
 {
-    if (!str1 || !str2)
-        return (false);
-    if (ft_strlen(str1) == ft_strlen(str2))
-    {
-        if (!ft_strncmp(str1, str2, ft_strlen(str1)))
-            return (true);
-    }
-    return (false);
+	if (!str1 || !str2)
+		return (false);
+	if (ft_strlen(str1) == ft_strlen(str2))
+	{
+		if (!ft_strncmp(str1, str2, ft_strlen(str1)))
+			return (true);
+	}
+	return (false);
 }
 
-static bool _validate_long_long(char *str, int *status)
+static bool	_validate_long_long(char *str, int *status)
 {
 	int			sign;
 	long long	result;
 
-    sign = 1;
+	sign = 1;
 	result = 0;
 	if (*str == '\0')
 		return (false);
@@ -73,26 +61,28 @@ static bool _validate_long_long(char *str, int *status)
 	return (true);
 }
 
-void    _exit_vault(t_minivault *minivault, t_word *args, int out_fd)
+void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 {
-    int _status;
+	int	_status;
 
-    ft_putstr_fd("exit\n", out_fd);
-    if (!args || !(args->word))
-        clean_exit(minivault, ft_atoi(get_env(minivault, PREVEXITSTAT)));
-    else
-    {
-        if (_validate_long_long(args->word, &_status))
+	ft_putstr_fd("exit\n", out_fd);
+	if (!args || !(args->word))
+		clean_exit(minivault, ft_atoi(get_env(minivault, PREVEXITSTAT)));
+	else
+	{
+		if (_validate_long_long(args->word, &_status))
 		{
 			if (args && args->next)
-                error(minivault, FAILURE, true, "exit: ", "too many arguments", NULL);
+				error(minivault, FAILURE, true, "exit: ", \
+				"too many arguments", NULL);
 			else
-                clean_exit(minivault, (_status % MAXEXTSTATUS));
+				clean_exit(minivault, (_status % MAXEXTSTATUS));
 		}
 		else
-        {
-			error(minivault, EXTSTATUSNONNUM, true, "exit:", args->word, ": ", "numeric argument required", NULL);
-            clean_exit(minivault, EXTSTATUSNONNUM);
-        }
-    }
+		{
+			error(minivault, EXTSTATUSNONNUM, true, "exit:", \
+			args->word, ": ", "numeric argument required", NULL);
+			clean_exit(minivault, EXTSTATUSNONNUM);
+		}
+	}
 }

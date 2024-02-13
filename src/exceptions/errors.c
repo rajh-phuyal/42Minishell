@@ -10,8 +10,9 @@ void    panic_attack(t_minivault *minivault)
 	// exit(FAILURE);
 }
 
-// using int instead of bool because va_start will have undefined behavior if used with bool
-void    error(t_minivault *minivault, t_status status, int prompt, ...)
+// using int instead of bool because va_start
+// will have undefined behavior if used with bool
+void	error(t_minivault *minivault, t_status status, int prompt, ...)
 {
 	va_list	args;
 	char	*_string;

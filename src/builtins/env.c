@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 19:55:46 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/01 18:08:35 by rajphuyal        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-void    _env(t_minivault *minivault, int out_fd)
+void	_env(t_minivault *minivault, int out_fd)
 {
 	t_envs	*envs;
 
