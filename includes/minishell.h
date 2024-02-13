@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rphuyal <rphuyal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/01/28 20:35:20 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/02/13 22:51:50 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,6 @@ void		liberation(t_minivault *minivault);
 // utils
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
+void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
 
 #endif
