@@ -57,7 +57,7 @@ int	config_io_last_output(t_minivault	*minivault, t_command *command)
 
 int	config_io_builtin(t_minivault *minivault, t_command *command, int pos)
 {
-	int fd;
+	int	fd;
 
 	fd = STDOUT_FILENO;
 	if (command->pos == SINGLE)

@@ -80,7 +80,7 @@ void	config_io_last(t_minivault	*minivault, t_command *command)
 {
 	t_redir	*infile;
 	t_redir	*outfile;
-	int last_pipe_index;
+	int		last_pipe_index;
 
 	infile = get_last_token(command->redir_in);
 	outfile = get_last_token(command->redir_out);
@@ -112,5 +112,5 @@ void	config_io(t_minivault	*minivault, t_command *command, int pos)
 	if (command->pos == MIDDLE)
 		config_io_middle(minivault, command, pos);
 	if (command->pos == LAST)
-		config_io_last(minivault,command);
+		config_io_last(minivault, command);
 }
