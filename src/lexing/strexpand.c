@@ -25,7 +25,7 @@ static void	_exp_validator(char *str, t_strexp *data)
 		return ;
 	}
 	else if (*str == *end && *end == '"' && *(str + 1) == '\'')
-		unpack_var(data, true, true, true);
+		unpack_var(data, true, false, true);
 	else if (*str == *end && *end == '"')
 		unpack_var(data, true, false, true);
 	data->expandable = true;
@@ -42,27 +42,25 @@ static	void	_put_end_break(char *start, t_strexp *data)
 		*(end - (data->singleq)) = '\0';
 }
 
-static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
+static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 {
-	char			temp;
-	char			*value;
-	char			*_built;
-	static	char	*suffix = NULL;
+	char	temp;
+	char	*value;
+	char	*_built;
+	char	*suffix;
 
-	data->pos = start;
-	start++;
+	data->pos = iter;
+	iter++;
 	temp = '\0';
+	_built = NULL;
 	suffix = NULL;
-	while (start && *start)
+	while (iter && *iter)
 	{
-		if (!*(start + 1) || *start == DOLLAR || \
-			*start == '\'' || *start == '"')
+		if (!*(iter + 1) || *iter == DOLLAR || \
+			*iter == '\'' || *iter == '"')
 		{
-			if (*(start + 1))
-			{
-				temp = *start;
-				*start = '\0';
-			}
+			temp = *iter * (*(iter + 1) > 0);
+			*iter = (*iter) * !(*(iter + 1) > 0);
 			if (data->pos && *(data->pos + 1) == PREVEXITSTAT[FIRST_ELEM])
 			{
 				suffix = get_suffix(data->pos + 2);
@@ -72,7 +70,7 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 				value = get_env(minivault, data->pos + 1);
 			if (value)
 			{
-				if (*(start) == '\'' && *(data->pos - 1) == '\'')
+				if (*(iter) == '\'' && *(data->pos - 1) == '\'')
 				{
 					if (!_built)
 						_built = exe_concat(_built, value, suffix, NULL);
@@ -92,15 +90,15 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *start)
 			}
 			if (temp)
 			{
-				*start = temp;
+				*iter = temp;
 				temp = '\0';
 			}
-			if (*start == DOLLAR)
-				data->pos = start;
+			if (*iter == DOLLAR)
+				data->pos = iter;
 			else
 				data->pos = NULL;
 		}
-		start++;
+		iter++;
 	}
 	if (!_built)
 		_built = exe_concat(NULL, PLACEHOLDER, NULL);
@@ -124,13 +122,14 @@ void	strexpand(t_minivault *minivault, char **vector)
 		_exp_validator(s_iter, &data);
 		if (_check_heredoc_deli(s_iter, vector))
 		{
+			printf("is this expandable: %s | %d\n", s_iter, data.expandable);
 			while (s_iter && *s_iter)
 			{
 				if (*s_iter == DOLLAR && data.expandable)
 				{
 					if (!*(s_iter + 1))
 						break ;
-					_put_end_break(start, data);
+					_put_end_break(s_iter + 1, &data);
 					_magic = alchemy(minivault, &data, s_iter);
 					if (!_magic)
 						break ;

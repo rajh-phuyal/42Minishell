@@ -15,9 +15,9 @@ char	*exe_concat(char *prev, ...)
 
 void	unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable)
 {
-	quoted = quoted;
-	singleq = singleq;
-	expandable = expandable;
+	data->quoted = quoted;
+	data->singleq = singleq;
+	data->expandable = expandable;
 }
 
 char	*get_suffix(char *pos)

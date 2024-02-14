@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/13 23:12:00 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/02/13 23:31:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,6 @@ typedef struct s_envs
 	bool			internal;
 	struct s_envs	*next;
 }	t_envs;
-
-typedef struct s_strexp
-{
-	char	*_pos;
-	bool	quoted;
-	bool	singleq;
-	bool	expandable;
-}			t_strexp;
 
 // the minieverything
 typedef struct s_minivault

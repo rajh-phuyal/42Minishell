@@ -43,6 +43,15 @@ typedef struct s_redir
 	struct s_redir	*next;
 }					t_redir;
 
+// declaration for expansion
+typedef struct s_strexp
+{
+	char	*pos;
+	bool	quoted;
+	bool	singleq;
+	bool	expandable;
+}			t_strexp;
+
 /*
 TODO 	havig the node called word and the string
 TODO 	word aswell is confusing this could change
