@@ -118,7 +118,7 @@ void	system_command(t_minivault *minivault, t_command *command, int pos)
 		free(cmd_path);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
-		waitpid(child, &status, 0);
+		waitpid(child, &status, 0); // ! FIX ME parent should execute everything and wait for the childs after it
 		if (WIFEXITED(status))
 			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
 	}

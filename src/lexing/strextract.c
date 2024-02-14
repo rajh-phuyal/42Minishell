@@ -153,7 +153,7 @@ char	*isolate_char(char *input, char target, char separator)
 
 	inside_double_quotes = false;
 	inside_single_quotes = false;
-	modified = (char *)malloc(2 * (ft_strlen(input) + 1) + 1);
+	modified = ft_calloc(2 , (ft_strlen(input) + 1) + 1);
 	if (!modified)
 		return (NULL);
 	i = 0;
@@ -172,9 +172,7 @@ char	*isolate_char(char *input, char target, char separator)
 			modified[i++] = *input;
 		input++;
 	}
-	modified[i] = '\0';
-	if (temp)
-		free(temp);
+	free(temp);
 	return (modified);
 }
 
