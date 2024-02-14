@@ -8,7 +8,7 @@ static	void	_cleaner(t_strexp *data)
 	data->pos = NULL;
 }
 
-static void	_exp_validator(char *str, t_strexp *data)
+static bool	_exp_validator(char *str, t_strexp *data)
 {
 	char		*end;
 
@@ -18,17 +18,14 @@ static void	_exp_validator(char *str, t_strexp *data)
 	while (str && *str && *str != DOLLAR && *str != '\'' && *str != '"')
 		str++;
 	if (*str == DOLLAR)
-		unpack_var(data, false, false, true);
+		return (unpack_var(data, false, false, true));
 	if (*str == *end && *end == '\'')
-	{
-		unpack_var(data, true, true, false);
-		return ;
-	}
+		return (unpack_var(data, true, true, false));
 	else if (*str == *end && *end == '"' && *(str + 1) == '\'')
-		unpack_var(data, true, false, true);
+		return (unpack_var(data, true, true, true));
 	else if (*str == *end && *end == '"')
-		unpack_var(data, true, false, true);
-	data->expandable = true;
+		return (unpack_var(data, true, false, true));
+	return (unpack_var(data, false, false, false));
 }
 
 static	void	_put_end_break(char *start, t_strexp *data)
@@ -75,7 +72,7 @@ static	char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 					if (!_built)
 						_built = exe_concat(_built, value, suffix, NULL);
 					else
-						_built = exe_concat(_built, "'", \
+						_built = exe_concat(_built, "'",
 							_built, "'", value, suffix, NULL);
 				}
 				if (!_built)

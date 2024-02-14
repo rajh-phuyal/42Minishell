@@ -32,9 +32,9 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
 
 /**
  * * remove_spaces
- * @brief 	if one or multiple spaces are found outside 
+ * @brief 	if one or multiple spaces are found outside
  * 			of a quotes, they are replaced by the separator
- * 			E.g.: hello        world "   again" 
+ * 			E.g.: hello        world "   again"
  * 				hello\world\"   again" <- where \ is the separator
  * 			It also checks if there are unclosed quotes in the input string
  * @param input is the input string
@@ -136,7 +136,7 @@ char	*isolate_quotes(char *input, char separator)
 
 /**
  * * isolate_char
- * @brief	if the target char is found inside the 
+ * @brief	if the target char is found inside the
  * 			input string (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>1 becomes hello > 1
  * @param input is the input string
@@ -180,7 +180,7 @@ char	*isolate_char(char *input, char target, char separator)
 
 /**
  * * isolate_compund
- * @brief	if the target string is found inside the 
+ * @brief	if the target string is found inside the
  * 			input string (outside of single or double quotes)
  * 			it is isolated by the separator. E.g.: hello>>1 becomes hello >> 1
  * @param input is the input string
@@ -306,7 +306,7 @@ void	process_strings(char ***input)
 
 /**
  * * strextract
- * @brief		spaces, isolates special chars and 
+ * @brief		spaces, isolates special chars and
  * 				splits the input string into a vector 2D ARRAY
  * @param 		minivault is a pointer to the "general" structure
  * @param		input is the input string
@@ -349,7 +349,7 @@ void	strextract(t_minivault *minivault, char *input)
 	}
 	if (input)
 		minivault->input = ft_split(input, '\31');
-	process_strings(&minivault->input);
 	strexpand(minivault, minivault->input);
+	process_strings(&minivault->input);
 	free(input);
 }

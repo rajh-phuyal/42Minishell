@@ -101,7 +101,7 @@ void		strexpand(t_minivault *minivault, char **vector);
 // expansion utils
 char		*get_suffix(char *pos);
 bool		_check_heredoc_deli(char *str, char **vector);
-void		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
+bool		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
 
 // parser
 void		remove_quotes(char *str);

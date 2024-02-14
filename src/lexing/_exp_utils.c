@@ -13,11 +13,12 @@ char	*exe_concat(char *prev, ...)
 	return (_built);
 }
 
-void	unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable)
+bool	unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable)
 {
 	data->quoted = quoted;
 	data->singleq = singleq;
 	data->expandable = expandable;
+	return (expandable);
 }
 
 char	*get_suffix(char *pos)
