@@ -31,6 +31,7 @@ SRC = src/core/main.c \
 	src/parsing/redir.c \
 	src/parsing/word.c \
 	src/parsing/heredoc.c \
+	src/parsing/get_exec_path.c \
 	src/executor/config_io.c \
 	src/executor/close_pipes.c \
 	src/executor/config_io_builtin.c \

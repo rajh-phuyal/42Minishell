@@ -30,10 +30,12 @@ void	handle_input(t_minivault *minivault, char *input)
 	minivault->line = input;
 	if (lexer(minivault, input))
 	{
+		printf("yes\n");
 		grow_baobab(minivault);
 		executor(minivault, minivault->baobab->pipeline);
 		set_signals(SIG_STATE_MAIN);
 	}
+	call_debug(minivault);
 	minivault->cycles++;
 	cycle_reset(minivault);
 }

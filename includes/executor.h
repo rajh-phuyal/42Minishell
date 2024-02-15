@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <sys/wait.h>
 
+// ? heredoc or herdoc
 typedef struct s_herdoc
 {
 	int		fds[2];

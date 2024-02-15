@@ -64,7 +64,10 @@ typedef enum e_cmd_pos
 
 typedef struct s_command
 {
+	pid_t		pid;
+	bool		is_builtin;
 	t_cmd_pos	pos;
+	char		*exec_path;
 	t_word		*words;
 	t_redir		*redir_in;
 	t_redir		*redir_out;
@@ -99,5 +102,7 @@ void		connector(t_baobab *node, t_baobab *parent, \
 			t_baobab *left, t_baobab *right);
 void		add_redirection(t_minivault *minivault, \
 			t_command **command, t_token *token, t_token *next);
+
+char	*get_exec_path(t_minivault *minivault, char *exec_name);
 
 #endif

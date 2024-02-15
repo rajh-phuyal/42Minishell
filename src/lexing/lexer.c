@@ -83,6 +83,13 @@ bool	check_syntax(t_minivault *minivault)
 			"syntax error near unexpected token", "`|'", NULL);
 			return (false);
 		}
+		if (current && current->next && \
+			current->type == REDIRECTION && current->next->type == PIPE)
+		{
+			error(minivault, FAILURE, true, \
+			"syntax error near unexpected token", "`|'", NULL);
+			return (false);
+		}
 		current = current->next;
 	}
 	return (true);
