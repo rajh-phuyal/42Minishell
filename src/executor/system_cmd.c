@@ -61,9 +61,15 @@ void	system_command(t_minivault *minivault, t_command *command, int pos)
 	{
 		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
-		execve(command->exec_path, arg, minivault->env_list);
-		error(minivault, CMDNOTFOUND, true, command->words->word, \
-		": ", "command not executed", NULL);
+		if (command->exec_path)
+		{
+			execve(command->exec_path, arg, minivault->env_list);
+			error(minivault, FAILURE, true, command->words->word, \
+			": ", "command not executed", NULL);
+		}
+		else
+			error(minivault, CMDNOTFOUND, true, command->words->word, \
+			": ", "command not found", NULL);
 		free(arg);
 		free(command->exec_path);
 		close_pipes(minivault, command, pos);
