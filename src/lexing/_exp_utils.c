@@ -10,6 +10,7 @@ char	*exe_concat(char *prev, ...)
 	va_end(args);
 	if (prev)
 		free(prev);
+	prev = NULL;
 	return (_built);
 }
 
@@ -32,7 +33,7 @@ char	*get_suffix(char *pos)
 	temp = '\0';
 	while (pos && *pos)
 	{
-		if (!*(pos + 1) || *pos == DOLLAR || *pos == '\'' || *pos == '"')
+		if (!*(pos + 1) || *pos == DOLLAR || *pos == 33 || *pos == 34 || !ft_isalnum(*pos))
 		{
 			if (*(pos + 1))
 			{

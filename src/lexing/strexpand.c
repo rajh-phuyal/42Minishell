@@ -13,17 +13,17 @@ static bool	_exp_validator(char *str, t_strexp *data)
 	char		*end;
 
 	end = str;
-	while (end && *(end + 1))
+	while (end && *(end + 1) && *end != DOLLAR && *end != 33 && *end != 34)
 		end++;
-	while (str && *str && *str != DOLLAR && *str != '\'' && *str != '"')
+	while (str && *str && *str != DOLLAR && *str != 33 && *str != 34)
 		str++;
 	if (*str == DOLLAR)
 		return (unpack_var(data, false, false, true));
-	if (*str == *end && *end == '\'')
+	if (*str == *end && *end == 33)
 		return (unpack_var(data, true, true, false));
-	else if (*str == *end && *end == '"' && *(str + 1) == '\'')
+	else if (*str == *end && *end == 34 && *(str + 1) == 33)
 		return (unpack_var(data, true, true, true));
-	else if (*str == *end && *end == '"')
+	else if (*str == *end && *end == 34)
 		return (unpack_var(data, true, false, true));
 	return (unpack_var(data, false, false, false));
 }
@@ -39,41 +39,25 @@ static	void	_put_end_break(char *start, t_strexp *data)
 		*(end - (data->singleq)) = '\0';
 }
 
-
-
-
-
-
-
-
-
-
-
-
 static char *update_built(char *built, char *value, char *suffix, char current_char, char *pos)
 {
     char	*result;
 
 	result = NULL;
-    if (current_char == '\'' && *(pos - 1) == '\'') {
+    if (current_char == 33 && *(pos - 1) == 33) {
         if (!built)
             result = exe_concat(NULL, value, suffix, NULL);
 		else
-            result = exe_concat(built, "'", value, "'", suffix, NULL);
+            result = exe_concat(built, "'", built, value, "'", suffix, NULL);
     }
 	else
 	{
         if (!built)
             result = exe_concat(NULL, value, suffix, NULL);
 		else
-            result = exe_concat(built, value, suffix, NULL);
+            result = exe_concat(built, built, value, suffix, NULL);
     }
-
-    // Free the old built string if it's no longer needed
-    if (built != NULL && built != result) {
-        free(built);
-    }
-
+    free(suffix);
     return result;
 }
 
@@ -83,7 +67,9 @@ static char *process_iter(t_minivault *minivault, t_strexp *data, char *iter, ch
     char *value = NULL;
     char *suffix = NULL;
 
-    if (!*(iter + 1) || *iter == DOLLAR || *iter == '\'' || *iter == '"') {
+    if (!*(iter + 1) || *iter == DOLLAR || *iter == 33 || \
+         *iter == 34 || *iter == 92 || *iter == 47 || !ft_isalnum(*iter))
+    {
         temp = *iter * (*(iter + 1) > 0);
         *iter = (*iter) * !(*(iter + 1) > 0);
         if (data->pos && *(data->pos + 1) == PREVEXITSTAT[FIRST_ELEM])
@@ -92,15 +78,19 @@ static char *process_iter(t_minivault *minivault, t_strexp *data, char *iter, ch
             value = get_env(minivault, PREVEXITSTAT);
         }
 		else if (data->pos)
+        {
+            printf("data->pos: %d\n", *(data->pos + 1));
+            if (*(iter + 1))
+                suffix = get_suffix(data->pos + 1);
             value = get_env(minivault, data->pos + 1);
-
+        }
         if (value)
             built = update_built(built, value, suffix, *iter, data->pos);
         if (temp)
             *iter = temp;
 		if (*iter == DOLLAR)
 			data->pos = iter;
-		else if (*iter == '\'' && data->pos)
+		else
 			data->pos = NULL;
     }
     return built;
@@ -111,10 +101,9 @@ static char *finalize_built(char *built, t_strexp *data)
 	char *finalized;
 
 	finalized = NULL;
-    if (data->singleq) {
+    if (built && data->singleq)
+    {
         finalized = exe_concat(NULL, "'", built, "'", NULL);
-        if (built != finalized)
-            free(built);
         return (finalized);
     }
     return (built);
@@ -133,50 +122,48 @@ static char *alchemy(t_minivault *minivault, t_strexp *data, char *iter)
     }
     if (!_built)
         _built = exe_concat(NULL, PLACEHOLDER, NULL);
-    else if (_built && data->singleq)
-        _built = finalize_built(_built, data);
+    _built = finalize_built(_built, data);
     return _built;
 }
 
 
-// Example helper function to process each string
-void process_string(char **s_iter, char **v_iter, t_minivault *minivault, t_strexp *data)
+void process_string(char *curr, char **v_iter, t_minivault *minivault, t_strexp *data)
 {
 	char	*_magic;
 
-	while (*s_iter && **s_iter) {
-		if (**s_iter == DOLLAR && data->expandable)
+	while (curr && *curr)
+    {
+		if (*curr == DOLLAR && data->expandable)
 		{
-			if (!*(*s_iter + 1))
+			if (!*(curr + 1))
 				break;
-			_put_end_break(*s_iter + 1, data);
-			_magic = alchemy(minivault, data, *s_iter);
+			_put_end_break(curr + 1, data);
+			_magic = alchemy(minivault, data, curr);
 			if (!_magic)
 				break;
-			*(*s_iter - (data->quoted + data->singleq)) = '\0';
-			_magic = exe_concat(_magic, *v_iter, _magic, NULL);
+			*(curr - (data->quoted + data->singleq)) = '\0';
+            _magic = exe_concat(_magic, *v_iter, _magic, NULL);
 			free(*v_iter);
 			*v_iter = _magic;
 			break;
 		}
-		(*s_iter)++;
+		curr++;
 	}
 }
 
 void strexpand(t_minivault *minivault, char **vector)
 {
     char	**v_iter;
+    char    *s_iter;
 
 	v_iter = vector;
     while (v_iter && *v_iter) {
-        char *s_iter = *v_iter;
+        s_iter = *v_iter;
         t_strexp data;
         _cleaner(&data);
         _exp_validator(s_iter, &data);
-
-        if (_check_heredoc_deli(s_iter, vector)) {
-            process_string(&s_iter, v_iter, minivault, &data);
-        }
+        if (_check_heredoc_deli(s_iter, vector) && data.expandable)
+            process_string(s_iter, v_iter, minivault, &data);
         v_iter++;
     }
 }
