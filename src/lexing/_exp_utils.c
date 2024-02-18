@@ -33,7 +33,8 @@ char	*get_suffix(char *pos)
 	temp = '\0';
 	while (pos && *pos)
 	{
-		if (!*(pos + 1) || *pos == DOLLAR || *pos == 33 || *pos == 34 || !ft_isalnum(*pos))
+		if (!*(pos + 1) || *pos == DOLLAR || *pos == 33 || \
+         *pos == 34 || *pos == 92 || *pos == 47)
 		{
 			if (*(pos + 1))
 			{
@@ -47,6 +48,8 @@ char	*get_suffix(char *pos)
 		}
 		pos++;
 	}
+	if (!suffix)
+		suffix = exe_concat(NULL, start, NULL);
 	return (suffix);
 }
 
