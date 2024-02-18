@@ -54,6 +54,12 @@ typedef struct s_word
 
 }					t_word;
 
+typedef struct s_inside
+{
+	bool	dquotes;
+	bool	squotes;
+}				t_inside;
+
 typedef enum e_cmd_pos
 {
 	SINGLE,
@@ -82,6 +88,8 @@ typedef struct s_baobab
 typedef struct s_minivault	t_minivault;
 
 // lexing
+void		toggle_quotes(char input, bool *inside_double_quotes, \
+								bool *inside_single_quotes);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 t_token		*create_new(char *token);
@@ -89,7 +97,7 @@ bool		lexer(t_minivault *minivault, char *input);
 void		tokenizer(t_minivault *minivault);
 void		remove_token(t_token *head, t_token *node);
 void		add_token(t_minivault *minivault, char *token);
-void		strextract(t_minivault *minivault, char *input);
+char		*strextract(t_minivault *minivault, char *line);
 void		strexpand(t_minivault *minivault, char **vector);
 
 // parser

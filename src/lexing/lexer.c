@@ -95,15 +95,128 @@ bool	check_syntax(t_minivault *minivault)
 	return (true);
 }
 
+bool	check_open_quotes(char *input)
+{
+	bool	inside_dquotes;
+	bool	inside_squotes;
+
+	inside_dquotes = false;
+	inside_squotes = false;
+	if (!input)
+		return (false);
+	while (input && *input)
+	{
+		toggle_quotes(*input, &inside_dquotes, &inside_squotes);
+		input++;
+	}
+	if (inside_dquotes || inside_squotes)
+	{
+		if (inside_squotes) // ! change this to error
+			ft_putendl_fd("Single quotes not closed.", 2);
+		else if (inside_dquotes) // ! change this to error
+			ft_putendl_fd("Double quotes not closed.", 2);
+		return (false);
+	}
+	return (true);
+}
+
+static char	*strip_double_quotes(char *input)
+{
+	char	*new_str;
+
+	if (!input || ft_strlen(input) != 2)
+		return (input);
+	if ((is_single_quote(input[0]) && is_single_quote(input[1])) || \
+		(is_double_quote(input[0]) && is_double_quote(input[1])))
+	{
+		new_str = malloc(2);
+		if (new_str)
+		{
+			new_str[0] = '\31';
+			new_str[1] = '\0';
+			return (new_str);
+		}
+	}
+	return (input);
+}
+
+
+bool	str_is_quoted(const char *str)
+{
+    int len;
+
+    if (!str || !*str)
+		return (false);
+    len = ft_strlen(str);
+    if ((is_double_quote(str[0]) && is_double_quote(str[len - 1])) || \
+        (is_single_quote(str[0]) && is_single_quote(str[len - 1])))
+        return (true);
+    return (false);
+}
+
+static char	*clean_quotes(char *input)
+{
+	char	*modified;
+	char	*result;
+	size_t	i;
+	size_t	j;
+
+	if (ft_strlen(input) < 2 || str_is_quoted(input))
+		return (input);
+	modified = ft_calloc(1, ft_strlen(input) + 1);
+	if (!modified)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (input[i])
+	{
+		if (!is_single_quote(input[i]) && !is_double_quote(input[i]))
+			modified[j++] = input[i];
+		i++;
+	}
+	result = modified; // Keep the original pointer for return
+	return (result);
+}
+
+
+void	process_strings(char ***input)
+{
+	char	*temp;
+	int		i;
+
+	if (!input || !*input)
+		return ;
+	i = 0;
+	while ((*input)[i])
+	{
+		temp = strip_double_quotes((*input)[i]);
+		if (temp != (*input)[i])
+		{
+			free((*input)[i]);
+			(*input)[i] = temp;
+		}
+		temp = clean_quotes((*input)[i]);
+		if (temp != (*input)[i])
+		{
+			free((*input)[i]);
+			(*input)[i] = temp;
+		}
+		i++;
+	}
+}
+
 /* atempting to create tokens based on the 
 received input str for the readline */
-bool	lexer(t_minivault *minivault, char *input)
+bool	lexer(t_minivault *minivault, char *line)
 {
-	if (!input)
+	if (!check_open_quotes(line))
 		return (false);
-	strextract(minivault, input);
-	if (!input)
-		return (false);
+	line = strextract(minivault, line);
+	if (line)
+		minivault->input = ft_split(line, '\31');
+	process_strings(&minivault->input);
+	strexpand(minivault, minivault->input);
+	free(line);
 	tokenizer(minivault);
 	return (check_syntax(minivault));
 }
