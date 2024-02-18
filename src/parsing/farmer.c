@@ -54,14 +54,29 @@ void	print_baobab(t_minivault *minivault)
 
 //-----------------------  ↑ SHITY PRINTS ↑  ----------------------- //
 
+bool	is_cmd_builtin(char **builtin_list, char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (builtin_list[i])
+	{
+		if (!ft_strncmp(cmd, builtin_list[i], ft_strlen(builtin_list[i]) + 1))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 t_command	*split_list(t_minivault *minivault, \
 			t_token *list, t_content_type type)
 {
 	static t_token	*current = NULL;
 	t_command		*command;
 
-	command = NULL;
+	command = NULL; // ? why is this needed?
 	command = (t_command *)malloc(sizeof(t_command));
+	command->exec_path = NULL;
 	command->words = NULL;
 	command->redir_in = NULL;
 	command->redir_out = NULL;
@@ -87,6 +102,13 @@ t_command	*split_list(t_minivault *minivault, \
 			add_word(&(command->words), current);
 			current = current->next;
 		}
+	}
+	if (command->words)
+	{
+		command->is_builtin = is_cmd_builtin((char *[]){"echo", "cd", "pwd", \
+		"export", "unset", "env", "exit", NULL}, command->words->word);
+		if (!command->is_builtin)
+			command->exec_path = get_exec_path(minivault, command->words->word);
 	}
 	return (command);
 }

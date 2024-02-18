@@ -39,27 +39,6 @@ char	**get_arguments(t_word *words)
 	return (arguments);
 }
 
-char	*get_command_path(char **path_list, char *command)
-{
-	char	*temp;
-	char	*freeable;
-	int		i;
-
-	i = 0;
-	while (path_list && path_list[i])
-	{
-		temp = ft_strjoin(path_list[i], "/");
-		freeable = temp;
-		temp = ft_strjoin(temp, command);
-		free(freeable);
-		if (access(temp, F_OK) == 0)
-			return (temp);
-		free(temp);
-		i++;
-	}
-	return (NULL);
-}
-
 t_redir	*get_last_token(t_redir *head)
 {
 	t_redir	*current;
@@ -74,52 +53,34 @@ t_redir	*get_last_token(t_redir *head)
 
 void	system_command(t_minivault *minivault, t_command *command, int pos)
 {
-	int		status;
-	char	*cmd_path;
-	pid_t	child;
 	char	**arg;
 
-	cmd_path = get_command_path(minivault->path, command->words->word);
-	if (!cmd_path && !get_env(minivault, "PATH"))
-	{
-		error(minivault, FAILURE, true, command->words->word, \
-			": ", "No such file or directory", NULL);
-		close_pipes(minivault, command, pos);
-		return ;
-	}
-	else if (!cmd_path)
-	{
-		error(minivault, CMDNOTFOUND, true, command->words->word, \
-			": ", "command not found", NULL);
-		close_pipes(minivault, command, pos);
-		return ;
-	}
 	arg = get_arguments(command->words);
-	child = fork();
-	if (child == -1)
-	{
-		free(cmd_path);
-		return ;
-	}
-	if (child == 0)
+	command->pid = fork();
+	if (command->pid == 0)
 	{
 		set_signals(SIG_STATE_CHILD);
 		config_io(minivault, command, pos);
-		execve(cmd_path, arg, minivault->env_list);
-		perror(RED"Execve failed"RESET_COLOR);
+		if (command->exec_path)
+		{
+			execve(command->exec_path, arg, minivault->env_list);
+			error(minivault, FAILURE, true, command->words->word, \
+			": ", "command not executed", NULL);
+		}
+		else
+			error(minivault, CMDNOTFOUND, true, command->words->word, \
+			": ", "command not found", NULL);
 		free(arg);
-		free(cmd_path);
+		free(command->exec_path);
 		close_pipes(minivault, command, pos);
 		liberation(minivault);
+		exit(127);
 	}
 	else
 	{
 		free(arg);
-		free(cmd_path);
+		free(command->exec_path);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
-		waitpid(child, &status, 0);
-		if (WIFEXITED(status))
-			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
 	}
 }
