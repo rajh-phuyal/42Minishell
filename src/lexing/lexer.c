@@ -140,18 +140,17 @@ static char	*strip_double_quotes(char *input)
 	return (input);
 }
 
-
 bool	str_is_quoted(const char *str)
 {
-    int len;
+	int	len;
 
-    if (!str || !*str)
+	if (!str || !*str)
 		return (false);
-    len = ft_strlen(str);
-    if ((is_double_quote(str[0]) && is_double_quote(str[len - 1])) || \
-        (is_single_quote(str[0]) && is_single_quote(str[len - 1])))
-        return (true);
-    return (false);
+	len = ft_strlen(str);
+	if ((is_double_quote(str[0]) && is_double_quote(str[len - 1])) || \
+		(is_single_quote(str[0]) && is_single_quote(str[len - 1])))
+		return (true);
+	return (false);
 }
 
 static char	*clean_quotes(char *input)
@@ -177,7 +176,6 @@ static char	*clean_quotes(char *input)
 	result = modified; // Keep the original pointer for return
 	return (result);
 }
-
 
 void	process_strings(char ***input)
 {
