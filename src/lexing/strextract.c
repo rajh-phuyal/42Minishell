@@ -277,7 +277,6 @@ static char	*clean_quotes(char *input)
 
 void	process_strings(char ***input)
 {
-	char	*temp;
 	char	*temp2;
 	int		i;
 
@@ -286,12 +285,6 @@ void	process_strings(char ***input)
 	i = 0;
 	while ((*input)[i])
 	{
-		temp = strip_double_quotes((*input)[i]);
-		if (temp != (*input)[i])
-		{
-			free((*input)[i]);
-			(*input)[i] = temp;
-		}
 		temp2 = clean_quotes((*input)[i]);
 		if (temp2 != (*input)[i])
 		{

@@ -17,8 +17,8 @@ void	call_debug(t_minivault *minivault)
 	printf("\n----------TREE--------\n");
 	if (minivault)
 		print_baobab(minivault);
-	printf("\n----------ENV---------\n");
-	print_envs(minivault->envs);
+	// printf("\n----------ENV---------\n");
+	// print_envs(minivault->envs);
 }
 
 int	main(int argc, char **argv, char **envs)
