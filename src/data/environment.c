@@ -36,7 +36,7 @@ char	*get_env(t_minivault *minivault, char *key)
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
+		if (ft_strlen(envs->key) == ft_strlen(key) && ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 			return (envs->value);
 		envs = envs->next;
 	}
@@ -54,7 +54,7 @@ t_envs	*get_env_node(t_minivault *minivault, char *key)
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
+		if (ft_strlen(envs->key) == ft_strlen(key) && ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 			return (envs);
 		envs = envs->next;
 	}
@@ -68,7 +68,7 @@ void	set_env(t_minivault *minivault, char *key, char *value, int identifier)
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
+		if (ft_strlen(envs->key) == ft_strlen(key) && ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 		{
 			free(envs->value);
 			envs->value = value;
@@ -88,7 +88,7 @@ void	unset_env(t_minivault *minivault, char *key)
 	envs = minivault->envs;
 	while (envs)
 	{
-		if (ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
+		if (ft_strlen(envs->key) == ft_strlen(key) && ft_strncmp(envs->key, key, ft_strlen(key)) == 0)
 		{
 			free(envs->value);
 			free(envs->key);

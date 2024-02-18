@@ -349,7 +349,7 @@ void	strextract(t_minivault *minivault, char *input)
 	}
 	if (input)
 		minivault->input = ft_split(input, '\31');
-	process_strings(&minivault->input);
 	strexpand(minivault, minivault->input);
+	// process_strings(&minivault->input);
 	free(input);
 }

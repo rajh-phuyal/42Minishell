@@ -33,8 +33,7 @@ char	*get_suffix(char *pos)
 	temp = '\0';
 	while (pos && *pos)
 	{
-		if (!*(pos + 1) || *pos == DOLLAR || *pos == 33 || \
-         *pos == 34 || *pos == 92 || *pos == 47)
+		if (!*(pos + 1) || *pos == DOLLAR)
 		{
 			if (*(pos + 1))
 			{

@@ -13,15 +13,17 @@ static bool	_exp_validator(char *str, t_strexp *data)
 	char	*end;
 
 	end = str;
-	while (end && *(end + 1) && *end != DOLLAR && *end != 33 && *end != 34)
+	while (end && *(end + 1))
 		end++;
-	while (str && *str && *str != DOLLAR && *str != 33 && *str != 34)
+	while (end != str && *end != 39 && *end != 34)
+		end--;
+	while (str && *str && *str != DOLLAR && *str != 39 && *str != 34)
 		str++;
-	if (*str == DOLLAR)
+	if (*str == DOLLAR && *end == DOLLAR)
 		return (unpack_var(data, false, false, true));
-	if (*str == *end && *end == 33)
+	if (*str == *end && *str == 39)
 		return (unpack_var(data, true, true, false));
-	else if (*str == *end && *end == 34 && *(str + 1) == 33)
+	if (*str == *end && *end == 34 && *(str + 1) == 39)
 		return (unpack_var(data, true, true, true));
 	else if (*str == *end && *end == 34)
 		return (unpack_var(data, true, false, true));
@@ -39,27 +41,25 @@ static void	_put_end_break(char *start, t_strexp *data)
 		*(end - (data->singleq)) = '\0';
 }
 
-static char	*update_built(char *built, char *value, char *suffix,
-		char current_char, char *pos)
+static char	*update_built(char *built, char *value, char curr_char, char *pos)
 {
 	char	*result;
 
 	result = NULL;
-	if (current_char == 33 && *(pos - 1) == 33)
+	if (curr_char == 33 && *(pos - 1) == 33)
 	{
 		if (!built)
-			result = exe_concat(NULL, value, suffix, NULL);
+			result = exe_concat(NULL, value, NULL);
 		else
-			result = exe_concat(built, "'", built, value, "'", suffix, NULL);
+			result = exe_concat(built, "'", built, value, "'", NULL);
 	}
 	else
 	{
 		if (!built)
-			result = exe_concat(NULL, value, suffix, NULL);
+			result = exe_concat(NULL, value, NULL);
 		else
-			result = exe_concat(built, built, value, suffix, NULL);
+			result = exe_concat(built, built, value, NULL);
 	}
-	free(suffix);
 	return (result);
 }
 
@@ -67,46 +67,26 @@ static char	*process_iter(t_minivault *minivault, t_strexp *data, char *iter,
 		char *built)
 {
 	char	*value;
-	char	*suffix;
 
 	value = NULL;
-	suffix = NULL;
 	if (data->pos && *(data->pos + 1) == PREVEXITSTAT[FIRST_ELEM])
-	{
-		suffix = get_suffix(iter + 2);
 		value = get_env(minivault, PREVEXITSTAT);
-	}
 	else if (data->pos)
-	{
-		if (*(iter + 1))
-			suffix = get_suffix(iter);
 		value = get_env(minivault, data->pos + 1);
-	}
 	if (value)
-		built = update_built(built, value, suffix, *iter, data->pos);
-	return (built);
-}
-
-static char	*finalize_built(char *built, t_strexp *data)
-{
-	char	*_final;
-
-	_final = NULL;
-	if (built && data->singleq)
-	{
-		_final = exe_concat(NULL, "'", built, "'", NULL);
-		return (_final);
-	}
+		built = update_built(built, value, *iter, data->pos);
 	return (built);
 }
 
 static char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 {
 	char	temp;
+	char	*suffix;
 	char	*_built;
 
 	temp = '\0';
 	_built = NULL;
+	suffix = NULL;
 	while (iter && *iter)
 	{
 		if (!*(iter + 1) || *iter == DOLLAR || *iter == 33 || *iter == 34
@@ -114,7 +94,10 @@ static char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 		{
 			temp = *iter * (*(iter + 1) > 0);
 			*iter = (*iter) * !(*(iter + 1) > 0);
+			// suffix = get_suffix(iter);
 			_built = process_iter(minivault, data, iter, _built);
+			// _built = exe_concat(_built, _built, suffix, NULL);
+			free(suffix);
 			if (temp)
 				*iter = temp;
 			if (*iter == DOLLAR)
@@ -126,7 +109,8 @@ static char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 	}
 	if (!_built)
 		_built = exe_concat(NULL, PLACEHOLDER, NULL);
-	_built = finalize_built(_built, data);
+	else if (_built && data->singleq)
+		_built = exe_concat(_built, "'", _built, "'", NULL);
 	return (_built);
 }
 
@@ -167,6 +151,9 @@ void	strexpand(t_minivault *minivault, char **vector)
 		s_iter = *v_iter;
 		_cleaner(&data);
 		_exp_validator(s_iter, &data);
+		// printf("data->expandable: %d\n", data.expandable);
+		// printf("data->quoted: %d\n", data.quoted);
+		// printf("data->singleq: %d\n", data.singleq);
 		if (_check_heredoc_deli(s_iter, vector))
 			process_string(s_iter, v_iter, minivault, &data);
 		v_iter++;
