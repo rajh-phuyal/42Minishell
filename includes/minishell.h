@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/18 16:54:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/02/18 19:40:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		print_argv(int argc, char **argv);
 void		print_envs(t_envs *envs);
 void		print_vector(char **vector);
 void		print_tokens(t_token *head);
+void		print_words(t_word *head);
 
 // the liberator
 void		liberate_envs(t_envs *head);

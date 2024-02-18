@@ -74,7 +74,7 @@ void	system_command(t_minivault *minivault, t_command *command, int pos)
 		free(command->exec_path);
 		close_pipes(minivault, command, pos);
 		liberation(minivault);
-		exit(127);
+		exit(CMDNOTFOUND);
 	}
 	else
 	{

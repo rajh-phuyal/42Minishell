@@ -14,7 +14,8 @@ static t_word	*_skip_options(t_word *args)
 {
 	while (args)
 	{
-		if (ft_strncmp(args->word, "-n", ft_strlen(args->word)) != 0)
+		if (*args->word == '\31' || \
+			ft_strncmp(args->word, "-n", ft_strlen(args->word)) != 0)
 			return (args);
 		_existance(true, false);
 		args = args->next;
@@ -30,7 +31,10 @@ void	_echo(t_minivault *minivault, t_word *args, int out_fd)
 		args = _skip_options(args);
 		while (args)
 		{
-			ft_putstr_fd(args->word, out_fd);
+			if (*args->word == '\31')
+				ft_putchar_fd(*args->word, out_fd);
+			else
+				ft_putstr_fd(args->word, out_fd);
 			if (args->next)
 				ft_putchar_fd(' ', out_fd);
 			args = args->next;

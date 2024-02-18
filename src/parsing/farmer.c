@@ -23,6 +23,7 @@ void	print_words(t_word *head)
 	while (head)
 	{
 		printf("WORD: %s \n", head->word);
+		printf("----------------------\n");
 		head = head->next;
 	}
 }
@@ -74,7 +75,7 @@ t_command	*split_list(t_minivault *minivault, \
 	static t_token	*current = NULL;
 	t_command		*command;
 
-	command = NULL; // ? why is this needed?
+	command = NULL;
 	command = (t_command *)malloc(sizeof(t_command));
 	command->exec_path = NULL;
 	command->words = NULL;
@@ -142,9 +143,9 @@ void	open_pipes(t_minivault *minivault, int i, int command_count)
 To calculate the position of the cmd
 asume there is always a command if it reaches this point
 start with 1, everything after the first index is asumed as middle (1 + (i > 0))
-to find the last we can add one more to the first output 
+to find the last we can add one more to the first output
 making it 3 (1 + (i > 0) + (i == (command_count - 1))).
-Lastly subtract 2 if there is only one command to make the 
+Lastly subtract 2 if there is only one command to make the
 final output:
 (1 + (i > 0) + (i == (command_count - 1))) - (2 * (command_count == 1));
 */

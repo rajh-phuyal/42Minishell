@@ -39,7 +39,6 @@ int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
 }
 
 // TODO: ERROR HANDLING
-// TODO: HEREDOC
 int	assign_fd(t_minivault *minivault, t_command *command, \
 	t_operation operator, char *file, t_token *token)
 {
@@ -50,6 +49,7 @@ int	assign_fd(t_minivault *minivault, t_command *command, \
 	else if (operator == LESS)
 		return (open(file, O_RDONLY));
 	// ! bash: <file>: No such file or directory
+	// ! exit status 1
 	else if (operator == DLESS)
 		return (launch_heredoc(minivault, command, token));
 	return (-1);

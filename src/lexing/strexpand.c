@@ -13,19 +13,18 @@ static bool	_exp_validator(char *str, t_strexp *data)
 	char	*end;
 
 	end = str;
-	printf("str: %s\n", str);
 	while (end && *(end + 1))
 		end++;
 	while (end != str && *end != 39 && *end != 34)
 		end--;
-	printf("end: %c\n", *end);
 	while (str && *str && *str != DOLLAR && *str != 39 && *str != 34)
 		str++;
-	printf("start: %c\n", *str);
 	if (*str == DOLLAR && *end == DOLLAR)
 		return (unpack_var(data, false, false, true));
-	if (*str == *end && *str == 39)
+	if (*str == *end && *str == 39 && *(str + 1) == 34)
 		return (unpack_var(data, true, true, false));
+	else if (*str == *end && *end == 39)
+		return (unpack_var(data, false, true, false));
 	if (*str == *end && *end == 34 && *(str + 1) == 39)
 		return (unpack_var(data, true, true, true));
 	else if (*str == *end && *end == 34)
@@ -122,6 +121,7 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 {
 	char	*_magic;
 
+	_magic = NULL;
 	while (curr && *curr)
 	{
 		if (*curr == DOLLAR && data->expandable)
@@ -135,6 +135,15 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 			*(curr - (data->quoted + data->singleq)) = '\0';
 			_magic = exe_concat(_magic, *v_iter, _magic, NULL);
 			printf("magic: %s\n", _magic);
+			free(*v_iter);
+			*v_iter = _magic;
+			break ;
+		}
+		else if (*curr == DOLLAR && data->quoted)
+		{
+			*(curr - (data->quoted + data->singleq)) = '\0';
+			_magic = exe_concat(_magic, *v_iter, DOUBLEQUOTES,
+				curr, DOUBLEQUOTES, NULL);
 			free(*v_iter);
 			*v_iter = _magic;
 			break ;

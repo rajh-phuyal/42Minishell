@@ -38,5 +38,4 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	while (pipeline && pipeline[++pos])
 		execute_command(minivault, pipeline[pos], pos);
 	wait_status(minivault, pipeline);
-	// call_debug(minivault);
 }
