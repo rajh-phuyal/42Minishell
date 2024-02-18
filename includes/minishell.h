@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/13 23:31:47 by codespace        ###   ########.fr       */
+/*   Updated: 2024/02/18 16:54:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef enum e_status
 }	t_status;
 
 // forward declaration for builtins
-typedef struct s_word	t_word; // ! WTF IS THIS?
+typedef struct s_word	t_word;
 
 // the env list
 typedef struct s_envs
@@ -126,11 +126,11 @@ void		liberate_words(t_word *head);
 void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
-void		liberate_baobab(t_baobab *head);
 void		liberate_command(t_command *command);
 void		print_baobab(t_minivault *minivault);
 void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
+void		liberate_baobab(t_minivault *minivault, t_baobab *head);
 
 // utils
 char		*concat_all(va_list args);

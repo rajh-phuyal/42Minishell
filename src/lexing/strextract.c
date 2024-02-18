@@ -224,25 +224,25 @@ char	*isolate_compound(char *input, char *target, char separator)
 	return (modified);
 }
 
-static char	*strip_double_quotes(char *input)
-{
-	char	*new_str;
+// static char	*strip_double_quotes(char *input)
+// {
+// 	char	*new_str;
 
-	if (!input || ft_strlen(input) != 2)
-		return (input);
-	if ((is_single_quote(input[0]) && is_single_quote(input[1])) || \
-		(is_double_quote(input[0]) && is_double_quote(input[1])))
-	{
-		new_str = malloc(2);
-		if (new_str)
-		{
-			new_str[0] = '\31';
-			new_str[1] = '\0';
-			return (new_str);
-		}
-	}
-	return (input);
-}
+// 	if (!input || ft_strlen(input) != 2)
+// 		return (input);
+// 	if ((is_single_quote(input[0]) && is_single_quote(input[1])) ||
+// 		(is_double_quote(input[0]) && is_double_quote(input[1])))
+// 	{
+// 		new_str = malloc(2);
+// 		if (new_str)
+// 		{
+// 			new_str[0] = '\31';
+// 			new_str[1] = '\0';
+// 			return (new_str);
+// 		}
+// 	}
+// 	return (input);
+// }
 
 static char	*clean_quotes(char *input)
 {
@@ -277,7 +277,6 @@ static char	*clean_quotes(char *input)
 
 void	process_strings(char ***input)
 {
-	char	*temp;
 	char	*temp2;
 	int		i;
 
@@ -286,12 +285,6 @@ void	process_strings(char ***input)
 	i = 0;
 	while ((*input)[i])
 	{
-		temp = strip_double_quotes((*input)[i]);
-		if (temp != (*input)[i])
-		{
-			free((*input)[i]);
-			(*input)[i] = temp;
-		}
 		temp2 = clean_quotes((*input)[i]);
 		if (temp2 != (*input)[i])
 		{
@@ -348,6 +341,6 @@ void	strextract(t_minivault *minivault, char *input)
 	if (input)
 		minivault->input = ft_split(input, '\31');
 	strexpand(minivault, minivault->input);
-	// process_strings(&minivault->input);
+	process_strings(&minivault->input);
 	free(input);
 }

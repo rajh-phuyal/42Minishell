@@ -20,7 +20,7 @@ void	wait_status(t_minivault *minivault, t_command **pipeline)
 	status = 0;
 	if (!pipeline)
 		return ;
-	while (pipeline[++pos])
+	while (pipeline && pipeline[++pos])
 	{
 		waitpid(-1, &status, 0);
 		if (WIFEXITED(status))
@@ -35,7 +35,8 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	pos = -1;
 	if (!pipeline)
 		return ;
-	while (pipeline[++pos])
+	while (pipeline && pipeline[++pos])
 		execute_command(minivault, pipeline[pos], pos);
 	wait_status(minivault, pipeline);
+	// call_debug(minivault);
 }

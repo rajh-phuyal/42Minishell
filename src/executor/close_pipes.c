@@ -22,10 +22,10 @@ void	close_pipes_last(t_minivault *minivault)
 
 void	close_pipes(t_minivault	*minivault, t_command *command, int pos)
 {
-	if (command->pos == FIRST)
+	if (command && command->pos == FIRST)
 		close_pipes_first(minivault);
-	if (command->pos == MIDDLE)
+	if (command && command->pos == MIDDLE)
 		close_pipes_middle(minivault, pos);
-	if (command->pos == LAST)
+	if (command && command->pos == LAST)
 		close_pipes_last(minivault);
 }

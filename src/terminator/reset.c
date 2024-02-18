@@ -58,7 +58,7 @@ void	liberate_command(t_command *command)
 	free(command);
 }
 
-void	liberate_baobab(t_baobab *head)
+void	liberate_baobab(t_minivault *minivault, t_baobab *head)
 {
 	int	i;
 
@@ -66,7 +66,11 @@ void	liberate_baobab(t_baobab *head)
 	if (!head)
 		return ;
 	while (head->pipeline && head->pipeline[i])
+	{
+		close_pipes(minivault, head->pipeline[i], i);
 		liberate_command(head->pipeline[i++]);
+		head->pipeline[i] = NULL;
+	}
 	free(head->pipeline);
 	free(head);
 	head = NULL;
@@ -75,7 +79,7 @@ void	liberate_baobab(t_baobab *head)
 void	cycle_reset(t_minivault *minivault)
 {
 	if (minivault->baobab)
-		liberate_baobab(minivault->baobab);
+		liberate_baobab(minivault, minivault->baobab);
 	if (minivault->tokens)
 		liberate_tokens(minivault->tokens);
 	else if (minivault->input)

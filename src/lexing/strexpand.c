@@ -13,12 +13,15 @@ static bool	_exp_validator(char *str, t_strexp *data)
 	char	*end;
 
 	end = str;
+	printf("str: %s\n", str);
 	while (end && *(end + 1))
 		end++;
 	while (end != str && *end != 39 && *end != 34)
 		end--;
+	printf("end: %c\n", *end);
 	while (str && *str && *str != DOLLAR && *str != 39 && *str != 34)
 		str++;
+	printf("start: %c\n", *str);
 	if (*str == DOLLAR && *end == DOLLAR)
 		return (unpack_var(data, false, false, true));
 	if (*str == *end && *str == 39)
@@ -131,6 +134,7 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 				break ;
 			*(curr - (data->quoted + data->singleq)) = '\0';
 			_magic = exe_concat(_magic, *v_iter, _magic, NULL);
+			printf("magic: %s\n", _magic);
 			free(*v_iter);
 			*v_iter = _magic;
 			break ;
