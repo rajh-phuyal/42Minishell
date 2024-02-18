@@ -97,8 +97,6 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 	redir->fd = assign_fd(minivault, \
 		command, redir->operator, next->content, token);
 	command->redir_in = temp;
-	// if (redir->fd == -1)
-		// something is fucked
 	return (redir);
 }
 

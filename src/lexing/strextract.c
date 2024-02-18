@@ -39,7 +39,7 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
  * @param input is the input string
  * @param separator the char used to replace the spaces
 */
-char *remove_spaces(char *input, char separator)
+char	*remove_spaces(char *input, char separator)
 {
 	t_inside	inside;
 	char		*modified;
@@ -78,14 +78,14 @@ char *remove_spaces(char *input, char separator)
  * @param separator the char used to isolate the target in the input
 */
 
-char *isolate_char(char *input, char target, char separator, int i)
+char	*isolate_char(char *input, char target, char separator, int i)
 {
 	t_inside	inside;
 	char		*modified;
 	char		*temp;
 
 	inside = (t_inside){false, false};
-	modified = (char *)ft_calloc(2, ft_strlen(input) + 1); // Allocate enough space considering possible separators
+	modified = (char *)ft_calloc(2, ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
 	temp = input;
@@ -123,7 +123,7 @@ static char	*isolate_compound(char *input, char *target, char separator, int i)
 	char		*modified;
 
 	inside = (t_inside){false, false};
-	modified = (char *)ft_calloc(2 , ft_strlen(input) + 1);
+	modified = (char *)ft_calloc(2, ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
 	temp = input;
@@ -153,11 +153,11 @@ static char	*isolate_compound(char *input, char *target, char separator, int i)
  * @param		input is the input string
 */
 
-int ft_abs(int n)
+int	ft_abs(int n)
 {
 	if (n > 0)
 		return (n);
-	return(-n);
+	return (-n);
 }
 
 char	*strextract(t_minivault *minivault, char *line)
