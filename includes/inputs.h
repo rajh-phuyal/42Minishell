@@ -109,6 +109,7 @@ void		remove_token(t_token *head, t_token *node);
 void		add_token(t_minivault *minivault, char *token);
 char		*strextract(char *line);
 void		strexpand(t_minivault *minivault, char **vector);
+char	*remove_token_quotes(char *input);
 
 // expansion utils
 void		_cleaner(t_strexp *data);

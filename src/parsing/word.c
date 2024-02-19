@@ -35,8 +35,8 @@ t_word	*create_word_node(t_token *token)
 	word = (t_word *)malloc(sizeof(t_word));
 	if (!word)
 		return (NULL);
-	if (token->type == QUOTED)
-		remove_quotes(token->content);
+	// if (token->type == QUOTED)
+	// 	remove_quotes(token->content);
 	word->word = token->content;
 	word->next = NULL;
 	return (word);

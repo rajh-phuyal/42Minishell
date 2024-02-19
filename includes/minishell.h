@@ -51,6 +51,7 @@ typedef enum e_status
 {
 	SUCCESS=0,
 	FAILURE=1,
+	QUOTESEXIT=2,
 	CMDNOTFOUND=127,
 	SIGINTERRUPT=130,
 }	t_status;

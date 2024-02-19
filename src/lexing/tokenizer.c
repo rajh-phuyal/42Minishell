@@ -1,19 +1,15 @@
 #include "minishell.h"
 
-bool	is_quoted(char *token)
+bool	is_quoted(const char *str)
 {
-	size_t	len;
+	int	len;
 
-	len = ft_strlen(token);
-	if (len >= 2)
-	{
-		if (is_double_quote(token[FIRST_ELEM]) && \
-			is_double_quote(token[len - 1]))
-			return (true);
-		else if (is_single_quote(token[FIRST_ELEM]) && \
-			is_single_quote(token[len - 1]))
-			return (true);
-	}
+	if (!str || !*str)
+		return (false);
+	len = ft_strlen(str);
+	if ((is_double_quote(str[FIRST_ELEM]) && is_double_quote(str[len - 1])) || \
+		(is_single_quote(str[FIRST_ELEM]) && is_single_quote(str[len - 1])))
+		return (true);
 	return (false);
 }
 
