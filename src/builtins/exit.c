@@ -73,15 +73,15 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 		if (_validate_long_long(args->word, &_status))
 		{
 			if (args && args->next)
-				error(minivault, FAILURE, true, "exit: ", \
-				"too many arguments", NULL);
+				error(minivault, FAILURE, true, "exit: ", "too many arguments",
+					NULL);
 			else
 				clean_exit(minivault, (_status % MAXEXTSTATUS));
 		}
 		else
 		{
-			error(minivault, EXTSTATUSNONNUM, true, "exit:", \
-			args->word, ": ", "numeric argument required", NULL);
+			error(minivault, EXTSTATUSNONNUM, true, "exit:", args->word, ": ",
+				"numeric argument required", NULL);
 			clean_exit(minivault, EXTSTATUSNONNUM);
 		}
 	}

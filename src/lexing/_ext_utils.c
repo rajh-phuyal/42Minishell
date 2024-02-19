@@ -27,8 +27,8 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 	if (!data->expandable && data->quoted)
 	{
 		*(curr - (data->quoted + data->singleq)) = '\0';
-		_magic = exe_concat(_magic, *v_iter, "'", DOUBLEQUOTES,
-			curr, DOUBLEQUOTES, "'", NULL);
+		_magic = exe_concat(_magic, *v_iter, "'", DOUBLEQUOTES, curr,
+				DOUBLEQUOTES, "'", NULL);
 	}
 	else
 		_magic = exe_concat(_magic, *v_iter, _magic, NULL);
@@ -58,15 +58,14 @@ char	*update_built(char *built, char *value, char curr_char, char *pos)
 	return (result);
 }
 
-char *build_or_not_build(char *_built, t_strexp *data)
+char	*build_or_not_build(char *_built, t_strexp *data)
 {
 	if (!_built)
 		return (exe_concat(NULL, PLACEHOLDER, NULL));
 	else if (_built && data->singleq)
 	{
-		return (exe_concat(_built, DOUBLEQUOTES, "'", _built,
-			"'", DOUBLEQUOTES, NULL));
+		return (exe_concat(_built, DOUBLEQUOTES, "'", _built, "'", DOUBLEQUOTES,
+				NULL));
 	}
 	return (_built);
 }
-

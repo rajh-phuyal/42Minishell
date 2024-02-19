@@ -14,8 +14,8 @@ static t_word	*_skip_options(t_word *args)
 {
 	while (args)
 	{
-		if (*args->word == '\31' || \
-			ft_strncmp(args->word, "-n", ft_strlen(args->word)) != 0)
+		if (*args->word == '\31' || ft_strncmp(args->word, "-n",
+				ft_strlen(args->word)) != 0)
 			return (args);
 		_existance(true, false);
 		args = args->next;

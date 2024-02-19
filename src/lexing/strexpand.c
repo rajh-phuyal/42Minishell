@@ -23,17 +23,6 @@ static bool	_exp_validator(char *str, char *end, t_strexp *data)
 	return (unpack_var(data, false, false, false));
 }
 
-static void	_put_end_break(char *start, t_strexp *data)
-{
-	char	*end;
-
-	end = start;
-	while (end && *(end + 1))
-		end++;
-	if (data->quoted && *(start + 1) != PREVEXITSTAT[FIRST_ELEM])
-		*(end - (data->singleq)) = '\0';
-}
-
 static char	*process_iter(t_minivault *minivault, t_strexp *data, char *iter,
 		char *built)
 {

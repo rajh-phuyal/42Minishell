@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static	char	*clear_buff(char *buffer)
+static char	*clear_buff(char *buffer)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < PATH_MAX)
@@ -10,7 +10,7 @@ static	char	*clear_buff(char *buffer)
 	return (buffer);
 }
 
-static	int	_display_err(t_builtin_err errnum, char *path)
+static int	_display_err(t_builtin_err errnum, char *path)
 {
 	char	*err;
 
@@ -18,8 +18,8 @@ static	int	_display_err(t_builtin_err errnum, char *path)
 	if (errnum == NOHOME)
 		err = exe_concat(NULL, "minivault: cd: ", "HOME not set", NULL);
 	if (errnum == NOFILEORDIR)
-		err = exe_concat(NULL, "minivault: cd: ", path, \
-		": No such file or directory", NULL);
+		err = exe_concat(NULL, "minivault: cd: ", path,
+				": No such file or directory", NULL);
 	else if (errnum == NOPERM)
 		err = exe_concat(NULL, "minivault: cd: ", "permission denied", NULL);
 	else if (errnum == FILENOFOUND)
@@ -32,7 +32,7 @@ static	int	_display_err(t_builtin_err errnum, char *path)
 	return (FAILURE);
 }
 
-static	int	_goto(t_minivault *minivault, char *path)
+static int	_goto(t_minivault *minivault, char *path)
 {
 	char	buffer[PATH_MAX];
 
@@ -49,7 +49,7 @@ static	int	_goto(t_minivault *minivault, char *path)
 	return (SUCCESS);
 }
 
-static	int	_validate_path_types(t_minivault *minivault, char *path)
+static int	_validate_path_types(t_minivault *minivault, char *path)
 {
 	struct stat	_file_stat;
 

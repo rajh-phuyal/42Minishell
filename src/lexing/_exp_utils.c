@@ -37,3 +37,14 @@ bool	_is_heredoc_deli(char *str, char **vector)
 	}
 	return (true);
 }
+
+void	_put_end_break(char *start, t_strexp *data)
+{
+	char	*end;
+
+	end = start;
+	while (end && *(end + 1))
+		end++;
+	if (data->quoted && *(start + 1) != PREVEXITSTAT[FIRST_ELEM])
+		*(end - (data->singleq)) = '\0';
+}

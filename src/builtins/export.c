@@ -51,8 +51,8 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 		else
 		{
 			liberate_vector(iter);
-			err = exe_concat(NULL, "minivault: export: `", args->word, \
-							"': ", "not a valid identifier", NULL);
+			err = exe_concat(NULL, "minivault: export: `", args->word, "': ",
+					"not a valid identifier", NULL);
 			_stat = FAILURE + (0 * printf("%s\n", err));
 			free(err);
 		}

@@ -114,6 +114,7 @@ void		strexpand(t_minivault *minivault, char **vector);
 void		_cleaner(t_strexp *data);
 bool		_has_expander(char *str);
 bool		_is_heredoc_deli(char *str, char **vector);
+void		_put_end_break(char *start, t_strexp *data);
 char		*build_or_not_build(char *_built, t_strexp *data);
 char		*update_built(char *built, char *value, char curr_char, char *pos);
 bool		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
