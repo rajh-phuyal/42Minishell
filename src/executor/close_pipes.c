@@ -20,7 +20,7 @@ void	close_pipes_last(t_minivault *minivault)
 	close(minivault->baobab->pipe_fd[last_pipe_index][READ]);
 }
 
-void	close_pipes(t_minivault	*minivault, t_command *command, int pos)
+void	close_pipes(t_minivault *minivault, t_command *command, int pos)
 {
 	if (command && command->pos == FIRST)
 		close_pipes_first(minivault);

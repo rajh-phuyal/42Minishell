@@ -42,6 +42,15 @@ void	_free_or_not_free(bool exist, char **vec)
 	free(vec);
 }
 
+void	config_middle_outfile(t_minivault *minivault, int pos)
+{
+	close(minivault->baobab->pipe_fd[pos][READ]);
+	insert_fd_catcher(minivault, dup2(minivault->baobab->pipe_fd[pos][WRITE],
+			STDOUT_FILENO));
+	close(minivault->baobab->pipe_fd[pos][WRITE]);
+}
+
+
 void	add_env_key_val(t_minivault *minivault, char **iter, bool exist)
 {
 	if (iter[FIRST_ELEM] && iter[SECOND_ELEM])

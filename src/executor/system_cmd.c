@@ -64,12 +64,12 @@ void	system_command(t_minivault *minivault, t_command *command, int pos)
 		if (command->exec_path)
 		{
 			execve(command->exec_path, arg, minivault->env_list);
-			error(minivault, FAILURE, true, command->words->word, \
-			": ", "command not executed", NULL);
+			error(minivault, FAILURE, true, command->words->word, ": ",
+				"command not executed", NULL);
 		}
 		else
-			error(minivault, CMDNOTFOUND, true, command->words->word, \
-			": ", "command not found", NULL);
+			error(minivault, CMDNOTFOUND, true, command->words->word, ": ",
+				"command not found", NULL);
 		free(arg);
 		liberation(minivault);
 		exit(CMDNOTFOUND);

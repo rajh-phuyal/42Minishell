@@ -13,7 +13,7 @@ int	config_io_single_output(t_minivault *minivault, t_command *command)
 	return (fd);
 }
 
-int	config_io_first_output(t_minivault	*minivault, t_command *command)
+int	config_io_first_output(t_minivault *minivault, t_command *command)
 {
 	int		fd;
 	t_redir	*outfile;
@@ -27,7 +27,7 @@ int	config_io_first_output(t_minivault	*minivault, t_command *command)
 	return (fd);
 }
 
-int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
+int	config_io_middle_output(t_minivault *minivault, t_command *command, int pos)
 {
 	int		fd;
 	t_redir	*outfile;
@@ -42,7 +42,7 @@ int	config_io_middle_output(t_minivault	*minivault, t_command *command, int pos)
 	return (fd);
 }
 
-int	config_io_last_output(t_minivault	*minivault, t_command *command)
+int	config_io_last_output(t_minivault *minivault, t_command *command)
 {
 	int		fd;
 	t_redir	*outfile;
