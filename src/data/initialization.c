@@ -23,14 +23,24 @@ to set both to false -> 0
 void	init_envs(t_minivault *minivault, char **envs)
 {
 	int		i;
+	int		tmp;
 	char	**splitted;
 
 	i = -1;
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		add_env_node(minivault, splitted[FIRST_ELEM], \
-					splitted[SECOND_ELEM], (1 << 2));
+		if (ft_strlen(splitted[FIRST_ELEM]) == ft_strlen(SHELLEVEL) && \
+			ft_strncmp(splitted[FIRST_ELEM], SHELLEVEL, ft_strlen(SHELLEVEL)) == 0)
+		{
+			tmp = ft_atoi(splitted[SECOND_ELEM]);
+			add_env_node(minivault, splitted[FIRST_ELEM], \
+				ft_itoa(tmp + 1), (1 << 2));
+			free(splitted[SECOND_ELEM]);
+		}
+		else
+			add_env_node(minivault, splitted[FIRST_ELEM], \
+				splitted[SECOND_ELEM], (1 << 2));
 		_free_or_not(splitted);
 	}
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
