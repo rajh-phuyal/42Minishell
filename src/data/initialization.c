@@ -53,6 +53,7 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->env_list = envs;
 	init_envs(minivault, envs);
 	init_cycle_vars(minivault);
+	init_fd_catcher(minivault);
 	minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	return (0);
 }

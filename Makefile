@@ -43,6 +43,7 @@ SRC = src/core/main.c \
 	src/executor/builtin_cmd.c \
 	src/exceptions/errors.c \
 	src/terminator/reset.c \
+	src/terminator/_res_util.c \
 	src/terminator/liberation.c
 
 

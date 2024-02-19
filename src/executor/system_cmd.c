@@ -71,15 +71,12 @@ void	system_command(t_minivault *minivault, t_command *command, int pos)
 			error(minivault, CMDNOTFOUND, true, command->words->word, \
 			": ", "command not found", NULL);
 		free(arg);
-		free(command->exec_path);
-		close_pipes(minivault, command, pos);
 		liberation(minivault);
 		exit(CMDNOTFOUND);
 	}
 	else
 	{
 		free(arg);
-		free(command->exec_path);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
 	}

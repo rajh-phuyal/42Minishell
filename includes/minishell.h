@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/18 19:40:11 by codespace        ###   ########.fr       */
+/*   Updated: 2024/02/19 20:22:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_minivault
 	t_baobab	*baobab;
 	t_token		*tokens;
 	t_sig_state	sig_state;
+	int			fd_catcher[FOPEN_MAX];
 }	t_minivault;
 
 // minishell
@@ -138,5 +139,8 @@ void		liberate_baobab(t_minivault *minivault, t_baobab *head);
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
 void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
+void	    init_fd_catcher(t_minivault *minivault);
+void	    empty_fd_catcher(t_minivault *minivault);
+void    	insert_fd_catcher(t_minivault *minivault, int fd);
 
 #endif
