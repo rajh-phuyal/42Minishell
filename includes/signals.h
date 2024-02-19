@@ -11,10 +11,10 @@ typedef enum e_sig_state
 	SIG_STATE_BUILTIN,
 	SIG_STATE_HD_CHILD,
 	SIG_STATE_IGNORE
-}				t_sig_state;
+}		t_sig_state;
 
 # define SIGNAL_EXIT_HD 2
 
-void	set_signals(t_sig_state	sig_state);
+void	set_signals(t_sig_state sig_state);
 
 #endif

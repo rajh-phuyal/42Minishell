@@ -132,6 +132,6 @@ void		connector(t_baobab *node, t_baobab *parent, \
 void		add_redirection(t_minivault *minivault, \
 			t_command **command, t_token *token, t_token *next);
 
-char	*get_exec_path(t_minivault *minivault, char *exec_name);
+char		*get_exec_path(t_minivault *minivault, char *exec_name);
 
 #endif

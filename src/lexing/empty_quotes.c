@@ -1,15 +1,16 @@
 
 #include "minishell.h"
+
 static char	*strip_double_quotes(char *input)
 {
 	char	*new_str;
 
 	if (!input || ft_strlen(input) != 2)
 		return (NULL);
-	if ((is_single_quote(input[0]) && is_single_quote(input[1])) || \
-		(is_double_quote(input[0]) && is_double_quote(input[1])))
+	if ((is_single_quote(input[0]) && is_single_quote(input[1]))
+		|| (is_double_quote(input[0]) && is_double_quote(input[1])))
 	{
-		free (input);
+		free(input);
 		new_str = malloc(2);
 		if (new_str)
 		{
@@ -28,8 +29,8 @@ bool	str_is_quoted(const char *str)
 	if (!str || !*str)
 		return (false);
 	len = ft_strlen(str);
-	if ((is_double_quote(str[0]) && is_double_quote(str[len - 1])) || \
-		(is_single_quote(str[0]) && is_single_quote(str[len - 1])))
+	if ((is_double_quote(str[0]) && is_double_quote(str[len - 1]))
+		|| (is_single_quote(str[0]) && is_single_quote(str[len - 1])))
 		return (true);
 	return (false);
 }
@@ -54,8 +55,8 @@ static char	*clean_quotes(char *input)
 			modified[j++] = input[i];
 		i++;
 	}
-	result = modified; // Keep the original pointer for return
-	return (result);
+	result = modified;
+		// Keep the original pointer for return (return (result));
 }
 
 char	*remove_token_quotes(char *input)
@@ -70,7 +71,7 @@ char	*remove_token_quotes(char *input)
 		{
 			input = clean_quotes(input);
 			if (!input)
-				return(temp);
+				return (temp);
 		}
 	}
 	return (input);
