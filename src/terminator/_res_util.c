@@ -21,6 +21,8 @@ void	empty_fd_catcher(t_minivault *minivault)
 	{
 		if (minivault->fd_catcher[i] != -1)
 			close(minivault->fd_catcher[i]);
+        else
+            break ;
 		i++;
 	}
 }

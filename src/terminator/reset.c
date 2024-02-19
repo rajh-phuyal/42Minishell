@@ -68,10 +68,7 @@ void	liberate_baobab(t_minivault *minivault, t_baobab *head)
 	if (!head)
 		return ;
 	while (head->pipeline && head->pipeline[i])
-	{
-		close_pipes(minivault, head->pipeline[i], i);
 		liberate_command(head->pipeline[i++]);
-	}
 	free(head->pipeline);
 	free(head);
 	head = NULL;
