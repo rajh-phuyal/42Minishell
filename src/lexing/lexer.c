@@ -32,7 +32,7 @@
  -------------------------------------------------------------------------
  ? Command: > file
  * If the file "file" does not exist, it will be created.
- * If the file "file" already exists, its contents will be 
+ * If the file "file" already exists, its contents will be
  * replaced with nothing (i.e., the file will be emptied).
  -------------------------------------------------------------------------
  ? Command: >> file
@@ -203,13 +203,13 @@ void	process_strings(char ***input)
 	}
 }
 
-/* atempting to create tokens based on the 
+/* atempting to create tokens based on the
 received input str for the readline */
 bool	lexer(t_minivault *minivault, char *line)
 {
 	if (!check_open_quotes(line))
 		return (false);
-	line = strextract(minivault, line);
+	line = strextract(line);
 	if (line)
 		minivault->input = ft_split(line, '\31');
 	process_strings(&minivault->input);

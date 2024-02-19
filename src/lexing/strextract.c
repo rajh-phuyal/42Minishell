@@ -160,7 +160,7 @@ int	ft_abs(int n)
 	return (-n);
 }
 
-char	*strextract(t_minivault *minivault, char *line)
+char	*strextract(char *line)
 {
 	char	*temp;
 
@@ -186,9 +186,5 @@ char	*strextract(t_minivault *minivault, char *line)
 		*temp = ft_abs(*temp);
 		temp++;
 	}
-	if (input)
-		minivault->input = ft_split(input, '\31');
-	// strexpand(minivault, minivault->input);
-	process_strings(&minivault->input);
-	free(input);
+	return (line);
 }

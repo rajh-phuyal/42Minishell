@@ -27,6 +27,7 @@ SRC = src/core/main.c \
 	src/lexing/strextract.c \
 	src/lexing/strexpand.c \
 	src/lexing/_exp_utils.c \
+	src/lexing/_ext_utils.c \
 	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \

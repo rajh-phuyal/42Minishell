@@ -22,37 +22,7 @@ bool	unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable)
 	return (expandable);
 }
 
-char	*get_suffix(char *pos)
-{
-	char	temp;
-	char	*start;
-	char	*suffix;
-
-	suffix = NULL;
-	start = pos;
-	temp = '\0';
-	while (pos && *pos)
-	{
-		if (!*(pos + 1) || *pos == DOLLAR)
-		{
-			if (*(pos + 1))
-			{
-				temp = *pos;
-				*pos = '\0';
-			}
-			suffix = exe_concat(NULL, start, NULL);
-			if (temp)
-				*pos = temp;
-			break ;
-		}
-		pos++;
-	}
-	if (!suffix)
-		suffix = exe_concat(NULL, start, NULL);
-	return (suffix);
-}
-
-bool	_check_heredoc_deli(char *str, char **vector)
+bool	_is_heredoc_deli(char *str, char **vector)
 {
 	if (vector && *vector == str)
 		return (true);

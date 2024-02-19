@@ -107,13 +107,17 @@ bool		lexer(t_minivault *minivault, char *input);
 void		tokenizer(t_minivault *minivault);
 void		remove_token(t_token *head, t_token *node);
 void		add_token(t_minivault *minivault, char *token);
-char		*strextract(t_minivault *minivault, char *line);
+char		*strextract(char *line);
 void		strexpand(t_minivault *minivault, char **vector);
 
 // expansion utils
-char		*get_suffix(char *pos);
-bool		_check_heredoc_deli(char *str, char **vector);
+void		_cleaner(t_strexp *data);
+bool		_has_expander(char *str);
+bool		_is_heredoc_deli(char *str, char **vector);
+char		*build_or_not_build(char *_built, t_strexp *data);
+char		*update_built(char *built, char *value, char curr_char, char *pos);
 bool		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
+void		finilize_magic_str(char **v_iter, char *curr, char *_magic, t_strexp *data);
 
 // parser
 void		remove_quotes(char *str);
