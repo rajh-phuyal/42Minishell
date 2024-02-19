@@ -73,8 +73,11 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 		if (_validate_long_long(args->word, &_status))
 		{
 			if (args && args->next)
-				error(minivault, FAILURE, true, "exit: ", "too many arguments",
-					NULL);
+			{
+				error(minivault, CMDNOTFOUND, true, "exit: ",
+					"too many arguments", NULL);
+				set_env(minivault, "?", ft_itoa(FAILURE), (1 << 1));
+			}
 			else
 				clean_exit(minivault, (_status % MAXEXTSTATUS));
 		}
