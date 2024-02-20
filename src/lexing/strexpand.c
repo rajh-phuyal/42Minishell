@@ -85,7 +85,7 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 	{
 		if (*curr == DOLLAR)
 		{
-			if (!*(curr + 1) || !ft_isalnum(*(curr + 1)))
+			if (!*(curr + 1))
 				break ;
 			_put_end_break(curr + 1, data);
 			if (data->expandable)
