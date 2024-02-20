@@ -2,7 +2,15 @@
 # define EXECUTOR_H
 
 # include "minishell.h"
-# include <linux/limits.h>
+
+# ifdef __darwin__
+#  include <limits.h>
+# endif
+
+# ifdef __linux__
+# include <linux/limits.h> 
+# endif
+
 # include <unistd.h>
 # include <sys/wait.h>
 

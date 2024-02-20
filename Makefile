@@ -29,7 +29,6 @@ SRC = src/core/main.c \
 	src/lexing/_exp_utils.c \
 	src/lexing/_ext_utils.c \
 	src/lexing/tokenizer.c \
-	src/lexing/empty_quotes.c \
 	src/parsing/farmer.c \
 	src/parsing/redir.c \
 	src/parsing/word.c \
@@ -44,7 +43,7 @@ SRC = src/core/main.c \
 	src/exceptions/errors.c \
 	src/terminator/reset.c \
 	src/terminator/_res_util.c \
-	src/terminator/liberation.c
+	src/terminator/liberation.c \
 
 
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))

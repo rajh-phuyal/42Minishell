@@ -1,29 +1,28 @@
 #include "minishell.h"
 
-void	trim_string(char *str, int len)
+char	*remove_quotes(char *str, char flag)
 {
-	if (len >= 2)
-	{
-		str[len - 1] = '\0';
-		ft_memmove(str, str + 1, len);
-	}
-}
+	int		i;
+	int		j;
+	char	*new_str;
 
-// removes quotes from the end and the begginig of each token
-// TODO: handle tokens with only ""
-void	remove_quotes(char *str)
-{
-	size_t	len;
-
-	len = ft_strlen(str);
-	if (len >= 2)
+	i = 0;
+	j = 0;
+	new_str = ft_calloc(sizeof(char), ft_strlen(str) + 1);
+	while (str[j])
 	{
-		if (is_double_quote(str[FIRST_ELEM]) && is_double_quote(str[len - 1]))
-			trim_string(str, len);
-		else if (is_single_quote(str[FIRST_ELEM]) && \
-				is_single_quote(str[len - 1]))
-			trim_string(str, len);
+		if (flag == 0 && (str[j] == '\"' || str[j] == '\''))
+			flag = str[j++];
+		else if (flag == str[j] && ++j)
+			flag = 0;
+		else
+		{
+			new_str[i] = str[j];
+			if (++j && !new_str[i++])
+				break;
+		}
 	}
+	return (new_str);
 }
 
 t_word	*create_word_node(t_token *token)
@@ -35,9 +34,7 @@ t_word	*create_word_node(t_token *token)
 	word = (t_word *)malloc(sizeof(t_word));
 	if (!word)
 		return (NULL);
-	// if (token->type == QUOTED)
-	// 	remove_quotes(token->content);
-	word->word = token->content;
+	word->word = remove_quotes(token->content, 0);
 	word->next = NULL;
 	return (word);
 }
@@ -50,7 +47,7 @@ void	add_word(t_word **word_list, t_token *token)
 	word = NULL;
 	if (token)
 		word = create_word_node(token);
-	if (!word) // ! something is fucked;
+	if (!word)
 		return ;
 	head = (*word_list);
 	if (!head)

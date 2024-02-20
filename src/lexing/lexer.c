@@ -1,47 +1,5 @@
 #include "minishell.h"
 
-/* syntax errors
- ! ERROR 1
- ? Command: |
- ! ERROR: bash: syntax error near unexpected token `|'
- -------------------------------------------------------------------------
- ! ERROR 2
- ? Command: | |
- ! ERROR: bash: syntax error near unexpected token `|'
- -------------------------------------------------------------------------
- ! ERROR 3
- ? Command: <
- ! ERROR: bash: syntax error near unexpected token `newline'
- -------------------------------------------------------------------------
- ! ERROR 3
- ? Command: >
- ! ERROR: bash: syntax error near unexpected token `newline'
- -------------------------------------------------------------------------
- ! ERROR 3
- ? Command: >>
- ! ERROR: bash: syntax error near unexpected token `newline'
- -------------------------------------------------------------------------
- ! ERROR 3
- ? Command: <<
- ! ERROR: bash: syntax error near unexpected token `newline'
- -------------------------------------------------------------------------
- ? Command: < file
- * If the file "file" exists, nothing happens, and the prompt returns.
- * If the file "file" does not exist, an error is printed.
- ! ERROR: bash: file: No such file or directory
- -------------------------------------------------------------------------
- ? Command: > file
- * If the file "file" does not exist, it will be created.
- * If the file "file" already exists, its contents will be
- * replaced with nothing (i.e., the file will be emptied).
- -------------------------------------------------------------------------
- ? Command: >> file
- * If the file "file" does not exist, it will be created.
- * If the file "file" already exists,
- * the existing content won't be modified.
- -------------------------------------------------------------------------
-*/
-
 bool	check_syntax(t_minivault *minivault)
 {
 	t_token	*current;

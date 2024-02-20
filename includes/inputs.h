@@ -123,7 +123,9 @@ bool		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
 void		finilize_magic_str(char **v_iter, char *curr, char *_magic, t_strexp *data);
 
 // parser
-void		remove_quotes(char *str);
+
+char		*remove_quotes(char *str, char flag);
+
 void		grow_baobab(t_minivault *minivault);
 t_baobab	*search(t_baobab *root, char *token);
 void		add_word(t_word **word_list, t_token *token);

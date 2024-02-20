@@ -88,9 +88,7 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 	temp = command->redir_in;
 	command->redir_in = redir;
 	redir->next = NULL;
-	if (next->type == QUOTED)
-		remove_quotes(next->content);
-	redir->word = next->content;
+	redir->word = remove_quotes(next->content, 0);
 	if (redir->operator == DLESS)
 		redir->fd = launch_heredoc(minivault, command, token);
 	else
