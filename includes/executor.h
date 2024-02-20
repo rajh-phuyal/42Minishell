@@ -8,7 +8,7 @@
 # endif
 
 # ifdef __linux__
-# include <linux/limits.h> 
+# include <linux/limits.h>
 # endif
 
 # include <unistd.h>
@@ -31,5 +31,8 @@ void	system_command(t_minivault *minivault, t_command *command, int pos);
 void	close_pipes(t_minivault	*minivault, t_command *command, int pos);
 void	builtin_command(t_minivault	*minivault, t_command *command, int pos);
 int		heredoc(t_minivault *minivault, t_command *command, t_heredoc doc);
+void	clean_exit_herdoc(t_minivault *minivault, int status);
+void    handel_delimeter(t_minivault *minivault, t_command *command, t_heredoc *doc, char *line);
+void	clean_heredoc_child(t_minivault *minivault, char *input, int fds[2], int status);
 
 #endif

@@ -1,21 +1,5 @@
 #include "minishell.h"
 
-void	clean_exit_herdoc(t_minivault *minivault, int status)
-{
-	liberation(minivault);
-	exit(status);
-}
-
-void	clean_heredoc_child(t_minivault *minivault, \
-					char *input, int fds[2], int status)
-{
-	close(fds[WRITE]);
-	set_env(minivault, "?", ft_itoa(SUCCESS), (1 << 1));
-	if (input)
-		free(input);
-	clean_exit_herdoc(minivault, status);
-}
-
 static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
 												t_heredoc *doc, char *input)
 {
@@ -85,11 +69,7 @@ void	start_heredoc(t_minivault *minivault, \
 		{
 			if (ft_strncmp(line, doc->delimiter, \
 					ft_strlen(doc->delimiter)) == 0)
-			{
-				liberate_command(command);
-				clean_heredoc_child(minivault, line, doc->fds, SUCCESS);
-				return ;
-			}
+				return (handel_delimeter(minivault, command, doc, line));
 			if (doc->expandable && line)
 				line = _str_expand(minivault, line);
 			ft_putendl_fd(line, doc->fds[WRITE]);
