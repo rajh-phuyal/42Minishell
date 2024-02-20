@@ -31,7 +31,8 @@ void	init_envs(t_minivault *minivault, char **envs)
 	{
 		splitted = ft_split(envs[i], '=');
 		if (ft_strlen(splitted[FIRST_ELEM]) == ft_strlen(SHELLEVEL) && \
-			ft_strncmp(splitted[FIRST_ELEM], SHELLEVEL, ft_strlen(SHELLEVEL)) == 0)
+			ft_strncmp(splitted[FIRST_ELEM], SHELLEVEL, \
+			ft_strlen(SHELLEVEL)) == 0)
 		{
 			tmp = ft_atoi(splitted[SECOND_ELEM]);
 			add_env_node(minivault, splitted[FIRST_ELEM], \

@@ -111,6 +111,10 @@ void		add_token(t_minivault *minivault, char *token);
 char		*strextract(char *line);
 void		strexpand(t_minivault *minivault, char **vector);
 char		*remove_token_quotes(char *input);
+bool		check_syntax(t_minivault *minivault);
+
+t_command	*split_list(t_minivault *minivault, t_token *list, \
+			t_content_type type);
 
 // expansion utils
 char		*get_suffix(char *str);
@@ -120,8 +124,10 @@ bool		_is_heredoc_deli(char *str, char **vector);
 void		_put_end_break(char *start, t_strexp *data);
 char		*build_or_not_build(char *_built, t_strexp *data);
 char		*update_built(char *built, char *value, char curr_char, char *pos);
-bool		unpack_var(t_strexp *data, bool quoted, bool singleq, bool expandable);
-void		finilize_magic_str(char **v_iter, char *curr, char *_magic, t_strexp *data);
+bool		unpack_var(t_strexp *data, bool quoted, \
+			bool singleq, bool expandable);
+void		finilize_magic_str(char **v_iter, char *curr, \
+			char *_magic, t_strexp *data);
 
 // parser
 
@@ -137,5 +143,11 @@ void		add_redirection(t_minivault *minivault, \
 			t_command **command, t_token *token, t_token *next);
 
 char		*get_exec_path(t_minivault *minivault, char *exec_name);
+int			assign_fd(t_minivault *minivault, t_operation operator, \
+			const char *file);
+
+bool		owner_can_read(const char *file_path);
+bool		owner_can_write(const char *file_path);
+bool		owner_can_execute(const char *file_path);
 
 #endif

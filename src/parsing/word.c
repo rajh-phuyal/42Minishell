@@ -19,7 +19,7 @@ char	*remove_quotes(char *str, char flag)
 		{
 			new_str[i] = str[j];
 			if (++j && !new_str[i++])
-				break;
+				break ;
 		}
 	}
 	return (new_str);
@@ -34,7 +34,7 @@ t_word	*create_word_node(t_token *token)
 	word = (t_word *)malloc(sizeof(t_word));
 	if (!word)
 		return (NULL);
-	word->word = remove_quotes(token->content, 0);
+	word->word = token->content;
 	word->next = NULL;
 	return (word);
 }

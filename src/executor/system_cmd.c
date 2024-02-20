@@ -51,32 +51,35 @@ t_redir	*get_last_token(t_redir *head)
 	return (current);
 }
 
-void	system_command(t_minivault *minivault, t_command *command, int pos)
+void	child_exec(t_minivault *minivault, t_command *command, int pos)
 {
 	char	**arg;
 
+	set_signals(SIG_STATE_CHILD);
+	config_io(minivault, command, pos);
 	arg = get_arguments(command->words);
-	command->pid = fork();
-	if (command->pid == 0)
+	if (command->exec_path)
 	{
-		set_signals(SIG_STATE_CHILD);
-		config_io(minivault, command, pos);
-		if (command->exec_path)
-		{
-			execve(command->exec_path, arg, minivault->env_list);
-			error(minivault, FAILURE, true, command->words->word, ": ",
-				"command not executed", NULL);
-		}
-		else
-			error(minivault, CMDNOTFOUND, true, command->words->word, ": ",
-				"command not found", NULL);
-		free(arg);
-		liberation(minivault);
-		exit(CMDNOTFOUND);
+		execve(command->exec_path, arg, minivault->env_list);
+		error(minivault, FAILURE, true, command->words->word, ": ",
+			"command not executed", NULL);
 	}
 	else
+		error(minivault, CMDNOTFOUND, true, command->words->word, ": ",
+			"command not found", NULL);
+	free(arg);
+	liberate_vector(minivault->input);
+	liberation(minivault);
+	exit(CMDNOTFOUND);
+}
+
+void	system_command(t_minivault *minivault, t_command *command, int pos)
+{
+	command->pid = fork();
+	if (command->pid == 0)
+		child_exec(minivault, command, pos);
+	else
 	{
-		free(arg);
 		set_signals(SIG_STATE_PARENT);
 		close_pipes(minivault, command, pos);
 	}

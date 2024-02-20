@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-/*
- ? GREAT
- ? open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
- * Open or create a file with read and write access
- * If the file already exists, truncate it to zero length
- * Set file permissions to 0644 (read and write for the owner, read for others)
-
- ? DGREAT
- ? open(file, O_CREAT | O_RDWR, 0644);
- * Open or create a file with read and write access
- * If the file doesn't exist, create it; if it exists, open it without truncating
- * Set file permissions to 0644 (read and write for the owner, read for others)
-
- ? LESS
- ? open(file, O_RDONLY);
- * Open the file with only read access
- * If the file doesn't exist, trow an errorr
- ! bash: <filename>: No such file or directory
-
- ? DLESS
- * heredoc
-*/
-
 int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
 {
 	int	doc_fd;
@@ -38,28 +15,17 @@ int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
 	return (doc_fd);
 }
 
-int	assign_fd(t_minivault *minivault, t_operation operator, char *file)
-{
-	if (operator == GREAT)
-		return (open(file, O_CREAT | O_RDWR | O_TRUNC, 0644));
-	else if (operator == DGREAT)
-		return (open(file, O_CREAT | O_RDWR | O_APPEND, 0644));
-	else if (operator == LESS)
-		return (open(file, O_RDONLY));
-	return (-1);
-}
-
 t_operation	find_redirection_type(t_token *token)
 {
 	if (token->type == REDIRECTION)
 	{
-		if (!ft_strncmp(token->content, ">>", 2))
+		if (!ft_strncmp(token->content, ">>", 3))
 			return (DGREAT);
-		else if (!ft_strncmp(token->content, "<<", 2))
+		else if (!ft_strncmp(token->content, "<<", 3))
 			return (DLESS);
-		else if (!ft_strncmp(token->content, ">", 1))
+		else if (!ft_strncmp(token->content, ">", 2))
 			return (GREAT);
-		else if (!ft_strncmp(token->content, "<", 1))
+		else if (!ft_strncmp(token->content, "<", 2))
 			return (LESS);
 	}
 	return (ERROR);
@@ -85,9 +51,7 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 	temp = command->redir_in;
 	command->redir_in = redir;
 	redir->next = NULL;
-	// ! bash: <file>: No such file or directory
-	// ! exit status 1
-	redir->word = remove_quotes(next->content, 0);
+	redir->word = next->content;
 	if (redir->operator == DLESS)
 		redir->fd = launch_heredoc(minivault, command, token);
 	else

@@ -13,19 +13,19 @@
 #include "../libft.h"
 
 // binary search with recursion
-int ft_binary_search(int *array, int left, int right, int find)
+int	ft_binary_search(int *array, int left, int right, int find)
 {
-    int middle;
+	int	middle;
 
-    if (right >= left)
-    {
-        middle = (left + right) / 2;
-        if (array[middle] == find)
-            return (middle);
-        else if (array[middle] > find)
-            return (ft_binary_search(array, left, middle - 1, find));
-        else
-            return (ft_binary_search(array, middle + 1, right, find));
-    }
-    return (-1);
+	if (right >= left)
+	{
+		middle = (left + right) / 2;
+		if (array[middle] == find)
+			return (middle);
+		else if (array[middle] > find)
+			return (ft_binary_search(array, left, middle - 1, find));
+		else
+			return (ft_binary_search(array, middle + 1, right, find));
+	}
+	return (-1);
 }

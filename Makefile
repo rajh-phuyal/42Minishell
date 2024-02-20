@@ -21,20 +21,25 @@ SRC = src/core/main.c \
 	src/builtins/exit.c \
 	src/builtins/unset.c \
 	src/helpers/debug.c \
+	src/helpers/debug1.c \
 	src/helpers/utils.c \
 	src/helpers/envsort.c \
 	src/lexing/lexer.c \
 	src/lexing/strextract.c \
 	src/lexing/strexpand.c \
+	src/lexing/syntax.c \
 	src/lexing/_exp_utils.c \
 	src/lexing/_ext_utils.c \
 	src/lexing/tokenizer.c \
 	src/parsing/farmer.c \
+	src/parsing/command.c \
 	src/parsing/redir.c \
 	src/parsing/word.c \
+	src/parsing/fd.c \
 	src/parsing/heredoc.c \
 	src/parsing/_heredoc_utils.c \
 	src/parsing/get_exec_path.c \
+	src/parsing/permissions.c \
 	src/executor/config_io.c \
 	src/executor/close_pipes.c \
 	src/executor/config_io_builtin.c \
