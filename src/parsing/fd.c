@@ -2,7 +2,7 @@
 
 static int	assign_fd_great(t_minivault *minivault, const char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (access(file, F_OK) != 0)
@@ -16,7 +16,7 @@ static int	assign_fd_great(t_minivault *minivault, const char *file)
 
 static int	assign_fd_dgreat(t_minivault *minivault, const char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (access(file, F_OK) != 0)
@@ -35,7 +35,8 @@ static int	assign_fd_less(t_minivault *minivault, const char *file)
 	fd = -1;
 	if (access(file, F_OK) != 0)
 	{
-		error(minivault, FAILURE, true, file, ": ", "No such file or directory", NULL);
+		error(minivault, FAILURE, true, file, ": ", \
+		"No such file or directory", NULL);
 		return (fd);
 	}
 	if (owner_can_read(file))
@@ -47,7 +48,7 @@ static int	assign_fd_less(t_minivault *minivault, const char *file)
 
 int	assign_fd(t_minivault *minivault, t_operation operator, const char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = -1;
 	if (operator == GREAT)

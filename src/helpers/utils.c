@@ -50,7 +50,6 @@ void	config_middle_outfile(t_minivault *minivault, int pos)
 	close(minivault->baobab->pipe_fd[pos][WRITE]);
 }
 
-
 void	add_env_key_val(t_minivault *minivault, char **iter, bool exist)
 {
 	if (iter[FIRST_ELEM] && iter[SECOND_ELEM])

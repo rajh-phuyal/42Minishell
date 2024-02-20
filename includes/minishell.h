@@ -56,9 +56,6 @@ typedef enum e_status
 	SIGINTERRUPT=130,
 }	t_status;
 
-// forward declaration for builtins
-typedef struct s_word	t_word;
-
 // the env list
 typedef struct s_envs
 {
@@ -139,8 +136,8 @@ void		liberate_baobab(t_minivault *minivault, t_baobab *head);
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
 void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
-void	    init_fd_catcher(t_minivault *minivault);
-void	    empty_fd_catcher(t_minivault *minivault);
-void    	insert_fd_catcher(t_minivault *minivault, int fd);
+void		init_fd_catcher(t_minivault *minivault);
+void		empty_fd_catcher(t_minivault *minivault);
+void		insert_fd_catcher(t_minivault *minivault, int fd);
 
 #endif

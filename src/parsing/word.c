@@ -19,7 +19,7 @@ char	*remove_quotes(char *str, char flag)
 		{
 			new_str[i] = str[j];
 			if (++j && !new_str[i++])
-				break;
+				break ;
 		}
 	}
 	return (new_str);

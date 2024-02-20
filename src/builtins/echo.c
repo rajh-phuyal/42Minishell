@@ -2,7 +2,6 @@
 
 static bool	_existance_flag(char *str)
 {
-
 	if (str && str[0] == '-' && str[1] == 'n')
 	{
 		str += 2;
@@ -13,10 +12,9 @@ static bool	_existance_flag(char *str)
 	return (false);
 }
 
-
 void	_echo(t_minivault *minivault, t_word *args, int out_fd)
 {
-	bool is_flag;
+	bool	is_flag;
 
 	is_flag = false;
 	if (args)

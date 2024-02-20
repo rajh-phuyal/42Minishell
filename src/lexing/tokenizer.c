@@ -13,6 +13,7 @@ bool	is_quoted(const char *str)
 	return (false);
 }
 
+// ? quoted has any use???
 int	token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", 1))

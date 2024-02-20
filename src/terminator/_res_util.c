@@ -21,15 +21,15 @@ void	empty_fd_catcher(t_minivault *minivault)
 	{
 		if (minivault->fd_catcher[i] != -1)
 			close(minivault->fd_catcher[i]);
-        else
-            break ;
+		else
+			break ;
 		i++;
 	}
 }
 
 void	insert_fd_catcher(t_minivault *minivault, int fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < FOPEN_MAX)
