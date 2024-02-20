@@ -7,7 +7,9 @@ void	sig_handler_main(int signo)
 		// set status to 1
 		write(STDOUT, "\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		# ifdef __linux__
+			rl_replace_line("", 0);
+		# endif
 		rl_redisplay();
 	}
 }

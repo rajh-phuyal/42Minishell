@@ -38,7 +38,6 @@ int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
 	return (doc_fd);
 }
 
-// TODO: ERROR HANDLING
 int	assign_fd(t_minivault *minivault, t_operation operator, char *file)
 {
 	if (operator == GREAT)
@@ -47,8 +46,6 @@ int	assign_fd(t_minivault *minivault, t_operation operator, char *file)
 		return (open(file, O_CREAT | O_RDWR | O_APPEND, 0644));
 	else if (operator == LESS)
 		return (open(file, O_RDONLY));
-	// ! bash: <file>: No such file or directory
-	// ! exit status 1
 	return (-1);
 }
 
@@ -88,14 +85,14 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 	temp = command->redir_in;
 	command->redir_in = redir;
 	redir->next = NULL;
-	if (next->type == QUOTED)
-		remove_quotes(next->content);
-	redir->word = next->content;
+	// ! bash: <file>: No such file or directory
+	// ! exit status 1
+	redir->word = remove_quotes(next->content, 0);
 	if (redir->operator == DLESS)
 		redir->fd = launch_heredoc(minivault, command, token);
 	else
 		redir->fd = assign_fd(minivault, redir->operator, \
-			next->content);
+			redir->word);
 	command->redir_in = temp;
 	return (redir);
 }

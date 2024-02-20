@@ -10,6 +10,7 @@ void	liberate_words(t_word *head)
 	{
 		tmp = head;
 		head = head->next;
+		free(tmp->word);
 		free(tmp);
 	}
 }
@@ -26,6 +27,7 @@ void	liberate_redir(t_redir *head)
 		head = head->next;
 		if (tmp->fd != -1)
 			close(tmp->fd);
+		free(tmp->word);
 		free(tmp);
 	}
 }

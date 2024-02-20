@@ -1,48 +1,38 @@
 #include "minishell.h"
 
-static bool	_existance(bool exist, bool get)
+static bool	_existance_flag(char *str)
 {
-	static bool	_exist = false;
 
-	if (get)
-		return (_exist);
-	_exist = exist;
-	return (exist);
-}
-
-static t_word	*_skip_options(t_word *args)
-{
-	while (args)
+	if (str && str[0] == '-' && str[1] == 'n')
 	{
-		if (*args->word == '\31' || ft_strncmp(args->word, "-n",
-				ft_strlen(args->word)) != 0)
-			return (args);
-		_existance(true, false);
-		args = args->next;
+		str += 2;
+		while (*str == 'n')
+			str++;
+		return (*str == '\0');
 	}
-	return (args);
+	return (false);
 }
+
 
 void	_echo(t_minivault *minivault, t_word *args, int out_fd)
 {
-	_existance(false, false);
+	bool is_flag;
+
+	is_flag = false;
 	if (args)
 	{
-		args = _skip_options(args);
+		is_flag = _existance_flag(args->word);
+		if (is_flag)
+			args = args->next;
 		while (args)
 		{
-			if (*args->word == '\31')
-				ft_putchar_fd(*args->word, out_fd);
-			else
-				ft_putstr_fd(args->word, out_fd);
+			ft_putstr_fd(args->word, out_fd);
 			if (args->next)
 				ft_putchar_fd(' ', out_fd);
 			args = args->next;
 		}
-		if (!_existance(false, true))
-			ft_putchar_fd('\n', out_fd);
 	}
-	else
+	if (!is_flag)
 		ft_putchar_fd('\n', out_fd);
 	set_env(minivault, PREVEXITSTAT, ft_itoa(SUCCESS), (1 << 1));
 }

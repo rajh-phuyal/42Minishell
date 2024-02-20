@@ -47,7 +47,7 @@ char	*remove_spaces(char *input, char separator)
 	char		*temp;
 
 	inside = (t_inside){false, false};
-	modified = ft_calloc(1, strlen(input) + 1);
+	modified = ft_calloc(1, ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
 	dst = modified;
