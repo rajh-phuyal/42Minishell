@@ -46,6 +46,8 @@ static char	*process_iter(t_minivault *minivault, t_strexp *data, char *iter,
 		built = update_built(built, value, *iter, data->pos);
 		built = exe_concat(built, built, suffix, NULL);
 	}
+	else if (suffix && *(iter + 1) && !built)
+		built = exe_concat(built, suffix, NULL);
 	free(suffix);
 	if (temp)
 		*iter = temp;
