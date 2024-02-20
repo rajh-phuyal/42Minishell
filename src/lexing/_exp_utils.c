@@ -48,3 +48,21 @@ void	_put_end_break(char *start, t_strexp *data)
 	if (data->quoted && *(start + 1) != PREVEXITSTAT[FIRST_ELEM])
 		*(end - (data->singleq)) = '\0';
 }
+
+char	*get_suffix(char *str)
+{
+	char	*suffix;
+	char	*temp;
+
+	temp = str;
+	suffix = NULL;
+	if (!str)
+		return (NULL);
+	while (temp && *temp && *temp != DOLLAR)
+		temp++;
+	if (temp && *temp == DOLLAR)
+		suffix = ft_substr(str, 0, temp - str);
+	else
+		suffix = ft_substr(str, 0, ft_strlen(str));
+	return (suffix);
+}

@@ -26,35 +26,43 @@ static bool	_exp_validator(char *str, char *end, t_strexp *data)
 static char	*process_iter(t_minivault *minivault, t_strexp *data, char *iter,
 		char *built)
 {
+	char	temp;
 	char	*value;
+	char	*suffix;
 
+	temp = 0;
 	value = NULL;
+	suffix = get_suffix(iter + ((*iter == '?') || (!*(iter + 1))));
 	if (data->pos && *(data->pos + 1) == PREVEXITSTAT[FIRST_ELEM])
 		value = get_env(minivault, PREVEXITSTAT);
 	else if (data->pos)
+	{
+		temp = *(iter) * (*(iter + 1) > 0);
+		*iter = (*iter) * !(*(iter + 1) > 0);
 		value = get_env(minivault, data->pos + 1);
+	}
 	if (value)
+	{
 		built = update_built(built, value, *iter, data->pos);
+		built = exe_concat(built, built, suffix, NULL);
+	}
+	free(suffix);
+	if (temp)
+		*iter = temp;
 	return (built);
 }
 
 static char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 {
-	char	temp;
 	char	*_built;
 
-	temp = '\0';
 	_built = NULL;
 	while (iter && *iter)
 	{
-		if (!*(iter + 1) || *iter == DOLLAR || *iter == 32 || *iter == 33
-			|| *iter == 34 || *iter == 92 || *iter == 47)
+		if (!*(iter + 1) || (!ft_isalnum(*iter) && \
+			*iter != '_'))
 		{
-			temp = *iter * (*(iter + 1) > 0);
-			*iter = (*iter) * !(*(iter + 1) > 0);
 			_built = process_iter(minivault, data, iter, _built);
-			if (temp)
-				*iter = temp;
 			if (*iter == DOLLAR)
 				data->pos = iter;
 			else
@@ -80,7 +88,8 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 			_put_end_break(curr + 1, data);
 			if (data->expandable)
 			{
-				_magic = alchemy(minivault, data, curr);
+				data->pos = curr;
+				_magic = alchemy(minivault, data, curr + 1);
 				if (!_magic)
 					break ;
 				*(curr - (data->quoted + data->singleq)) = '\0';

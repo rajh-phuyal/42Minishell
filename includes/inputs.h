@@ -113,6 +113,7 @@ void		strexpand(t_minivault *minivault, char **vector);
 char		*remove_token_quotes(char *input);
 
 // expansion utils
+char		*get_suffix(char *str);
 void		_cleaner(t_strexp *data);
 bool		_has_expander(char *str);
 bool		_is_heredoc_deli(char *str, char **vector);
