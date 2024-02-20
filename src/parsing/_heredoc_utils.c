@@ -6,11 +6,11 @@ void	clean_exit_herdoc(t_minivault *minivault, int status)
 	exit(status);
 }
 
-void    handel_delimeter(t_minivault *minivault, \
-                t_command *command, t_heredoc *doc, char *line)
+void	handel_delimeter(t_minivault *minivault, \
+				t_command *command, t_heredoc *doc, char *line)
 {
-    liberate_command(command);
-    clean_heredoc_child(minivault, line, doc->fds, SUCCESS);
+	liberate_command(command);
+	clean_heredoc_child(minivault, line, doc->fds, SUCCESS);
 }
 
 void	clean_heredoc_child(t_minivault *minivault, \

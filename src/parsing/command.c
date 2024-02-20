@@ -25,6 +25,7 @@ t_command	*init_command(void)
 	command->words = NULL;
 	command->redir_in = NULL;
 	command->redir_out = NULL;
+	return (command);
 }
 
 void	config_command(t_minivault *minivault, t_command *command)
@@ -40,7 +41,7 @@ void	config_command(t_minivault *minivault, t_command *command)
 }
 
 void	process_token(t_minivault *minivault, t_command **command, \
-		t_token **current, t_content_type type)
+		t_token **current)
 {
 	if ((*current)->type == REDIRECTION && \
 		((*current)->next->type == LITERAL || \
@@ -49,8 +50,7 @@ void	process_token(t_minivault *minivault, t_command **command, \
 		add_redirection(minivault, command, *current, (*current)->next);
 		*current = (*current)->next->next;
 	}
-	else if ((*current)->type == LITERAL || \
-			(*current)->type == QUOTED)
+	else if ((*current)->type == LITERAL || (*current)->type == QUOTED)
 	{
 		add_word(&((*command)->words), *current);
 		*current = (*current)->next;
@@ -73,7 +73,7 @@ t_command	*split_list(t_minivault *minivault, t_token *list, \
 			current = current->next;
 			break ;
 		}
-		process_token(minivault, &command, &current, type);
+		process_token(minivault, &command, &current);
 	}
 	config_command(minivault, command);
 	return (command);

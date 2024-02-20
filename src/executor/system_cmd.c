@@ -53,7 +53,8 @@ t_redir	*get_last_token(t_redir *head)
 
 void	child_exec(t_minivault *minivault, t_command *command, int pos)
 {
-	char	**arg;
+	char		**arg;
+	t_status	status;
 
 	set_signals(SIG_STATE_CHILD);
 	config_io(minivault, command, pos);
@@ -61,16 +62,22 @@ void	child_exec(t_minivault *minivault, t_command *command, int pos)
 	if (command->exec_path)
 	{
 		execve(command->exec_path, arg, minivault->env_list);
-		error(minivault, FAILURE, true, command->words->word, ": ",
+		close_pipes(minivault, command, pos);
+		error(minivault, FAILURE, true, command->words->word, ": ", \
 			"command not executed", NULL);
+		status = CMDNOTFOUND;
 	}
 	else
-		error(minivault, CMDNOTFOUND, true, command->words->word, ": ",
+	{
+		close_pipes(minivault, command, pos);
+		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", \
 			"command not found", NULL);
+		status = CMDNOTFOUND;
+	}
 	free(arg);
 	liberate_vector(minivault->input);
 	liberation(minivault);
-	exit(CMDNOTFOUND);
+	exit(status);
 }
 
 void	system_command(t_minivault *minivault, t_command *command, int pos)

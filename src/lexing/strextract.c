@@ -85,7 +85,8 @@ char	*isolate_char(char *input, char target, char separator, int i)
 	char		*temp;
 
 	inside = (t_inside){false, false};
-	modified = (char *)ft_calloc(2, ft_strlen(input) + 1);
+
+	modified = (char *)ft_calloc(3, ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
 	temp = input;
@@ -123,7 +124,7 @@ static char	*isolate_compound(char *input, char *target, char separator, int i)
 	char		*modified;
 
 	inside = (t_inside){false, false};
-	modified = (char *)ft_calloc(2, ft_strlen(input) + 1);
+	modified = (char *)ft_calloc(3, ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
 	temp = input;

@@ -51,6 +51,7 @@ typedef enum e_status
 {
 	SUCCESS=0,
 	FAILURE=1,
+	REDIRFAIL=1,
 	QUOTESEXIT=2,
 	CMDNOTFOUND=127,
 	SIGINTERRUPT=130,
@@ -139,5 +140,6 @@ void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
 void		init_fd_catcher(t_minivault *minivault);
 void		empty_fd_catcher(t_minivault *minivault);
 void		insert_fd_catcher(t_minivault *minivault, int fd);
+void		print_redirs(t_redir *head);
 
 #endif

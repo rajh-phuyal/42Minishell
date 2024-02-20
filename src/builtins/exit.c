@@ -85,7 +85,7 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 		{
 			error(minivault, EXTSTATUSNONNUM, true, "exit:", args->word, ": ",
 				"numeric argument required", NULL);
-			clean_exit(minivault, EXTSTATUSNONNUM);
+			clean_exit(minivault, FAILURE);
 		}
 	}
 }

@@ -1,0 +1,18 @@
+heredoc + CTRL-C
+heredoc exit word with extra characters # ? fixed
+cat | cat | ls is stuck
+export with several invalid parameters followed by a solo export
+|| from start
+>test|cat
+>a ls <machin >>c >d # ? fixed 
+echo "$tests""Makefile" # expander is removing the whole thing
+
+
+minibaiters$ echo "$"
+
+minibaiters$ echo $
+$
+
+
+Test  26: ❌ export A- 
+mini output = (minivault: export: `A-': not a valid identifier)

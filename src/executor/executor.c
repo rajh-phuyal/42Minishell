@@ -1,7 +1,29 @@
 #include "minishell.h"
 
+bool	check_redirs(t_redir *head)
+{
+	t_redir	*current;
+
+	if (!head)
+		return (true);
+	current = head;
+	while (current)
+	{
+		if (current->fd == -1)
+			return (false);
+		current = current->next;
+	}
+	return (true);
+}
+
 void	execute_command(t_minivault *minivault, t_command *command, int pos)
 {
+	if (check_redirs(command->redir_in) == false || \
+		check_redirs(command->redir_out) == false)
+	{
+		close_pipes(minivault, command, pos);
+		return ;
+	}
 	if (command->words)
 	{
 		if (command->is_builtin)

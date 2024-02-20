@@ -23,11 +23,15 @@ void	error(t_minivault *minivault, t_status status, int prompt, ...)
 	if (_string)
 	{
 		if (!prompt)
-			printf("%s\n", _string);
+			ft_putendl_fd(_string, STDERR_FILENO);
 		else
-			printf("minibaiters: %s\n", _string);
+		{
+			ft_putstr_fd("minibaiters: ", STDERR_FILENO);
+			ft_putendl_fd(_string, STDERR_FILENO);
+		}
 		free(_string);
 	}
-	cycle_reset(minivault);
+	if (status != REDIRFAIL)
+		cycle_reset(minivault);
 	set_env(minivault, "?", ft_itoa(status), (1 << 1));
 }

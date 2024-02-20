@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	safe_close(int fd)
+{
+	if (fd != -1)
+		close(fd);
+}
+
 void	config_io_single(t_minivault *minivault, t_command *command)
 {
 	t_redir	*infile;
@@ -11,12 +17,12 @@ void	config_io_single(t_minivault *minivault, t_command *command)
 	if (infile)
 	{
 		dup2(infile->fd, STDIN_FILENO);
-		close(infile->fd);
+		safe_close(infile->fd);
 	}
 	if (outfile)
 	{
 		dup2(outfile->fd, STDOUT_FILENO);
-		close(outfile->fd);
+		safe_close(outfile->fd);
 	}
 }
 
@@ -30,12 +36,12 @@ void	config_io_first(t_minivault *minivault, t_command *command)
 	if (infile)
 	{
 		insert_fd_catcher(minivault, dup2(infile->fd, STDIN_FILENO));
-		close(infile->fd);
+		safe_close(infile->fd);
 	}
 	if (outfile)
 	{
 		insert_fd_catcher(minivault, dup2(outfile->fd, STDOUT_FILENO));
-		close(outfile->fd);
+		safe_close(outfile->fd);
 	}
 	else
 	{
@@ -63,14 +69,14 @@ void	config_io_middle(t_minivault *minivault, t_command *command, int pos)
 	else
 	{
 		insert_fd_catcher(minivault, dup2(infile->fd, STDIN_FILENO));
-		close(infile->fd);
+		safe_close(infile->fd);
 	}
 	if (!outfile)
 		config_middle_outfile(minivault, pos);
 	else
 	{
 		insert_fd_catcher(minivault, dup2(outfile->fd, STDOUT_FILENO));
-		close(outfile->fd);
+		safe_close(outfile->fd);
 	}
 }
 
@@ -94,12 +100,12 @@ void	config_io_last(t_minivault *minivault, t_command *command)
 	else
 	{
 		insert_fd_catcher(minivault, dup2(infile->fd, STDIN_FILENO));
-		close(infile->fd);
+		safe_close(infile->fd);
 	}
 	if (outfile)
 	{
 		insert_fd_catcher(minivault, dup2(outfile->fd, STDOUT_FILENO));
-		close(outfile->fd);
+		safe_close(outfile->fd);
 	}
 }
 

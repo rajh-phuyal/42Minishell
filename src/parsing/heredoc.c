@@ -68,7 +68,7 @@ void	start_heredoc(t_minivault *minivault, \
 		if (line && line[FIRST_ELEM] != '\0')
 		{
 			if (ft_strncmp(line, doc->delimiter, \
-					ft_strlen(doc->delimiter)) == 0)
+					ft_strlen(doc->delimiter) + 1) == 0)
 				return (handel_delimeter(minivault, command, doc, line));
 			if (doc->expandable && line)
 				line = _str_expand(minivault, line);

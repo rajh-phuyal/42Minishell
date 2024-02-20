@@ -16,17 +16,17 @@ static int	_display_err(t_builtin_err errnum, char *path)
 
 	err = NULL;
 	if (errnum == NOHOME)
-		err = exe_concat(NULL, "minivault: cd: ", "HOME not set", NULL);
+		err = exe_concat(NULL, "minibaiters: cd: ", "HOME not set", NULL);
 	if (errnum == NOFILEORDIR)
-		err = exe_concat(NULL, "minivault: cd: ", path,
+		err = exe_concat(NULL, "minibaiters: cd: ", path,
 				": No such file or directory", NULL);
 	else if (errnum == NOPERM)
-		err = exe_concat(NULL, "minivault: cd: ", "permission denied", NULL);
+		err = exe_concat(NULL, "minibaiters: cd: ", "permission denied", NULL);
 	else if (errnum == FILENOFOUND)
-		err = exe_concat(NULL, "minivault: cd: ", "file not found", NULL);
+		err = exe_concat(NULL, "minibaiters: cd: ", "file not found", NULL);
 	if (err)
 	{
-		printf("%s\n", err);
+		ft_putendl_fd(err, STDERR_FILENO);
 		free(err);
 	}
 	return (FAILURE);

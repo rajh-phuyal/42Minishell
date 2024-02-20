@@ -64,6 +64,7 @@ void	liberate_baobab(t_minivault *minivault, t_baobab *head)
 {
 	int	i;
 
+	(void)minivault; //!tira-me esta merda
 	i = 0;
 	if (!head)
 		return ;

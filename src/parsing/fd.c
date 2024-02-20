@@ -10,7 +10,8 @@ static int	assign_fd_great(t_minivault *minivault, const char *file)
 	else if (owner_can_write(file))
 		fd = open(file, O_WRONLY | O_TRUNC);
 	else
-		error(minivault, FAILURE, true, file, ": ", "Permission denied", NULL);
+		error(minivault, REDIRFAIL, true, file, \
+		": ", "Permission denied", NULL);
 	return (fd);
 }
 
@@ -24,7 +25,8 @@ static int	assign_fd_dgreat(t_minivault *minivault, const char *file)
 	else if (owner_can_write(file))
 		fd = open(file, O_WRONLY | O_APPEND);
 	else
-		error(minivault, FAILURE, true, file, ": ", "Permission denied", NULL);
+		error(minivault, REDIRFAIL, true, file, \
+		": ", "Permission denied", NULL);
 	return (fd);
 }
 
@@ -35,14 +37,15 @@ static int	assign_fd_less(t_minivault *minivault, const char *file)
 	fd = -1;
 	if (access(file, F_OK) != 0)
 	{
-		error(minivault, FAILURE, true, file, ": ", \
+		error(minivault, REDIRFAIL, true, file, ": ", \
 		"No such file or directory", NULL);
 		return (fd);
 	}
 	if (owner_can_read(file))
 		fd = open(file, O_RDONLY);
 	else
-		error(minivault, FAILURE, true, file, ": ", "Permission denied", NULL);
+		error(minivault, REDIRFAIL, true, file, \
+		": ", "Permission denied", NULL);
 	return (fd);
 }
 
