@@ -71,6 +71,7 @@ void	system_command(t_minivault *minivault, t_command *command, int pos)
 			error(minivault, CMDNOTFOUND, true, command->words->word, ": ",
 				"command not found", NULL);
 		free(arg);
+		liberate_vector(minivault->input);
 		liberation(minivault);
 		exit(CMDNOTFOUND);
 	}
