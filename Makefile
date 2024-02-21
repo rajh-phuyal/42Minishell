@@ -2,7 +2,7 @@ NAME  = minishell
 
 CC    = @cc
 
-FLAGS = -g #-fsanitize=address -Wall -Wextra -Werror 
+FLAGS = #-fsanitize=address #-Wall -Wextra -Werror -g
 
 INC = -I./includes
 
@@ -50,7 +50,6 @@ SRC = src/core/main.c \
 	src/terminator/reset.c \
 	src/terminator/_res_util.c \
 	src/terminator/liberation.c 
-
 
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   close_pipes.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:23:16 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 22:08:26 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	close_pipes_first(t_minivault *minivault)
@@ -20,12 +32,10 @@ void	close_pipes_last(t_minivault *minivault)
 	close(minivault->baobab->pipe_fd[last_pipe_index][READ]);
 }
 
-void	close_pipes(t_minivault *minivault, t_command *command, int pos)
+void	close_pipes(int in, int out)
 {
-	if (command && command->pos == FIRST)
-		close_pipes_first(minivault);
-	if (command && command->pos == MIDDLE)
-		close_pipes_middle(minivault, pos);
-	if (command && command->pos == LAST)
-		close_pipes_last(minivault);
+	if (in != STDIN_FILENO)
+		close(in);
+	if (out != STDOUT_FILENO)
+		close(out);
 }

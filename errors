@@ -20,4 +20,4 @@ mini output = (minivault: export: `A-': not a valid identifier)
 
 echo "exit_code ->$? user ->$USER home -> $HOME" 
 
-echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
+echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" # ? fixed

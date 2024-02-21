@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:24:13 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 21:51:09 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_redirs(t_redir *head)
@@ -40,7 +52,6 @@ void	print_baobab(t_minivault *minivault)
 		if (i != 0)
 			printf("\n----------------------\n");
 		printf("Command: %d\n", i);
-		printf("Command pos: %d", minivault->baobab->pipeline[i]->pos);
 		printf("\n----------------------\n");
 		if (minivault->baobab->pipeline[i]->redir_in)
 			print_redirs(minivault->baobab->pipeline[i]->redir_in);
@@ -48,7 +59,6 @@ void	print_baobab(t_minivault *minivault)
 			print_words(minivault->baobab->pipeline[i]->words);
 		if (minivault->baobab->pipeline[i]->redir_out)
 			print_redirs(minivault->baobab->pipeline[i]->redir_out);
-		printf(RESET_COLOR);
 		i++;
 	}
 }

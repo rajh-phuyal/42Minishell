@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:29:49 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/21 00:00:06 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
@@ -43,7 +55,7 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 		"syntax error near unexpected token `newline'", NULL);
 		return (NULL);
 	}
-	redir = (t_redir *)malloc(sizeof(t_redir));
+	redir = ft_calloc(1, sizeof(t_redir));
 	if (!redir)
 		return (NULL);
 	redir->operator = find_redirection_type(token);
@@ -55,7 +67,7 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 	if (redir->operator == DLESS)
 		redir->fd = launch_heredoc(minivault, command, token);
 	else
-		redir->fd = assign_fd(minivault, redir->operator, \
+		redir->fd = assign_fd(minivault, command, redir->operator, \
 			redir->word);
 	command->redir_in = temp;
 	return (redir);

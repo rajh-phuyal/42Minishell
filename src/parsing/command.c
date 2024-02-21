@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:29:01 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/21 00:08:27 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static bool	is_cmd_builtin(char **builtin_list, char *cmd)
@@ -18,13 +30,13 @@ t_command	*init_command(void)
 {
 	t_command		*command;
 
-	command = (t_command *)malloc(sizeof(t_command));
+	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
-	command->exec_path = NULL;
-	command->words = NULL;
-	command->redir_in = NULL;
-	command->redir_out = NULL;
+	command->outfile_fd = -1;
+	command->infile_fd = -1;
+	command->fd[0] = 0;
+	command->fd[1] = 1;
 	return (command);
 }
 

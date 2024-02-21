@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   farmer.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:29:06 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 22:13:15 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	count_tokens(t_content_type token_type, t_token *tokens)
@@ -16,14 +28,14 @@ int	count_tokens(t_content_type token_type, t_token *tokens)
 	return (i);
 }
 
-void	open_pipes(t_minivault *minivault, int i, int command_count)
-{
-	while (i < FOPEN_MAX)
-		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
-	i = 0;
-	while (i < command_count - 1 && i < FOPEN_MAX)
-		pipe(minivault->baobab->pipe_fd[i++]);
-}
+// void	open_pipes(t_minivault *minivault, int i, int command_count)
+// {
+// 	while (i < FOPEN_MAX)
+// 		ft_bzero(minivault->baobab->pipe_fd[i++], 2);
+// 	i = 0;
+// 	while (i < command_count - 1 && i < FOPEN_MAX)
+// 		pipe(minivault->baobab->pipe_fd[i++]);
+// }
 
 /*
 To calculate the position of the cmd
@@ -41,9 +53,9 @@ void	grow_baobab(t_minivault	*minivault)
 	int	command_count;
 
 	command_count = 1 + count_tokens(PIPE, minivault->tokens);
-	minivault->baobab = (t_baobab *)malloc(sizeof(t_baobab));
-	minivault->baobab->pipeline = (t_command **)malloc(sizeof(t_command *) \
-									* (command_count + 1));
+	minivault->baobab = ft_calloc(1, sizeof(t_baobab));
+	minivault->baobab->pipeline = ft_calloc(sizeof(t_command *), \
+									 (command_count + 2));
 	i = 0;
 	minivault->baobab->pipeline[command_count] = NULL;
 	while (i < command_count)
@@ -53,10 +65,9 @@ void	grow_baobab(t_minivault	*minivault)
 				minivault->tokens, PIPE);
 		if (minivault->baobab->pipeline[i] == NULL)
 			break ;
-		minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
-				+ (i == (command_count - 1)))
-			- (2 * (command_count == 1));
+		// minivault->baobab->pipeline[i]->pos = (1 + (i > 0)
+		// 		+ (i == (command_count - 1)))
+		// 	- (2 * (command_count == 1));
 		i++;
 	}
-	open_pipes(minivault, 0, command_count);
 }
