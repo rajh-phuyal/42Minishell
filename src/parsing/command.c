@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:01 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 00:08:27 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:50:42 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_command	*split_list(t_minivault *minivault, t_token *list, \
 	t_command		*command;
 
 	command = init_command();
+	if (!command)
+		return (NULL);
 	if (current == NULL)
 		current = list;
 	while (current && command && list)

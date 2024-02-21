@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 23:59:37 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:23:56 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
 	char	*cycle;
 
 	if (g_signal_status == SIGNAL_EXIT_HD)
+	{
+		liberate_command(command);
 		clean_heredoc_child(minivault, input, doc->fds, SUCCESS);
+	}
 	if (!input)
 	{
 		cycle = ft_itoa(minivault->cycles);
@@ -35,11 +38,11 @@ static int	handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 {
 	int	_stat;
 
+	set_signals(SIG_STATE_IGNORE);
 	_stat = 0;
 	close(doc->fds[WRITE]);
-	set_signals(SIG_STATE_IGNORE);
 	waitpid(pid, &_stat, 0);
-	set_signals(SIG_STATE_HD_CHILD);
+	// set_signals(SIG_STATE_HD_CHILD);
 	if (_stat != SUCCESS)
 	{
 		g_signal_status = SIGNAL_EXIT_HD;
@@ -114,6 +117,8 @@ int	heredoc(t_minivault *minivault, t_command *command, t_heredoc doc)
 	if (pid == 0)
 		start_heredoc(minivault, command, &doc);
 	fd = handle_parent(minivault, &doc, pid);
+	if (fd == -1)
+		command->status = 1;
 	close_pipes(command->infile_fd, 1);
 	command->infile_fd = fd;
 	return (fd);

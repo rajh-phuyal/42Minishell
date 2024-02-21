@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:58 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:22:59 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:05:33 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	sig_handler_main(int signo)
 {
 	if (signo == SIGINT)
 	{
-		g_signal_status = 1; // ! when is this being checked?
+		g_signal_status = 130; // ! when is this being checked?
 		write(STDOUT, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -36,7 +36,7 @@ static void	sig_handler_heredoc(int signo)
 {
 	if (signo == SIGINT)
 	{
-		g_signal_status = 2; // ! when is this being checked?
+		g_signal_status = SIGNAL_EXIT_HD; // ! when is this being checked?
 		write(STDOUT, "\n", 1);
 		close(STDIN_FILENO);
 	}
