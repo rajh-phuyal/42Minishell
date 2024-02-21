@@ -6,7 +6,10 @@ static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
 	char	*cycle;
 
 	if (g_signal_status == SIGNAL_EXIT_HD)
+	{
+		liberate_command(command);
 		clean_heredoc_child(minivault, input, doc->fds, SUCCESS);
+	}
 	if (!input)
 	{
 		cycle = ft_itoa(minivault->cycles);
