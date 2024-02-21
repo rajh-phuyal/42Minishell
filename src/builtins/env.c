@@ -21,10 +21,13 @@ void	_env(t_minivault *minivault, int out_fd)
 	{
 		if (envs->session && !envs->internal)
 		{
-			ft_putstr_fd(envs->key, out_fd);
-			ft_putstr_fd("=", out_fd);
-			ft_putstr_fd(envs->value, out_fd);
-			ft_putstr_fd("\n", out_fd);
+			if (envs->key && envs->value)
+			{
+				ft_putstr_fd(envs->key, out_fd);
+				ft_putstr_fd("=", out_fd);
+				ft_putstr_fd(envs->value, out_fd);
+				ft_putstr_fd("\n", out_fd);
+			}
 		}
 		envs = envs->next;
 	}

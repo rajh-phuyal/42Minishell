@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
+static int	launch_heredoc(t_minivault *minivault, \
+			t_command *command, t_token *token)
 {
 	int	doc_fd;
 
@@ -23,11 +24,11 @@ int	launch_heredoc(t_minivault *minivault, t_command *command, t_token *token)
 		return (-1);
 	}
 	doc_fd = heredoc(minivault, command, (t_heredoc){{-1, -1}, \
-		!(token->next->type == QUOTED), token->next->content});
+			!(token->next->type == QUOTED), token->next->content});
 	return (doc_fd);
 }
 
-t_operation	find_redirection_type(t_token *token)
+static t_operation	find_redirection_type(t_token *token)
 {
 	if (token->type == REDIRECTION)
 	{
@@ -43,7 +44,7 @@ t_operation	find_redirection_type(t_token *token)
 	return (ERROR);
 }
 
-t_redir	*create_redirection_node(t_minivault *minivault, \
+static t_redir	*create_redirection_node(t_minivault *minivault, \
 		t_command *command, t_token *token, t_token *next)
 {
 	t_redir	*temp;
@@ -73,7 +74,7 @@ t_redir	*create_redirection_node(t_minivault *minivault, \
 	return (redir);
 }
 
-void	add_redir_back(t_redir **redir, t_redir *token)
+static void	add_redir_back(t_redir **redir, t_redir *token)
 {
 	t_redir	*current;
 

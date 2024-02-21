@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-static int	assign_fd_great(t_minivault *minivault, t_command *command, const char *file)
+static int	assign_fd_great(t_minivault *minivault, \
+			t_command *command, const char *file)
 {
 	int	fd;
 
@@ -25,12 +26,13 @@ static int	assign_fd_great(t_minivault *minivault, t_command *command, const cha
 	{
 		error(minivault, REDIRFAIL, true, file, \
 			": ", "Permission denied", NULL);
-			command->status = 1;
+		command->status = 1;
 	}
 	return (fd);
 }
 
-static int	assign_fd_dgreat(t_minivault *minivault, t_command *command, const char *file)
+static int	assign_fd_dgreat(t_minivault *minivault, \
+			t_command *command, const char *file)
 {
 	int	fd;
 
@@ -40,7 +42,7 @@ static int	assign_fd_dgreat(t_minivault *minivault, t_command *command, const ch
 	else if (owner_can_write(file))
 		fd = open(file, O_WRONLY | O_APPEND);
 	else
-	{	
+	{
 		command->status = 1;
 		error(minivault, REDIRFAIL, true, file, \
 		": ", "Permission denied", NULL);
@@ -48,7 +50,8 @@ static int	assign_fd_dgreat(t_minivault *minivault, t_command *command, const ch
 	return (fd);
 }
 
-static int	assign_fd_less(t_minivault *minivault, t_command *command, const char *file)
+static int	assign_fd_less(t_minivault *minivault, \
+			t_command *command, const char *file)
 {
 	int	fd;
 
@@ -90,7 +93,7 @@ int	assign_fd(t_minivault *minivault, t_command *command, \
 		close_pipes(command->infile_fd, 1);
 		command->infile_fd = fd;
 	}
-	else if (operator == DGREAT || operator == GREAT )
+	else if (operator == DGREAT || operator == GREAT)
 	{
 		close_pipes(0, command->outfile_fd);
 		command->outfile_fd = fd;

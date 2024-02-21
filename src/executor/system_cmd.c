@@ -51,7 +51,8 @@ char	**get_arguments(t_word *words)
 	return (arguments);
 }
 
-static void	child_exec(t_minivault *minivault, t_command *command, int in, int out)
+static void	child_exec(t_minivault *minivault, \
+			t_command *command, int in, int out)
 {
 	char		**arg;
 	t_status	status;
@@ -59,8 +60,8 @@ static void	child_exec(t_minivault *minivault, t_command *command, int in, int o
 	set_signals(SIG_STATE_CHILD);
 	arg = get_arguments(command->words);
 	status = CMDNOTFOUND;
-	dup2(out, STDOUT);
-	dup2(in, STDIN);
+	dup2(out, STDOUT_FILENO);
+	dup2(in, STDIN_FILENO);
 	close_pipes(in, out);
 	close_pipes(command->fd[0], command->fd[1]);
 	execve(command->exec_path, arg, minivault->env_list);
@@ -73,13 +74,14 @@ static void	child_exec(t_minivault *minivault, t_command *command, int in, int o
 	exit(status);
 }
 
-void	system_command(t_minivault *minivault, t_command *command, int in, int out)
+void	system_command(t_minivault *minivault, \
+		t_command *command, int in, int out)
 {
-	if(!command->status)
+	if (!command->status)
 	{
 		command->pid = fork();
 		if (command->pid == 0)
-		child_exec(minivault, command, in, out);
+			child_exec(minivault, command, in, out);
 	}
 	close_pipes(in, out);
 	set_signals(SIG_STATE_PARENT);

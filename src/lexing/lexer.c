@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-bool	check_open_quotes(t_minivault *minivault, char *input)
+static bool	check_open_quotes(t_minivault *minivault, char *input)
 {
 	bool	inside_dquotes;
 	bool	inside_squotes;
@@ -39,8 +39,8 @@ bool	check_open_quotes(t_minivault *minivault, char *input)
 	return (true);
 }
 
-/* attempting to create tokens based on the
-received input str for the readline */
+// attempting to create tokens based on the
+// received input str for the readline 
 bool	lexer(t_minivault *minivault, char *line)
 {
 	if (!check_open_quotes(minivault, line))

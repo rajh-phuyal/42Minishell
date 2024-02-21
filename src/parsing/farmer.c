@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	count_tokens(t_content_type token_type, t_token *tokens)
+static int	count_tokens(t_content_type token_type, t_token *tokens)
 {
 	t_token	*current;
 	int		i;

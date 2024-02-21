@@ -34,17 +34,18 @@ typedef struct s_herdoc
 	char	*delimiter;
 }			t_heredoc;
 
-void	executor(t_minivault *minivault, t_command **pipeline);
-void	system_command(t_minivault *minivault, t_command *command, int in, int out);
-void	close_pipes(int in, int out);
-void	builtin_command(t_minivault	*minivault, t_command *command, int in, int out);
 int		heredoc(t_minivault *minivault, t_command *command, t_heredoc doc);
-void	clean_exit_herdoc(t_minivault *minivault, int status);
-void	handel_delimeter(t_minivault *minivault, \
+void	handle_delimeter(t_minivault *minivault, \
 		t_command *command, t_heredoc *doc, char *line);
 void	clean_heredoc_child(t_minivault *minivault, \
 		char *input, int fds[2], int status);
+void	clean_exit_herdoc(t_minivault *minivault, int status);
 
-bool	check_redirs(t_redir *head);
+void	executor(t_minivault *minivault, t_command **pipeline);
+void	close_pipes(int in, int out);
+void	system_command(t_minivault *minivault, \
+		t_command *command, int in, int out);
+void	builtin_command(t_minivault	*minivault, \
+		t_command *command, int in, int out);
 
 #endif

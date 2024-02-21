@@ -31,7 +31,7 @@ static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
 	}
 }
 
-int	handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
+static int	handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 {
 	int	_stat;
 
@@ -52,7 +52,7 @@ int	handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 }
 
 /* fake a 2D array that the expansion needs, \31 doesn't exist on the str */
-char	*_str_expand(t_minivault *minivault, char *line)
+static char	*_str_expand(t_minivault *minivault, char *line)
 {
 	char	**temp;
 	char	*_built;
@@ -66,7 +66,7 @@ char	*_str_expand(t_minivault *minivault, char *line)
 	return (_built);
 }
 
-void	start_heredoc(t_minivault *minivault, \
+static void	start_heredoc(t_minivault *minivault, \
 				t_command *command, t_heredoc *doc)
 {
 	char	*line;
@@ -81,7 +81,7 @@ void	start_heredoc(t_minivault *minivault, \
 		{
 			if (ft_strncmp(line, doc->delimiter, \
 					ft_strlen(doc->delimiter) + 1) == 0)
-				return (handel_delimeter(minivault, command, doc, line));
+				return (handle_delimeter(minivault, command, doc, line));
 			if (doc->expandable && line)
 				line = _str_expand(minivault, line);
 			ft_putendl_fd(line, doc->fds[WRITE]);

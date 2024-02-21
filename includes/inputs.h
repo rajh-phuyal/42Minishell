@@ -109,7 +109,6 @@ typedef struct s_command
 typedef struct s_baobab
 {
 	t_command	**pipeline;
-	int			pipe_fd[FOPEN_MAX][2];
 }				t_baobab;
 
 typedef struct s_minivault	t_minivault;
@@ -119,14 +118,14 @@ void		toggle_quotes(char input, bool *inside_double_quotes, \
 								bool *inside_single_quotes);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);
-t_token		*create_new(char *token);
+bool		is_space(char c);
+int			ft_abs(int n);
 bool		lexer(t_minivault *minivault, char *input);
 void		tokenizer(t_minivault *minivault);
-void		remove_token(t_token *head, t_token *node);
-void		add_token(t_minivault *minivault, char *token);
 char		*strextract(char *line);
 void		strexpand(t_minivault *minivault, char **vector);
-char		*remove_token_quotes(char *input);
+char		*remove_quotes(char *str, char flag);
+bool		token_is_quoted(char *str);
 bool		check_syntax(t_minivault *minivault);
 
 t_command	*split_list(t_minivault *minivault, t_token *list, \
@@ -147,20 +146,17 @@ void		finilize_magic_str(char **v_iter, char *curr, \
 
 // parser
 
-char		*remove_quotes(char *str, char flag);
-
 void		grow_baobab(t_minivault *minivault);
 t_baobab	*search(t_baobab *root, char *token);
 void		add_word(t_word **word_list, t_token *token);
-int			count_tokens(t_content_type token_type, t_token *tokens);
 void		connector(t_baobab *node, t_baobab *parent, \
 			t_baobab *left, t_baobab *right);
 void		add_redirection(t_minivault *minivault, \
 			t_command **command, t_token *token, t_token *next);
 
 char		*get_exec_path(t_minivault *minivault, char *exec_name);
-int			assign_fd(t_minivault *minivault, t_command *command, t_operation operator, \
-			const char *file);
+int			assign_fd(t_minivault *minivault, t_command *command, \
+			t_operation operator, const char *file);
 
 bool		owner_can_read(const char *file_path);
 bool		owner_can_write(const char *file_path);

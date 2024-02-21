@@ -79,7 +79,6 @@ typedef struct s_minivault
 	t_baobab	*baobab;
 	t_token		*tokens;
 	t_sig_state	sig_state;
-	int			fd_catcher[FOPEN_MAX];
 }	t_minivault;
 
 // minishell
@@ -91,7 +90,6 @@ void		close_readline(void);
 void		handle_input(t_minivault *minivault, char *input);
 
 // error handeler
-void		panic_attack(t_minivault *minivault);
 void		error(t_minivault *minivault, t_status status, int prompt, ...);
 
 // environment functions
@@ -115,15 +113,9 @@ void		_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
 
 // debug functions
 void		call_debug(t_minivault *minivault);
-void		print_argv(int argc, char **argv);
-void		print_envs(t_envs *envs);
-void		print_vector(char **vector);
-void		print_tokens(t_token *head);
-void		print_words(t_word *head);
 
 // the liberator
 void		liberate_envs(t_envs *head);
-void		liberate_words(t_word *head);
 void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
@@ -131,16 +123,12 @@ void		liberate_command(t_command *command);
 void		print_baobab(t_minivault *minivault);
 void		cycle_reset(t_minivault *minishell);
 void		liberation(t_minivault *minivault);
-void		liberate_baobab(t_minivault *minivault, t_baobab *head);
+void		liberate_baobab( t_baobab *head);
 
 // utils
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
 void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
-void		init_fd_catcher(t_minivault *minivault);
 void		empty_fd_catcher(t_minivault *minivault);
-void		insert_fd_catcher(t_minivault *minivault, int fd);
-void		print_redirs(t_redir *head);
 int			get_status_owner_can_execute(const char *file_path);
-
 #endif

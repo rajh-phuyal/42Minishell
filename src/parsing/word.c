@@ -12,32 +12,7 @@
 
 #include "minishell.h"
 
-char	*remove_quotes(char *str, char flag)
-{
-	int		i;
-	int		j;
-	char	*new_str;
-
-	i = 0;
-	j = 0;
-	new_str = ft_calloc(sizeof(char), ft_strlen(str) + 1);
-	while (str[j])
-	{
-		if (flag == 0 && (str[j] == '\"' || str[j] == '\''))
-			flag = str[j++];
-		else if (flag == str[j] && ++j)
-			flag = 0;
-		else
-		{
-			new_str[i] = str[j];
-			if (++j && !new_str[i++])
-				break ;
-		}
-	}
-	return (new_str);
-}
-
-t_word	*create_word_node(t_token *token)
+static t_word	*create_word_node(t_token *token)
 {
 	t_word	*word;
 

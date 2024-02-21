@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	_free_or_not(char **vec)
+static void	_free_or_not(char **vec)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ to set only the session to true -> (1 << 2)
 to set both to true -> (1 << 1) | (1 << 2)
 to set both to false -> 0
 */
-void	init_envs(t_minivault *minivault, char **envs)
+static void	init_envs(t_minivault *minivault, char **envs)
 {
 	int		i;
 	int		tmp;
@@ -59,7 +59,7 @@ void	init_envs(t_minivault *minivault, char **envs)
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
 }
 
-void	init_cycle_vars(t_minivault *minivault)
+static void	init_cycle_vars(t_minivault *minivault)
 {
 	minivault->input = NULL;
 	minivault->tokens = NULL;
@@ -76,7 +76,6 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->env_list = envs;
 	init_envs(minivault, envs);
 	init_cycle_vars(minivault);
-	init_fd_catcher(minivault);
 	minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	return (0);
 }

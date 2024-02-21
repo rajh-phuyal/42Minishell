@@ -12,31 +12,9 @@
 
 #include "minishell.h"
 
-bool	check_redirs(t_redir *head)
+static void	execute_command(t_minivault *minivault, \
+			t_command *command, int in, int out)
 {
-	t_redir	*current;
-
-	if (!head)
-		return (true);
-	current = head;
-	while (current)
-	{
-		if (current->fd == -1)
-			return (false);
-		current = current->next;
-	}
-	return (true);
-}
-
-static void	execute_command(t_minivault *minivault, t_command *command, int in, int out)
-{
-	// if (check_redirs(command->redir_in) == false || \
-	// 	check_redirs(command->redir_out) == false)
-	// {
-	// 	close_pipes(minivault, command, pos);
-	// 	command->status = 1;
-	// 	return ;
-	// }
 	if (command->words)
 	{
 		if (command->is_builtin)
@@ -46,7 +24,7 @@ static void	execute_command(t_minivault *minivault, t_command *command, int in, 
 	}
 }
 
-void	wait_status(t_minivault *minivault, t_command **pipeline)
+static void	wait_status(t_minivault *minivault, t_command **pipeline)
 {
 	int	pos;
 	int	status;
@@ -71,8 +49,8 @@ void	wait_status(t_minivault *minivault, t_command **pipeline)
 void	executor(t_minivault *minivault, t_command **pipeline)
 {
 	int	pos;
-	int in;
-	int out;
+	int	in;
+	int	out;
 
 	pos = -1;
 	if (!pipeline)
@@ -81,10 +59,10 @@ void	executor(t_minivault *minivault, t_command **pipeline)
 	while (pipeline[++pos])
 	{
 		if (pipeline[pos + 1] && pipe(pipeline[pos]->fd) == -1)
-			exit(0);
+			error(minivault, FAILURE, true, "pipe", NULL);
 		out = pipeline[pos]->fd[1];
 		if (pipeline[pos]->outfile_fd != -1)
-		{ 
+		{
 			close_pipes(0, out);
 			out = pipeline[pos]->outfile_fd;
 		}

@@ -87,7 +87,7 @@ static char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 	return (build_or_not_build(_built, data));
 }
 
-void	process_string(char *curr, char **v_iter, t_minivault *minivault,
+static void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 		t_strexp *data)
 {
 	char	*_magic;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	print_redirs(t_redir *head)
+static void	print_redirs(t_redir *head)
 {
 	while (head)
 	{
@@ -30,7 +30,7 @@ void	print_redirs(t_redir *head)
 	}
 }
 
-void	print_words(t_word *head)
+static void	print_words(t_word *head)
 {
 	while (head)
 	{

@@ -26,7 +26,7 @@ static bool	is_cmd_builtin(char **builtin_list, char *cmd)
 	return (false);
 }
 
-t_command	*init_command(void)
+static t_command	*init_command(void)
 {
 	t_command		*command;
 
@@ -40,7 +40,7 @@ t_command	*init_command(void)
 	return (command);
 }
 
-void	config_command(t_minivault *minivault, t_command *command)
+static void	config_command(t_minivault *minivault, t_command *command)
 {
 	if (command->words)
 	{
@@ -52,7 +52,7 @@ void	config_command(t_minivault *minivault, t_command *command)
 	}
 }
 
-void	process_token(t_minivault *minivault, t_command **command, \
+static void	process_token(t_minivault *minivault, t_command **command, \
 		t_token **current)
 {
 	if ((*current)->type == REDIRECTION && \

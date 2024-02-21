@@ -29,15 +29,17 @@ int	get_status_owner_can_execute(const char *file_path)
 
 	if (!file_path)
 		return (127);
-	if(stat(file_path, &statbuf))
+	if (stat(file_path, &statbuf))
 		return (127);
 	if (*file_path == '/' && S_ISDIR(statbuf.st_mode))
 		return (126);
-	if (*file_path == '.' && access(file_path, F_OK) == 0 && (access(file_path, X_OK) || !S_ISREG(statbuf.st_mode)))
+	if (*file_path == '.' && \
+		access(file_path, F_OK) == 0 && \
+		(access(file_path, X_OK) || \
+		!S_ISREG(statbuf.st_mode)))
 		return (126);
 	return (127);
 }
-
 
 bool	owner_can_write(const char *file_path)
 {

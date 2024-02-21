@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	get_envlen(t_envs *envs)
+static int	get_envlen(t_envs *envs)
 {
 	int	len;
 
@@ -25,7 +25,7 @@ int	get_envlen(t_envs *envs)
 	return (len);
 }
 
-void	transfer_data(t_envs *envs, char **data)
+static void	transfer_data(t_envs *envs, char **data)
 {
 	while (envs)
 	{
@@ -35,7 +35,7 @@ void	transfer_data(t_envs *envs, char **data)
 	}
 }
 
-int	partition(char **data, int start, int end)
+static int	partition(char **data, int start, int end)
 {
 	int		i;
 	int		j;

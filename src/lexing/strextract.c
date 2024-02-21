@@ -12,27 +12,6 @@
 
 #include "minishell.h"
 
-bool	is_space(char c)
-{
-	return (c == '\t' || c == ' ' || c == '\n' || c == '\v');
-}
-
-bool	is_double_quote(char c)
-{
-	return (c == '"');
-}
-
-bool	is_single_quote(char c)
-{
-	return (c == '\'');
-}
-
-bool	is_special_char(char c)
-{
-	return (c == '|' || c == '&' || c == ';' || \
-			c == '(' || c == ')' || c == '<' || c == '>');
-}
-
 void	toggle_quotes(char input, bool *inside_double_quotes, \
 								bool *inside_single_quotes)
 {
@@ -51,7 +30,7 @@ void	toggle_quotes(char input, bool *inside_double_quotes, \
  * @param input is the input string
  * @param separator the char used to replace the spaces
 */
-char	*remove_spaces(char *input, char separator)
+static char	*remove_spaces(char *input, char separator)
 {
 	t_inside	inside;
 	char		*modified;
@@ -90,14 +69,13 @@ char	*remove_spaces(char *input, char separator)
  * @param separator the char used to isolate the target in the input
 */
 
-char	*isolate_char(char *input, char target, char separator, int i)
+static char	*isolate_char(char *input, char target, char separator, int i)
 {
 	t_inside	inside;
 	char		*modified;
 	char		*temp;
 
 	inside = (t_inside){false, false};
-
 	modified = (char *)ft_calloc(3, ft_strlen(input) + 1);
 	if (!modified)
 		return (NULL);
@@ -127,7 +105,6 @@ char	*isolate_char(char *input, char target, char separator, int i)
  * @param input is the input string
  * @param target is the target string
  * @param separator the char used to isolate the target in the input
- * ! FIX: the only chars "used" from the target string are the first two
 */
 static char	*isolate_compound(char *input, char *target, char separator, int i)
 {
@@ -165,13 +142,6 @@ static char	*isolate_compound(char *input, char *target, char separator, int i)
  * @param 		minivault is a pointer to the "general" structure
  * @param		input is the input string
 */
-
-int	ft_abs(int n)
-{
-	if (n > 0)
-		return (n);
-	return (-n);
-}
 
 char	*strextract(char *line)
 {

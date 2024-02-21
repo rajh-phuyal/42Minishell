@@ -12,33 +12,19 @@
 
 #include "minishell.h"
 
-bool	is_quoted(const char *str)
+static int	get_token_type(char *token)
 {
-	int	len;
-
-	if (!str || !*str)
-		return (false);
-	len = ft_strlen(str);
-	if ((is_double_quote(str[FIRST_ELEM]) && is_double_quote(str[len - 1])) || \
-		(is_single_quote(str[FIRST_ELEM]) && is_single_quote(str[len - 1])))
-		return (true);
-	return (false);
-}
-
-// ? quoted has any use???
-int	token_type(char *token)
-{
-	if (!ft_strncmp(token, "|", 1))
+	if (!ft_strncmp(token, "|", 2))
 		return (PIPE);
-	else if (!ft_strncmp(token, ">", 1) || !ft_strncmp(token, "<", 1) || \
-			!ft_strncmp(token, ">>", 2) || !ft_strncmp(token, "<<", 2))
+	else if (!ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2) || \
+			!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3))
 		return (REDIRECTION);
-	else if (is_quoted(token))
+	else if (token_is_quoted(token) == true)
 		return (QUOTED);
 	return (LITERAL);
 }
 
-t_token	*create_new(char *token)
+static t_token	*create_new(char *token)
 {
 	t_token	*new;
 
@@ -46,13 +32,13 @@ t_token	*create_new(char *token)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
-	new->type = token_type(token);
+	new->type = get_token_type(token);
 	new->content = remove_quotes(token, 0);
 	free(token);
 	return (new);
 }
 
-void	add_token(t_minivault *minivault, char *token)
+static void	add_token(t_minivault *minivault, char *token)
 {
 	t_token	*head;
 	t_token	*token_node;
@@ -72,36 +58,6 @@ void	add_token(t_minivault *minivault, char *token)
 	while (head->next)
 		head = head->next;
 	head->next = token_node;
-}
-
-t_token	*get_tail(t_token *head)
-{
-	if (!head)
-		return (NULL);
-	while (head->next)
-		head = head->next;
-	return (head);
-}
-
-// remove the token from the list of tokens
-void	remove_token(t_token *head, t_token *node)
-{
-	t_token	*temp;
-
-	if (!node)
-		return ;
-	if (!node->next)
-	{
-		while (head->next != node)
-			head = head->next;
-		free(node);
-		head->next = NULL;
-		return ;
-	}
-	temp = node->next;
-	node->content = temp->content;
-	node->next = temp->next;
-	free(temp);
 }
 
 void	tokenizer(t_minivault *minivault)

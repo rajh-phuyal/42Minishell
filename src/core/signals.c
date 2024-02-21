@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	sig_handler_main(int signo)
+static void	sig_handler_main(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -24,7 +24,7 @@ void	sig_handler_main(int signo)
 	}
 }
 
-void	sig_handler_parent(int signo)
+static void	sig_handler_parent(int signo)
 {
 	if (signo == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
@@ -32,7 +32,7 @@ void	sig_handler_parent(int signo)
 		write(STDERR_FILENO, "\n", 1);
 }
 
-void	sig_handler_heredoc(int signo)
+static void	sig_handler_heredoc(int signo)
 {
 	if (signo == SIGINT)
 	{
