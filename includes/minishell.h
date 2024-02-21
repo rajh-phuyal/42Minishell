@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/21 20:00:59 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:05:30 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef enum e_builtin_err
 {
 	NOHOME,
 	NOPERM,
+	MULTIARG,
 	FILENOFOUND,
 	NOFILEORDIR
 }	t_builtin_err;

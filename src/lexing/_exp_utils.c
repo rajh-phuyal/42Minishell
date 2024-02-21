@@ -58,7 +58,10 @@ void	_put_end_break(char *start, t_strexp *data)
 	while (end && *(end + 1))
 		end++;
 	if (data->quoted && *(start + 1) != PREVEXITSTAT[FIRST_ELEM])
-		*(end - (data->singleq)) = '\0';
+	{
+		if (*end == 34 || *end == 39)
+			*(end - (data->singleq)) = '\0';
+	}
 }
 
 char	*get_suffix(char *str)
@@ -75,6 +78,6 @@ char	*get_suffix(char *str)
 	if (temp && *temp == DOLLAR)
 		suffix = ft_substr(str, 0, temp - str);
 	else
-		suffix = ft_substr(str, 0, ft_strlen(str));
+		suffix = ft_substr(str, 0, ft_strlen(str) + 1);
 	return (suffix);
 }

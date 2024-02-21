@@ -36,14 +36,29 @@ bool	_has_expander(char *str)
 void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 		t_strexp *data)
 {
-	if (!data->expandable && data->quoted)
-	{
-		*(curr - (data->quoted + data->singleq)) = '\0';
+	char	*temp;
+
+	temp = *v_iter;
+	while(temp && *temp && *temp != DOLLAR)
+		temp++;
+	if (*temp)
+		*temp = '\0';
+	if (data->singleq && data->expandable)
 		_magic = exe_concat(_magic, *v_iter, "'", DOUBLEQUOTES, curr,
 				DOUBLEQUOTES, "'", NULL);
+	else if (data->singleq && !data->expandable)
+	{
+		*temp = DOLLAR;
+		free(_magic);
+		return ;
 	}
+	else if (!data->singleq && data->expandable)
+		_magic = exe_concat(_magic, *v_iter, _magic, curr, NULL);
 	else
+	{
+		*temp = DOLLAR;
 		_magic = exe_concat(_magic, *v_iter, _magic, NULL);
+	}
 	free(*v_iter);
 	*v_iter = _magic;
 }

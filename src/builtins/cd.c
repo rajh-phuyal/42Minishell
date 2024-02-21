@@ -36,6 +36,8 @@ static int	_display_err(t_builtin_err errnum, char *path)
 		err = exe_concat(NULL, "minibaiters: cd: ", "permission denied", NULL);
 	else if (errnum == FILENOFOUND)
 		err = exe_concat(NULL, "minibaiters: cd: ", "file not found", NULL);
+	else if (errnum == MULTIARG)
+		err = exe_concat(NULL, "minibaiters: cd: ", "too many arguments", NULL);
 	if (err)
 	{
 		ft_putendl_fd(err, STDERR_FILENO);
@@ -95,6 +97,8 @@ int	_cd(t_minivault *minivault, t_word *args)
 		else
 			return (_display_err(NOHOME, homepath));
 	}
+	else if (args && args->next)
+		return (_display_err(MULTIARG, NULL));
 	else if (args && args->word)
 		return (_validate_path_types(minivault, args->word));
 	return (SUCCESS);
