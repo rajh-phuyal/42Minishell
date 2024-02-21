@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:22:37 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:00:29 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 {
 	int	_status;
 
-	ft_putstr_fd("exit\n", out_fd);
+	if (minivault->cmd_count == 1)
+		ft_putstr_fd("exit\n", out_fd);
 	if (!args || !(args->word))
 		clean_exit(minivault, ft_atoi(get_env(minivault, PREVEXITSTAT)));
 	else

@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/20 20:17:24 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:50:57 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_envs
 typedef struct s_minivault
 {
 	int			cycles;
+	int			cmd_count;
 	char		*line;
 	char		**input;
 	char		**path;

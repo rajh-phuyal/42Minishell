@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:14 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 16:19:32 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:09:49 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	builtin_command(t_minivault	*minivault, \
 	int	_stat;
 
 	_stat = -1;
+	(void)in;
 	set_signals(SIG_STATE_BUILTIN);
 	if (command->status == 0)
 	{
@@ -34,9 +35,12 @@ void	builtin_command(t_minivault	*minivault, \
 		else if (!ft_strncmp(command->words->word, "env", 4))
 			_env(minivault, out);
 		else if (!ft_strncmp(command->words->word, "exit", 5))
+		{
+			close_pipes(in, out);
+			close_pipes(command->fd[0], command->fd[1]);
 			return (_exit_vault(minivault, command->words->next, out));
+		}
 		if (_stat >= 0)
 			set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
 	}
-	close_pipes(in, out);
 }

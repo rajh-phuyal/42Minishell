@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:06 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 22:13:15 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:57:03 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	grow_baobab(t_minivault	*minivault)
 	int	command_count;
 
 	command_count = 1 + count_tokens(PIPE, minivault->tokens);
+	minivault->cmd_count = command_count;
 	minivault->baobab = ft_calloc(1, sizeof(t_baobab));
 	minivault->baobab->pipeline = ft_calloc(sizeof(t_command *), \
 									(command_count + 2));
