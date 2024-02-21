@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:03 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 18:15:52 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:28:48 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,34 +51,28 @@ char	**get_arguments(t_word *words)
 	return (arguments);
 }
 
-static void	child_exec(t_minivault *minivault, \
-			t_command *command, int in, int out)
+void	system_command(t_minivault *minivault, \
+		t_command *command, int in, int out)
 {
 	char		**arg;
 	t_status	status;
 
-	set_signals(SIG_STATE_CHILD);
-	arg = get_arguments(command->words);
-	dup2(out, STDOUT_FILENO);
-	dup2(in, STDIN_FILENO);
-	close_pipes(in, out);
-	close_pipes(command->fd[0], command->fd[1]);
-	execve(command->exec_path, arg, minivault->env_list);
-	error(minivault, FAILURE, true, command->words->word, ": ", \
-		"command not executed", NULL);
-	status = get_status_owner_can_execute(command->exec_path);
-	free(arg);
-}
-
-void	system_command(t_minivault *minivault, \
-		t_command *command, int in, int out)
-{
+	status = CMDNOTFOUND;
 	if (command->status == 0)
 	{
-		child_exec(minivault, command, in, out);
+		set_signals(SIG_STATE_CHILD);
+		arg = get_arguments(command->words);
+		dup2(out, STDOUT_FILENO);
+		dup2(in, STDIN_FILENO);
+		close_pipes(in, out);
+		close_pipes(command->fd[0], command->fd[1]);
+		execve(command->exec_path, arg, minivault->env_list);
+		error(minivault, FAILURE, true, command->words->word, ": ", \
+			"command not executed", NULL);
+		status = get_status_owner_can_execute(command->exec_path);
+		free(arg);
 	}
 	close_pipes(in, out);
 	liberation(minivault);
-	exit(CMDNOTFOUND);
-
+	exit(status);
 }

@@ -6,11 +6,19 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:35 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 18:15:09 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:27:40 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_pipes(int in, int out)
+{
+	if (in != -1 && in != STDIN_FILENO)
+		close(in);
+	if (out != -1 && out != STDOUT_FILENO)
+		close(out);
+}
 
 static void	execute_command(t_minivault *minivault, \
 			t_command *command, int in, int out)

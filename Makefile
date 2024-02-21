@@ -30,7 +30,6 @@ SRC =	src/core/main.c \
 		src/parsing/_heredoc_utils.c \
 		src/parsing/get_exec_path.c \
 		src/parsing/permissions.c \
-		src/executor/close_pipes.c \
 		src/executor/executor.c \
 		src/executor/system_cmd.c \
 		src/executor/builtin_cmd.c \
