@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:54 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 21:09:15 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:50:38 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	*process_iter(t_minivault *minivault, t_strexp *data, char *iter,
 	else if (suffix && *(iter + 1) && !built)
 		built = exe_concat(built, suffix, NULL);
 	free(suffix);
-	*iter = (*iter * (temp > 0)) + ((temp) * (temp == 0));
+	*iter = (*iter * (temp == 0)) + (temp * (temp > 0));
 	return (built);
 }
 
