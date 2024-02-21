@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 18:00:29 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:03:33 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 				error(minivault, CMDNOTFOUND, true, "exit: ",
 					"too many arguments", NULL);
 				set_env(minivault, "?", ft_itoa(FAILURE), (1 << 1));
+				clean_exit(minivault, FAILURE);
 			}
 			else
 				clean_exit(minivault, (_status % MAXEXTSTATUS));
@@ -98,7 +99,7 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 		{
 			error(minivault, EXTSTATUSNONNUM, true, "exit:", args->word, ": ",
 				"numeric argument required", NULL);
-			clean_exit(minivault, FAILURE);
+			clean_exit(minivault, EXITNOTNUM);
 		}
 	}
 }

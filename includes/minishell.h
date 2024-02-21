@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/21 17:50:57 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:00:59 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum e_status
 	FAILURE=1,
 	REDIRFAIL=1,
 	QUOTESEXIT=2,
+	EXITNOTNUM=2,
 	CMDNOTFOUND=127,
 	SIGINTERRUPT=130,
 }	t_status;

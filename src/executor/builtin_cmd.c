@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:14 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 18:09:49 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:16:30 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,13 @@ void	builtin_command(t_minivault	*minivault, \
 		}
 		if (_stat >= 0)
 			set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
+		if (minivault->cmd_count > 1)
+		{
+			close(command->fd[0]);
+			close_pipes(in, out);
+			liberate_vector(minivault->input);
+			liberation(minivault);
+			exit(_stat);
+		}
 	}
 }

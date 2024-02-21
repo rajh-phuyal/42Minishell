@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:05 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:23:06 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:28:55 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static void	init_cycle_vars(t_minivault *minivault)
 
 int	init_minivault(t_minivault *minivault, char **envs)
 {
+	minivault->cmd_count = 0;
 	minivault->cycles = 1;
 	minivault->envs = NULL;
 	minivault->input = NULL;

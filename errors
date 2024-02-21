@@ -1,13 +1,3 @@
-heredoc + CTRL-C
-heredoc exit word with extra characters # ? fixed
-cat | cat | ls is stuck
-export with several invalid parameters followed by a solo export
-|| from start
->test|cat
->a ls <machin >>c >d # ? fixed 
-echo "$tests""Makefile" # expander is removing the whole thing
-
-
 minibaiters$ echo "$"
 
 minibaiters$ echo $
@@ -21,3 +11,45 @@ mini output = (minivault: export: `A-': not a valid identifier)
 echo "exit_code ->$? user ->$USER home -> $HOME" 
 
 echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" # ? fixed
+
+
+Test  40: ❌ cd $PWD hi 
+mini exit code = 0
+bash exit code = 1
+
+
+Test  51: ❌ exit 42 world  !!!! SEGFAULT
+mini exit code = 139
+bash exit code = 1
+
+Test  41: ❌ cd 123123 
+mini exit code = 0
+bash exit code = 1
+
+Test  32: ❌ export 123 
+mini exit code = 0
+bash exit code = 1
+
+Test  30: ❌ export HELLO-=123 
+mini exit code = 0
+bash exit code = 1
+
+Test  17: ❌ echo "$" 
+mini output = ()
+bash output = ($)
+
+Test  15: ❌ echo "exit_code ->$? user ->$USER home -> $HOME" 
+mini output = (exit_code -0 user ->jalves-c home -> /home/jalves-c)
+bash output = (exit_code ->0 user ->jalves-c home -> /home/jalves-c)
+
+
+Test  15: ❌ echo "exit_code ->$? user ->$USER home -> $HOME" 
+mini output = (exit_code -0 user ->jalves-c home -> /home/jalves-c)
+bash output = (exit_code ->0 user ->jalves-c home -> /home/jalves-c)
+
+
+env | sort | grep -v SHLVL | grep -v ^_ 
+
+
+<< eof | << eof | ls
+ctrl + c in heredoc should kill the whole pipeline

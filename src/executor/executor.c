@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:35 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 18:27:40 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:09:29 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,13 @@ static void	execute_command(t_minivault *minivault, \
 	{
 		if (minivault->cmd_count == 1 && command->is_builtin)
 			builtin_command(minivault, command, in, out);
-		else
+		else if (command->status == 0) // changed to else if
 		{
 			command->pid = fork();
 			if (command->pid == 0)
 			{
 				if (command->is_builtin)
-				{
 					builtin_command(minivault, command, in, out);
-					close(command->fd[0]);
-					close_pipes(in, out);
-					liberate_vector(minivault->input);
-					liberation(minivault);
-					exit(SUCCESS);
-				}
 				else
 					system_command(minivault, command, in, out);
 			}
