@@ -1,8 +1,0 @@
-.vscode
-*.o
-*.a
-minishell
-readline.supp
-obj/
-vgcore.*
-minishell_tester

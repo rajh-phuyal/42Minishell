@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:30:41 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 00:40:03 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:15:18 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_herdoc
 	char	*delimiter;
 }			t_heredoc;
 
-int		heredoc(t_minivault *minivault, t_command *command, t_heredoc doc);
+int		heredoc(t_minivault *minivault, t_command *command, \
+		t_heredoc doc, int fd);
 void	handle_delimeter(t_minivault *minivault, \
 		t_command *command, t_heredoc *doc, char *line);
 void	clean_heredoc_child(t_minivault *minivault, \

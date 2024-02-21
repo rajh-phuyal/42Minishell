@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/21 21:17:45 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:04:48 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_minivault
 	char		**input;
 	char		**path;
 	char		**env_list;
+	int			is_exec;
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;

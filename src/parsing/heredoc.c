@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 19:50:46 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:14:51 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
 	if (g_signal_status == SIGNAL_EXIT_HD)
 	{
 		liberate_command(command);
-		clean_heredoc_child(minivault, input, doc->fds, SUCCESS);
+		clean_heredoc_child(minivault, input, doc->fds, FAILURE);
 	}
 	if (!input)
 	{
@@ -44,7 +44,8 @@ static int	handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 	waitpid(pid, &_stat, 0);
 	if (_stat != SUCCESS)
 	{
-		g_signal_status = SIGNAL_EXIT_HD;
+		g_signal_status = SIGINTERRUPT;
+		minivault->is_exec = 0;
 		set_env(minivault, "?", ft_itoa(WEXITSTATUS(_stat)), (1 << 1));
 		close(doc->fds[READ]);
 		return (-1);
@@ -95,11 +96,12 @@ static void	start_heredoc(t_minivault *minivault, \
 	}
 }
 
-int	heredoc(t_minivault *minivault, t_command *command, t_heredoc doc)
+int	heredoc(t_minivault *minivault, t_command *command, t_heredoc doc, int fd)
 {
 	pid_t	pid;
-	int		fd;
 
+	if (minivault->is_exec == 0)
+		return (-1);
 	if (pipe(doc.fds) < 0)
 	{
 		liberate_command(command);

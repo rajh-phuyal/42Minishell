@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:49 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 00:00:06 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:15:59 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	launch_heredoc(t_minivault *minivault, \
 		return (-1);
 	}
 	doc_fd = heredoc(minivault, command, (t_heredoc){{-1, -1}, \
-			!(token->next->type == QUOTED), token->next->content});
+			!(token->next->type == QUOTED), token->next->content}, -1);
 	return (doc_fd);
 }
 
