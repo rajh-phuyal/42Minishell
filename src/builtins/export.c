@@ -97,7 +97,6 @@ int	_export(t_minivault *minivault, t_word *args, int out_fd)
 		if (sorted)
 			free(sorted);
 	}
-	// dprintf(2, "%d\n", _stat);
 	set_env(minivault, "?", ft_itoa(_stat), (1 << 1));
 	return (_stat);
 }

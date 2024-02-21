@@ -39,7 +39,7 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 	char	*temp;
 
 	temp = *v_iter;
-	while(temp && *temp && *temp != DOLLAR[0])
+	while (temp && *temp && *temp != DOLLAR[0])
 		temp++;
 	if (*temp)
 		*temp = '\0';

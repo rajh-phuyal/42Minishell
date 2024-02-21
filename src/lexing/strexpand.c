@@ -61,8 +61,7 @@ static char	*process_iter(t_minivault *minivault, t_strexp *data, char *iter,
 	else if (suffix && *(iter + 1) && !built)
 		built = exe_concat(built, suffix, NULL);
 	free(suffix);
-	if (temp)
-		*iter = temp;
+	*iter = (*iter * (temp > 0)) + ((temp) * (temp == 0));
 	return (built);
 }
 

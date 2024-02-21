@@ -40,7 +40,6 @@ void	builtin_command(t_minivault	*minivault, \
 			close_pipes(command->fd[0], command->fd[1]);
 			return (_exit_vault(minivault, command->words->next, out));
 		}
-		// dprintf(2, "the stat %d\n", _stat);
 		set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
 		if (minivault->cmd_count > 1)
 		{

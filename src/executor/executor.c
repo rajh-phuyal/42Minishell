@@ -27,7 +27,7 @@ static void	execute_command(t_minivault *minivault, \
 	{
 		if (minivault->cmd_count == 1 && command->is_builtin)
 			builtin_command(minivault, command, in, out);
-		else if (command->status == 0) // changed to else if
+		else if (command->status == 0)
 		{
 			command->pid = fork();
 			if (command->pid == 0)
