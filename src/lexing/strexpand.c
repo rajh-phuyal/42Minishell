@@ -85,7 +85,7 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 	{
 		if (*curr == DOLLAR)
 		{
-			if (!*(curr + 1))
+			if (!*(curr + 1) || *(curr + 1) == 39 || *(curr + 1) == 34)
 				break ;
 			_put_end_break(curr + 1, data);
 			if (data->expandable)
@@ -94,7 +94,6 @@ void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 				_magic = alchemy(minivault, data, curr + 1);
 				if (!_magic)
 					break ;
-				*(curr - (data->quoted + data->singleq)) = '\0';
 			}
 			finilize_magic_str(v_iter, curr, _magic, data);
 			break ;

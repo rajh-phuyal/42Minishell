@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/19 20:22:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/02/20 21:31:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef enum e_builtin_err
 {
 	NOHOME,
 	NOPERM,
+	MULTIARG,
 	FILENOFOUND,
 	NOFILEORDIR
 }	t_builtin_err;
