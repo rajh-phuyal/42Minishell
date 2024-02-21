@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inputs.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:30:43 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 23:51:36 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef INPUTS_H
 # define INPUTS_H
 
@@ -24,7 +36,7 @@ typedef struct s_token
 {
 	char			*content;
 	t_content_type	type;
-	struct s_token	*next; // used initially to build the list
+	struct s_token	*next;
 }	t_token;
 
 // AST
@@ -71,19 +83,23 @@ typedef struct s_inside
 	bool	squotes;
 }				t_inside;
 
-typedef enum e_cmd_pos
-{
-	SINGLE,
-	FIRST,
-	MIDDLE,
-	LAST
-}			t_cmd_pos;
+// typedef enum e_cmd_pos
+// {
+// 	SINGLE,
+// 	FIRST,
+// 	MIDDLE,
+// 	LAST
+// }			t_cmd_pos;
 
 typedef struct s_command
 {
 	pid_t		pid;
 	bool		is_builtin;
-	t_cmd_pos	pos;
+	// t_cmd_pos	pos;
+	int			fd[2];
+	int			infile_fd;
+	int			outfile_fd;
+	int			status;
 	char		*exec_path;
 	t_word		*words;
 	t_redir		*redir_in;
@@ -143,7 +159,7 @@ void		add_redirection(t_minivault *minivault, \
 			t_command **command, t_token *token, t_token *next);
 
 char		*get_exec_path(t_minivault *minivault, char *exec_name);
-int			assign_fd(t_minivault *minivault, t_operation operator, \
+int			assign_fd(t_minivault *minivault, t_command *command, t_operation operator, \
 			const char *file);
 
 bool		owner_can_read(const char *file_path);

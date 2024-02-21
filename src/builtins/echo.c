@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:22:29 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 21:26:39 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static bool	_existance_flag(char *str)
@@ -20,7 +32,7 @@ void	_echo(t_minivault *minivault, t_word *args, int out_fd)
 	if (args)
 	{
 		is_flag = _existance_flag(args->word);
-		if (is_flag)
+		while (args && _existance_flag(args->word))
 			args = args->next;
 		while (args)
 		{

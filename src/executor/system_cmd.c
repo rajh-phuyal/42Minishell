@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   system_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:24:03 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/21 00:34:06 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 size_t	get_list_size(t_word *head)
@@ -39,55 +51,36 @@ char	**get_arguments(t_word *words)
 	return (arguments);
 }
 
-t_redir	*get_last_token(t_redir *head)
-{
-	t_redir	*current;
-
-	if (!head)
-		return (NULL);
-	current = head;
-	while (current->next)
-		current = current->next;
-	return (current);
-}
-
-void	child_exec(t_minivault *minivault, t_command *command, int pos)
+static void	child_exec(t_minivault *minivault, t_command *command, int in, int out)
 {
 	char		**arg;
 	t_status	status;
 
 	set_signals(SIG_STATE_CHILD);
-	config_io(minivault, command, pos);
 	arg = get_arguments(command->words);
-	if (command->exec_path)
-	{
-		execve(command->exec_path, arg, minivault->env_list);
-		close_pipes(minivault, command, pos);
-		error(minivault, FAILURE, true, command->words->word, ": ", \
-			"command not executed", NULL);
-		status = CMDNOTFOUND;
-	}
-	else
-	{
-		close_pipes(minivault, command, pos);
-		error(minivault, CMDNOTFOUND, true, command->words->word, ": ", \
-			"command not found", NULL);
-		status = CMDNOTFOUND;
-	}
+	status = CMDNOTFOUND;
+	dup2(out, STDOUT);
+	dup2(in, STDIN);
+	close_pipes(in, out);
+	close_pipes(command->fd[0], command->fd[1]);
+	execve(command->exec_path, arg, minivault->env_list);
+	error(minivault, FAILURE, true, command->words->word, ": ", \
+		"command not executed", NULL);
+	status = get_status_owner_can_execute(command->exec_path);
 	free(arg);
 	liberate_vector(minivault->input);
 	liberation(minivault);
 	exit(status);
 }
 
-void	system_command(t_minivault *minivault, t_command *command, int pos)
+void	system_command(t_minivault *minivault, t_command *command, int in, int out)
 {
-	command->pid = fork();
-	if (command->pid == 0)
-		child_exec(minivault, command, pos);
-	else
+	if(!command->status)
 	{
-		set_signals(SIG_STATE_PARENT);
-		close_pipes(minivault, command, pos);
+		command->pid = fork();
+		if (command->pid == 0)
+		child_exec(minivault, command, in, out);
 	}
+	close_pipes(in, out);
+	set_signals(SIG_STATE_PARENT);
 }

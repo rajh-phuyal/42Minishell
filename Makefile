@@ -2,7 +2,7 @@ NAME  = minishell
 
 CC    = @cc
 
-FLAGS = -g #-fsanitize=address -Wall -Wextra -Werror 
+FLAGS = #-fsanitize=address #-Wall -Wextra -Werror -g
 
 INC = -I./includes
 
@@ -40,9 +40,7 @@ SRC = src/core/main.c \
 	src/parsing/_heredoc_utils.c \
 	src/parsing/get_exec_path.c \
 	src/parsing/permissions.c \
-	src/executor/config_io.c \
 	src/executor/close_pipes.c \
-	src/executor/config_io_builtin.c \
 	src/executor/executor.c \
 	src/executor/system_cmd.c \
 	src/executor/builtin_cmd.c \
@@ -50,7 +48,6 @@ SRC = src/core/main.c \
 	src/terminator/reset.c \
 	src/terminator/_res_util.c \
 	src/terminator/liberation.c 
-
 
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 

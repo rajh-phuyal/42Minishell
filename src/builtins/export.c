@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:22:42 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 21:22:43 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	_declare_session_envar(t_envs *curr, int out_fd)
@@ -52,8 +64,8 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 		{
 			liberate_vector(iter);
 			err = exe_concat(NULL, "minivault: export: `", args->word, "': ",
-					"not a valid identifier", NULL);
-			_stat = FAILURE + (0 * printf("%s\n", err)); // !ft_putendl_fd(err, STDERR_FILENO);
+					"not a valid identifier\n", NULL);
+			_stat = FAILURE + (0 * write(STDERR_FILENO, err, ft_strlen(err)));
 			free(err);
 		}
 		args = args->next;

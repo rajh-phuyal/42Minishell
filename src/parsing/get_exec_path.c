@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_exec_path.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:29:28 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 23:29:40 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*get_full_path(char **path_list, char *command)
@@ -38,5 +50,7 @@ char	*get_exec_path(t_minivault *minivault, char *exec_name)
 	env_path_list = ft_split(env_path, ':');
 	exec_path = get_full_path(env_path_list, exec_name);
 	liberate_vector(env_path_list);
+	if (!exec_path)
+		return (ft_strdup(exec_name));
 	return (exec_path);
 }

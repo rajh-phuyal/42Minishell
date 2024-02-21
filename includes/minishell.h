@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/20 21:31:07 by codespace        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -142,5 +130,6 @@ void		init_fd_catcher(t_minivault *minivault);
 void		empty_fd_catcher(t_minivault *minivault);
 void		insert_fd_catcher(t_minivault *minivault, int fd);
 void		print_redirs(t_redir *head);
+int			get_status_owner_can_execute(const char *file_path);
 
 #endif

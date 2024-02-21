@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:30:00 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/21 01:02:38 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	liberate_words(t_word *head)
@@ -88,4 +100,10 @@ void	cycle_reset(t_minivault *minivault)
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
+}
+
+void	safe_close(int fd)
+{
+	if (fd != -1)
+		close(fd);
 }

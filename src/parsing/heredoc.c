@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:29:36 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 23:59:37 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
@@ -87,6 +99,7 @@ void	start_heredoc(t_minivault *minivault, \
 int	heredoc(t_minivault *minivault, t_command *command, t_heredoc doc)
 {
 	pid_t	pid;
+	int		fd;
 
 	if (pipe(doc.fds) < 0)
 	{
@@ -103,5 +116,8 @@ int	heredoc(t_minivault *minivault, t_command *command, t_heredoc doc)
 	}
 	if (pid == 0)
 		start_heredoc(minivault, command, &doc);
-	return (handle_parent(minivault, &doc, pid));
+	fd = handle_parent(minivault, &doc, pid);
+	close_pipes(command->infile_fd, 1);
+	command->infile_fd = fd;
+	return (fd);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   word.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:29:51 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 21:29:52 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*remove_quotes(char *str, char flag)
@@ -31,7 +43,7 @@ t_word	*create_word_node(t_token *token)
 
 	if (!token || !(token->type == LITERAL || token->type == QUOTED))
 		return (NULL);
-	word = (t_word *)malloc(sizeof(t_word));
+	word = ft_calloc(1, sizeof(t_word));
 	if (!word)
 		return (NULL);
 	word->word = token->content;
