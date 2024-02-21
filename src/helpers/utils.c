@@ -64,3 +64,9 @@ void	add_env_key_val(t_minivault *minivault, char **iter, bool exist)
 				ft_strdup("\31"), (1 << 2));
 	_free_or_not_free(exist, iter);
 }
+
+void	clean_exit(t_minivault *minivault, int status)
+{
+	liberation(minivault);
+	exit(status);
+}

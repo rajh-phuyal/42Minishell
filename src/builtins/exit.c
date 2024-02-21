@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-static void	clean_exit(t_minivault *minivault, int status)
-{
-	liberation(minivault);
-	exit(status);
-}
-
 static bool	_str_long_long(char *str, long long *result)
 {
 	while (*str != '\0')
@@ -73,6 +67,14 @@ static bool	_validate_long_long(char *str, int *status)
 	return (true);
 }
 
+static void	error_set_and_exit(t_minivault *minivault)
+{
+	error(minivault, CMDNOTFOUND, true, "exit: ",
+		"too many arguments", NULL);
+	set_env(minivault, "?", ft_itoa(FAILURE), (1 << 1));
+	clean_exit(minivault, FAILURE);
+}
+
 void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 {
 	int	_status;
@@ -86,12 +88,7 @@ void	_exit_vault(t_minivault *minivault, t_word *args, int out_fd)
 		if (_validate_long_long(args->word, &_status))
 		{
 			if (args && args->next)
-			{
-				error(minivault, CMDNOTFOUND, true, "exit: ",
-					"too many arguments", NULL);
-				set_env(minivault, "?", ft_itoa(FAILURE), (1 << 1));
-				clean_exit(minivault, FAILURE);
-			}
+				error_set_and_exit(minivault);
 			else
 				clean_exit(minivault, (_status % MAXEXTSTATUS));
 		}

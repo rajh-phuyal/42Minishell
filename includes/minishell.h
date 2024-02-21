@@ -135,4 +135,5 @@ char		*exe_concat(char *prev, ...);
 void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
 void		empty_fd_catcher(t_minivault *minivault);
 int			get_status_owner_can_execute(const char *file_path);
+void		clean_exit(t_minivault *minivault, int status);
 #endif
