@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 17:23:56 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:47:45 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	handle_parent(t_minivault *minivault, t_heredoc *doc, int pid)
 	_stat = 0;
 	close(doc->fds[WRITE]);
 	waitpid(pid, &_stat, 0);
-	// set_signals(SIG_STATE_HD_CHILD);
 	if (_stat != SUCCESS)
 	{
 		g_signal_status = SIGNAL_EXIT_HD;

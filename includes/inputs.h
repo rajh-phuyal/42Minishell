@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:30:43 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 23:51:36 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:46:58 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,10 @@ typedef struct s_inside
 	bool	squotes;
 }				t_inside;
 
-// typedef enum e_cmd_pos
-// {
-// 	SINGLE,
-// 	FIRST,
-// 	MIDDLE,
-// 	LAST
-// }			t_cmd_pos;
-
 typedef struct s_command
 {
 	pid_t		pid;
 	bool		is_builtin;
-	// t_cmd_pos	pos;
 	int			fd[2];
 	int			infile_fd;
 	int			outfile_fd;
