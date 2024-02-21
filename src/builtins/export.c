@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:42 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:22:43 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:59:46 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ void	_export(t_minivault *minivault, t_word *args, int out_fd)
 		if (sorted)
 			free(sorted);
 	}
-	set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
+	dprintf(2, "%d\n", _stat);
+	set_env(minivault, "?", ft_itoa(_stat), (1 << 1));
 }

@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:30:43 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 19:51:00 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:00:43 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # define WRITE 1
 # define READ 0
-# define DOLLAR '$'
+# define DOLLAR "$"
 # define SHELLEVEL "SHLVL"
 # define PLACEHOLDER "\31"
 # define DOUBLEQUOTES "\""
