@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:54 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:24:55 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:09:15 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static bool	_exp_validator(char *str, char *end, t_strexp *data)
 		return (unpack_var(data, false, false, false));
 	while (end && *(end + 1))
 		end++;
-	while (str && *str && *str != DOLLAR && *str != 39 && *str != 34)
+	while (str && *str && *str != DOLLAR[0] && *str != 39 && *str != 34)
 		str++;
-	while (end != str && *end != DOLLAR && *end != 39 && *end != 34)
+	while (end != str && *end != DOLLAR[0] && *end != 39 && *end != 34)
 		end--;
-	if (*str == DOLLAR && *end == DOLLAR)
+	if (*str == DOLLAR[FIRST_ELEM] && *end == DOLLAR[FIRST_ELEM])
 		return (unpack_var(data, false, false, true));
 	if (*str == *end && *str == 39 && *(str + 1) == 34)
 		return (unpack_var(data, true, true, false));
@@ -77,7 +77,7 @@ static char	*alchemy(t_minivault *minivault, t_strexp *data, char *iter)
 			*iter != '_'))
 		{
 			_built = process_iter(minivault, data, iter, _built);
-			if (*iter == DOLLAR)
+			if (*iter == DOLLAR[FIRST_ELEM])
 				data->pos = iter;
 			else
 				data->pos = NULL;
@@ -95,7 +95,7 @@ static void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 	_magic = NULL;
 	while (curr && *curr)
 	{
-		if (*curr == DOLLAR)
+		if (*curr == DOLLAR[FIRST_ELEM])
 		{
 			if (!*(curr + 1) || *(curr + 1) == 39 || *(curr + 1) == 34)
 				break ;

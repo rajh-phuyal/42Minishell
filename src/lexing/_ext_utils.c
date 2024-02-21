@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:39 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:24:40 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:09:39 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	_has_expander(char *str)
 		return (false);
 	while (str && *str)
 	{
-		if (*str == DOLLAR)
+		if (*str == DOLLAR[0])
 			return (true);
 		str++;
 	}
@@ -39,7 +39,7 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 	char	*temp;
 
 	temp = *v_iter;
-	while(temp && *temp && *temp != DOLLAR)
+	while(temp && *temp && *temp != DOLLAR[0])
 		temp++;
 	if (*temp)
 		*temp = '\0';
@@ -48,7 +48,7 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 				DOUBLEQUOTES, "'", NULL);
 	else if (data->singleq && !data->expandable)
 	{
-		*temp = DOLLAR;
+		*temp = DOLLAR[0];
 		free(_magic);
 		return ;
 	}
@@ -56,7 +56,7 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 		_magic = exe_concat(_magic, *v_iter, _magic, curr, NULL);
 	else
 	{
-		*temp = DOLLAR;
+		*temp = DOLLAR[0];
 		_magic = exe_concat(_magic, *v_iter, _magic, NULL);
 	}
 	free(*v_iter);

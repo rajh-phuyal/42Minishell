@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/21 21:05:30 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:17:45 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void		_pwd(t_minivault *minivault, int out_fd);
 int			_cd(t_minivault *minivault, t_word *args);
 void		_echo(t_minivault *minivault, t_word *args, int out_fd);
 void		_unset(t_minivault *minivault, t_word *args);
-void		_export(t_minivault *minivault, t_word *args, int out_fd);
+// void		_export(t_minivault *minivault, t_word *args, int out_fd);
+int			_export(t_minivault *minivault, t_word *args, int out_fd);
 void		_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
 
 // debug functions

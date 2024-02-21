@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:35 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:24:36 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:09:51 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ char	*get_suffix(char *str)
 	suffix = NULL;
 	if (!str)
 		return (NULL);
-	while (temp && *temp && *temp != DOLLAR)
+	while (temp && *temp && *temp != DOLLAR[0])
 		temp++;
-	if (temp && *temp == DOLLAR)
+	if (temp && *temp == DOLLAR[0])
 		suffix = ft_substr(str, 0, temp - str);
 	else
 		suffix = ft_substr(str, 0, ft_strlen(str) + 1);

@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:14 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 19:16:30 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:30:38 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	builtin_command(t_minivault	*minivault, \
 {
 	int	_stat;
 
-	_stat = -1;
+	_stat = SUCCESS;
 	(void)in;
 	set_signals(SIG_STATE_BUILTIN);
 	if (command->status == 0)
@@ -29,7 +29,7 @@ void	builtin_command(t_minivault	*minivault, \
 		else if (!ft_strncmp(command->words->word, "pwd", 4))
 			_pwd(minivault, out);
 		else if (!ft_strncmp(command->words->word, "export", 7))
-			_export(minivault, command->words->next, out);
+			_stat = _export(minivault, command->words->next, out);
 		else if (!ft_strncmp(command->words->word, "unset", 6))
 			_unset(minivault, command->words->next);
 		else if (!ft_strncmp(command->words->word, "env", 4))
@@ -40,8 +40,8 @@ void	builtin_command(t_minivault	*minivault, \
 			close_pipes(command->fd[0], command->fd[1]);
 			return (_exit_vault(minivault, command->words->next, out));
 		}
-		if (_stat >= 0)
-			set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
+		// dprintf(2, "the stat %d\n", _stat);
+		set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
 		if (minivault->cmd_count > 1)
 		{
 			close(command->fd[0]);
