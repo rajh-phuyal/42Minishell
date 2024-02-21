@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:14 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 01:00:48 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:19:32 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	builtin_command(t_minivault	*minivault, \
 
 	_stat = -1;
 	set_signals(SIG_STATE_BUILTIN);
-	out = out;
 	if (command->status == 0)
 	{
 		if (!ft_strncmp(command->words->word, "echo", 5))
