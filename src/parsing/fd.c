@@ -22,7 +22,7 @@ static int	assign_fd_great(t_minivault *minivault, t_command *command, const cha
 	else if (owner_can_write(file))
 		fd = open(file, O_WRONLY | O_TRUNC);
 	else
-	{		
+	{
 		error(minivault, REDIRFAIL, true, file, \
 			": ", "Permission denied", NULL);
 			command->status = 1;
@@ -63,7 +63,7 @@ static int	assign_fd_less(t_minivault *minivault, t_command *command, const char
 	if (owner_can_read(file))
 		fd = open(file, O_RDONLY);
 	else
-	{	
+	{
 		error(minivault, REDIRFAIL, true, file, \
 		": ", "Permission denied", NULL);
 		command->status = 1;
@@ -71,7 +71,8 @@ static int	assign_fd_less(t_minivault *minivault, t_command *command, const char
 	return (fd);
 }
 
-int	assign_fd(t_minivault *minivault, t_command *command, t_operation operator, const char *file)
+int	assign_fd(t_minivault *minivault, t_command *command, \
+			t_operation operator, const char *file)
 {
 	int	fd;
 
