@@ -2,42 +2,53 @@ NAME  = minishell
 
 CC    = @cc
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 INC = -I./includes
 
 LFT   = libft/libft.a
 
-SRC = src/core/main.c \
-	src/core/inputs.c \
-	src/data/environment.c \
-	src/data/initialization.c \
-	src/builtins/export.c \
-	src/builtins/env.c \
-	src/builtins/pwd.c \
-	src/builtins/cd.c \
-	src/builtins/echo.c \
-	src/builtins/exit.c \
-	src/builtins/unset.c \
-	src/helpers/debug.c \
-	src/helpers/envsort.c \
-	src/lexing/lexer.c \
-	src/lexing/strextract.c \
-	src/lexing/tokenizer.c \
-	src/parsing/farmer.c \
-	src/parsing/redir.c \
-	src/parsing/word.c \
-	src/heredoc/heredoc.c \
-	src/executor/config_io.c \
-	src/executor/close_pipes.c \
-	src/executor/executor.c \
-	src/executor/system_cmd.c \
-	src/executor/builtin_cmd.c \
-	src/exceptions/errors.c \
-	src/terminator/utils.c \
-	src/terminator/reset.c \
-	src/terminator/liberation.c
-
+SRC =	src/core/main.c \
+		src/core/inputs.c \
+		src/core/signals.c \
+		src/data/environment.c \
+		src/data/initialization.c \
+		src/lexing/lexer.c \
+		src/lexing/strextract.c \
+		src/lexing/strexpand.c \
+		src/lexing/syntax.c \
+		src/lexing/_exp_utils.c \
+		src/lexing/_ext_utils.c \
+		src/lexing/tokenizer.c \
+		src/lexing/quotes.c \
+		src/parsing/farmer.c \
+		src/parsing/command.c \
+		src/parsing/redir.c \
+		src/parsing/word.c \
+		src/parsing/fd.c \
+		src/parsing/heredoc.c \
+		src/parsing/_heredoc_utils.c \
+		src/parsing/get_exec_path.c \
+		src/parsing/permissions.c \
+		src/executor/executor.c \
+		src/executor/system_cmd.c \
+		src/executor/builtin_cmd.c \
+		src/builtins/cd.c \
+		src/builtins/echo.c \
+		src/builtins/export.c \
+		src/builtins/env.c \
+		src/builtins/pwd.c \
+		src/builtins/exit.c \
+		src/builtins/unset.c \
+		src/helpers/errors.c \
+		src/helpers/debug.c \
+		src/helpers/debug1.c \
+		src/helpers/utils.c \
+		src/helpers/utils1.c \
+		src/helpers/envsort.c \
+		src/terminator/reset.c \
+		src/terminator/clean.c \
+		src/terminator/liberation.c 
 
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -73,7 +84,7 @@ obj/%.o: src/%.c
 
 clean:
 	@make -sC libft clean
-	@rm -rf $(OBJ) obj
+	@rm -rf $(OBJ) obj readline.supp
 	@echo "$(CBOLD)$(BLUE)      Objects removed!    $(RESET)"
 
 fclean: clean
@@ -86,7 +97,17 @@ re: fclean all
 run:
 	@make re -s && ./minishell
 
-light-run:
+lrun:
 	@make -s && ./minishell
+
+readline.supp:
+	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+
+vrun: readline.supp
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
+mrun:
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
+
 
 .PHONY: all

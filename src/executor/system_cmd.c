@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   system_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:24:03 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/21 19:30:24 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 size_t	get_list_size(t_word *head)
 {
-	t_word *current;
-	size_t size = 0;
+	t_word	*current;
+	size_t	size;
 
+	size = 0;
 	if (!head)
 		return (size);
 	current = head;
@@ -18,95 +31,48 @@ size_t	get_list_size(t_word *head)
 
 char	**get_arguments(t_word *words)
 {
-	int		i = 0;
-	char	**arguments = NULL;
+	int		i;
+	int		list_size;
+	char	**arguments;
 
-	int list_size = get_list_size(words);
+	i = 0;
+	arguments = NULL;
+	list_size = get_list_size(words);
 	arguments = (char **)malloc((list_size + 1) * sizeof(char *));
 	if (!arguments)
 		return (NULL);
 	while (words)
 	{
-        arguments[i] = words->word;
-        words = words->next;
+		arguments[i] = words->word;
+		words = words->next;
 		i++;
-    }
+	}
 	arguments[i] = NULL;
 	return (arguments);
 }
 
-
-
-char	*get_command_path(char **path_list, char *command)
+void	system_command(t_minivault *minivault, \
+		t_command *command, int in, int out)
 {
-	char *temp;
-	int i = 0;
+	char		**arg;
+	t_status	status;
 
-	while (path_list && path_list[i])
+	status = CMDNOTFOUND;
+	if (command->status == 0)
 	{
-		temp = ft_strjoin(path_list[i], "/");
-		temp = ft_strjoin(temp, command);
-		if (access(temp, F_OK) == 0) // returns if the file exists in the path list
-			return (temp);
-		free(temp);
-		i++;
+		set_signals(SIG_STATE_CHILD);
+		arg = get_arguments(command->words);
+		dup2(out, STDOUT_FILENO);
+		dup2(in, STDIN_FILENO);
+		close_pipes(in, out);
+		close_pipes(command->fd[0], command->fd[1]);
+		if (command->exec_path)
+			execve(command->exec_path, arg, minivault->env_list);
+		error(minivault, FAILURE, true, command->words->word, ": ", \
+			"command not executed", NULL);
+		status = get_status_owner_can_execute(command->exec_path);
+		free(arg);
 	}
-	return (NULL);
-}
-
-t_redir *get_last_token(t_redir *head)
-{
-	t_redir *current;
-
-	if (!head)
-		return (NULL);
-	current = head;
-	while (current->next)
-		current = current->next;
-	return (current);
-}
-
-void system_command(t_minivault *minivault, t_command *command, int pos)
-{
-    char *cmd_path = get_command_path(minivault->path, command->words->word);
-	if (!cmd_path && !get_env(minivault, "PATH")) // cmd is not a builtin nor a system cmd
-	{
-		error(minivault, FAILURE, true, command->words->word, ": ", "No such file or directory", NULL);
-		return ;
-	}
-	else if (!cmd_path)
-	{
-		error(minivault, FAILURE, true, command->words->word, ": ", "command not found", NULL);
-		return ;
-	}
-    char **arg = get_arguments(command->words);
-    if (!cmd_path)
-        return ;
-    pid_t child = fork();
-    if (child == -1)
-    {
-		free(cmd_path); // Free the memory allocated by get_command_path
-        return ;
-    }
-    if (child == 0) // Child process
-	{
-		config_io(minivault, command, pos);
-        execve(cmd_path, arg, minivault->env_list);
-        perror(RED"Execve failed"RESET_COLOR);
-        free(cmd_path);
-		// free arg
-    }
-	else // Parent process
-	{
-        int status;
-
-		close_pipes(minivault, command, pos);
-        waitpid(child, &status, 0);
-        if (WIFEXITED(status))
-			set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
-		else
-            dprintf(2, RED"Child process did not exit normally\n"RESET_COLOR);
-    }
-    free(cmd_path);
-	// free arg
+	liberation(minivault);
+	exit(status);
 }

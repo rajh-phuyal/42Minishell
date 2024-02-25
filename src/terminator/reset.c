@@ -1,18 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 21:30:00 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/21 01:02:38 by jalves-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-void	liberate_words(t_word *head)
-{
-	t_word	*tmp;
-
-	if (!head)
-		return ;
-	while (head)
-	{
-		tmp = head;
-		head = head->next;
-		free(tmp);
-	}
-}
 
 void	liberate_redir(t_redir *head)
 {
@@ -24,12 +22,13 @@ void	liberate_redir(t_redir *head)
 	{
 		tmp = head;
 		head = head->next;
-		close(tmp->fd);
+		if (tmp->fd != -1)
+			close(tmp->fd);
 		free(tmp);
 	}
 }
 
-void	reset_path(t_minivault *minivault)
+static void	reset_path(t_minivault *minivault)
 {
 	int	i;
 
@@ -47,16 +46,28 @@ void	reset_path(t_minivault *minivault)
 		minivault->path = NULL;
 }
 
+void	liberate_baobab( t_baobab *head)
+{
+	int	i;
+
+	i = 0;
+	if (!head)
+		return ;
+	while (head->pipeline && head->pipeline[i])
+		liberate_command(head->pipeline[i++]);
+	free(head->pipeline);
+	free(head);
+	head = NULL;
+}
 
 void	cycle_reset(t_minivault *minivault)
 {
-	// clear out the memory stuffs only necessary for the cycle
-	if (minivault->input)
-		liberate_vector(minivault->input);
 	if (minivault->baobab)
 		liberate_baobab(minivault->baobab);
 	if (minivault->tokens)
 		liberate_tokens(minivault->tokens);
+	else if (minivault->input)
+		liberate_vector(minivault->input);
 	reset_path(minivault);
 	minivault->input = NULL;
 	minivault->tokens = NULL;

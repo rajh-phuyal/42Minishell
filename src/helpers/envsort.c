@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   envsort.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/29 00:37:30 by rajphuyal         #+#    #+#             */
-/*   Updated: 2023/12/25 21:14:23 by rajphuyal        ###   ########.fr       */
+/*   Created: 2024/02/20 21:24:17 by jalves-c          #+#    #+#             */
+/*   Updated: 2024/02/20 21:24:18 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_envlen(t_envs *envs)
+static int	get_envlen(t_envs *envs)
 {
 	int	len;
 
@@ -25,7 +25,7 @@ int	get_envlen(t_envs *envs)
 	return (len);
 }
 
-void	transfer_data(t_envs *envs, char **data)
+static void	transfer_data(t_envs *envs, char **data)
 {
 	while (envs)
 	{
@@ -35,7 +35,7 @@ void	transfer_data(t_envs *envs, char **data)
 	}
 }
 
-int	partition(char **data, int start, int end)
+static int	partition(char **data, int start, int end)
 {
 	int		i;
 	int		j;
