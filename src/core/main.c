@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:54 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:22:55 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/22 04:01:00 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,4 @@ int	main(int argc, char **argv, char **envs)
 // Therefore, if you are trying to optimize it, and it fails (most surely),
 // please increase this counter as a warning for the next person:
 //
-// total_hours_wasted_here = 258
+// total_hours_wasted_here = 259

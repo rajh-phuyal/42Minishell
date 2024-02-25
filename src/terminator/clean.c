@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:47:13 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 18:47:14 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/22 00:32:51 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,9 @@ void	liberate_command(t_command *command)
 	liberate_redir(command->redir_out);
 	if (command->exec_path)
 		free(command->exec_path);
+	if (command->infile_fd != STDIN && command->infile_fd != -1)
+		close(command->infile_fd);
+	if (command->outfile_fd != STDOUT && command->outfile_fd != -1)
+		close(command->outfile_fd);
 	free(command);
 }
