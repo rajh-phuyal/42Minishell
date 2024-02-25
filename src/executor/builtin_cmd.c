@@ -6,7 +6,7 @@
 /*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:14 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 22:46:57 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/02/22 01:58:08 by jalves-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static	void	exec_builtin(t_minivault *minivault, \
 	else if (!ft_strncmp(command->words->word, "env", 4))
 		_env(minivault, out);
 	else if (!ft_strncmp(command->words->word, "exit", 5))
-		return (_exit_vault(minivault, command->words->next, out), \
-		close_cmd_pipes(command, in, out));
+		return (close_cmd_pipes(command, in, out), \
+		_exit_vault(minivault, command->words->next, out));
 	set_env(minivault, PREVEXITSTAT, ft_itoa(_stat), (1 << 1));
 	if (minivault->cmd_count > 1)
 	{
