@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:14 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/22 01:58:08 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:34:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ static	void	exec_builtin(t_minivault *minivault, \
 void	builtin_command(t_minivault	*minivault, \
 		t_command *command, int in, int out)
 {
-	int	_stat;
-
-	_stat = SUCCESS;
 	(void)in;
 	set_signals(SIG_STATE_BUILTIN);
 	if (command->status == 0)

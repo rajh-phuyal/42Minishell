@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/21 23:04:48 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:46:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef enum e_status
 	QUOTESEXIT=2,
 	EXITNOTNUM=2,
 	CMDNOTFOUND=127,
+	BASESIGSTAT=128,
 	SIGINTERRUPT=130,
 }	t_status;
 
