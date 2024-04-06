@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:49 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/22 00:35:48 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/06 21:02:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,36 +44,6 @@ static t_operation	find_redirection_type(t_token *token)
 	return (ERROR);
 }
 
-static t_redir	*create_redirection_node(t_minivault *minivault, \
-		t_command *command, t_token *token, t_token *next)
-{
-	t_redir	*temp;
-	t_redir	*redir;
-
-	if (!token || !next || !next->content)
-	{
-		error(minivault, FAILURE, true, \
-		"syntax error near unexpected token `newline'", NULL);
-		return (NULL);
-	}
-	redir = ft_calloc(1, sizeof(t_redir));
-	if (!redir)
-		return (NULL);
-	redir->operator = find_redirection_type(token);
-	redir->fd = -1;
-	temp = command->redir_in;
-	command->redir_in = redir;
-	redir->next = NULL;
-	redir->word = next->content;
-	if (redir->operator == DLESS)
-		redir->fd = launch_heredoc(minivault, command, token);
-	else
-		redir->fd = assign_fd(minivault, command, redir->operator, \
-			redir->word);
-	command->redir_in = temp;
-	return (redir);
-}
-
 static void	add_redir_back(t_redir **redir, t_redir *token)
 {
 	t_redir	*current;
@@ -87,6 +57,35 @@ static void	add_redir_back(t_redir **redir, t_redir *token)
 	while (current->next)
 		current = current->next;
 	current->next = token;
+}
+
+static t_redir	*create_redirection_node(t_minivault *minivault, \
+		t_command *command, t_token *token, t_token *next)
+{
+	t_redir	*redir;
+
+	if (!token || !next || !next->content)
+	{
+		error(minivault, FAILURE, true, \
+		"syntax error near unexpected token `newline'", NULL);
+		return (NULL);
+	}
+	redir = ft_calloc(1, sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->operator = find_redirection_type(token);
+	redir->fd = -1;
+	redir->next = NULL;
+	redir->word = next->content;
+	if (redir->operator == DLESS)
+	{
+		add_redir_back(&(command->redir_in), redir);
+		redir->fd = launch_heredoc(minivault, command, token);
+	}
+	else
+		redir->fd = assign_fd(minivault, command, redir->operator, \
+			redir->word);
+	return (redir);
 }
 
 void	add_redirection(t_minivault *minivault, \
@@ -105,6 +104,6 @@ void	add_redirection(t_minivault *minivault, \
 		return ;
 	if (redir->operator == DGREAT || redir->operator == GREAT)
 		add_redir_back(head_out, redir);
-	else
+	else if (redir->operator != DLESS)
 		add_redir_back(head_in, redir);
 }
