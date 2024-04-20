@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:05 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 19:28:55 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:07:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,11 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
 	minivault->env_list = envs;
+	minivault->envs = NULL;
 	init_envs(minivault, envs);
 	init_cycle_vars(minivault);
-	minivault->path = ft_split(get_env(minivault, "PATH"), ':');
+	minivault->path = NULL;
+	if (get_env(minivault, "PATH"))
+		minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	return (0);
 }
