@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _ext_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:39 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 21:09:39 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:00:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 		temp++;
 	if (*temp)
 		*temp = '\0';
-	if (data->singleq && data->expandable)
-		_magic = exe_concat(_magic, *v_iter, "'", DOUBLEQUOTES, curr,
-				DOUBLEQUOTES, "'", NULL);
-	else if (data->singleq && !data->expandable)
+	if (data->singleq && !data->expandable)
 	{
 		*temp = DOLLAR[0];
 		free(_magic);
@@ -54,7 +51,7 @@ void	finilize_magic_str(char **v_iter, char *curr, char *_magic,
 	}
 	else if (!data->singleq && data->expandable)
 		_magic = exe_concat(_magic, *v_iter, _magic, curr, NULL);
-	else
+	else if (!data->expandable)
 	{
 		*temp = DOLLAR[0];
 		_magic = exe_concat(_magic, *v_iter, _magic, NULL);
@@ -91,8 +88,7 @@ char	*build_or_not_build(char *_built, t_strexp *data)
 		return (exe_concat(NULL, PLACEHOLDER, NULL));
 	else if (_built && data->singleq)
 	{
-		return (exe_concat(_built, DOUBLEQUOTES, "'", _built, "'", DOUBLEQUOTES,
-				NULL));
+		return (exe_concat(_built, DOUBLEQUOTES, "'", _built, "'", DOUBLEQUOTES, NULL));
 	}
 	return (_built);
 }

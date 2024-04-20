@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:42 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 21:30:45 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:59:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,35 @@ static void	_declare_session_envar(t_envs *curr, int out_fd)
 	ft_putstr_fd("\"\n", out_fd);
 }
 
-static bool	_valid_key(t_minivault *minivault, char *key, bool *exist)
+static	bool	check_if_exist(t_minivault *minivault, char *key)
 {
 	char	*val;
+	val = get_env(minivault, key);
+	if (val)
+		return (true);
+	return (false);
+}
+
+static bool	_valid_key(t_minivault *minivault, char *key, bool *exist, bool *concat)
+{
+	char	*saved;
 
 	if (!key)
 		return (false);
-	val = get_env(minivault, key);
-	if (val)
-	{
-		*exist = true;
-	}
+	saved = key;
 	if (key[FIRST_ELEM] != '_' && !ft_isalpha(key[FIRST_ELEM]))
 		return (false);
+	*exist = check_if_exist(minivault, key);
 	key++;
 	while (*key)
 	{
-		if (*key != '_' && !ft_isalnum(*key))
+		if (*key == '+' && !(*(key + 1)))
+		{
+			*key = '\0';
+			*concat = true;
+			*exist = check_if_exist(minivault, saved);
+		}
+		else if (*key != '_' && !ft_isalnum(*key))
 			return (false);
 		key++;
 	}
@@ -48,18 +60,20 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 {
 	int		_stat;
 	bool	exist;
+	bool	concat;
 	char	*err;
 	char	**iter;
 
 	_stat = SUCCESS;
 	exist = false;
+	concat = false;
 	while (args)
 	{
 		iter = ft_split(args->word, '=');
 		if (!iter)
 			break ;
-		if (_valid_key(minivault, iter[FIRST_ELEM], &exist))
-			add_env_key_val(minivault, iter, exist);
+		if (_valid_key(minivault, iter[FIRST_ELEM], &exist, &concat))
+			add_env_key_val(minivault, iter, exist, concat);
 		else
 		{
 			liberate_vector(iter);

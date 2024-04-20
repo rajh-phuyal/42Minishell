@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:27 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:24:28 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/20 13:54:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,21 @@ static void	_free_or_not_free(bool exist, char **vec)
 	free(vec);
 }
 
-void	add_env_key_val(t_minivault *minivault, char **iter, bool exist)
+void	add_env_key_val(t_minivault *minivault, char **iter, bool exist, bool concat)
 {
 	if (iter[FIRST_ELEM] && iter[SECOND_ELEM])
-		set_env(minivault, iter[FIRST_ELEM], \
-				iter[SECOND_ELEM], (1 << 2));
-	else if (iter[FIRST_ELEM])
+	{
+		if (concat && exist)
+		{
+			set_env(minivault, iter[FIRST_ELEM], \
+					exe_concat(iter[SECOND_ELEM], get_env(minivault, iter[FIRST_ELEM]), \
+					iter[SECOND_ELEM], NULL), (1 << 2));
+		}
+		else
+			set_env(minivault, iter[FIRST_ELEM], \
+					iter[SECOND_ELEM], (1 << 2));
+	}
+	else if (iter[FIRST_ELEM] && !exist)
 		set_env(minivault, iter[FIRST_ELEM], \
 				ft_strdup("\31"), (1 << 2));
 	_free_or_not_free(exist, iter);
