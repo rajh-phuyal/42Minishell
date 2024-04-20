@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/04/13 23:41:43 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/20 15:24:49 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,9 @@ void		liberate_baobab( t_baobab *head);
 // utils
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
-void		add_env_key_val(t_minivault *minivault, char **iter, bool exist, bool concat);
+void		handel_invalid_identifier(char **iter, char *word);
+void		add_env_key_val(t_minivault *minivault, char **iter, \
+				bool exist, bool concat);
 void		empty_fd_catcher(t_minivault *minivault);
 int			get_status_owner_can_execute(const char *file_path);
 void		clean_exit(t_minivault *minivault, int status);

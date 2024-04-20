@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:42 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/14 00:59:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/20 15:23:26 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ static void	_declare_session_envar(t_envs *curr, int out_fd)
 static	bool	check_if_exist(t_minivault *minivault, char *key)
 {
 	char	*val;
+
 	val = get_env(minivault, key);
 	if (val)
 		return (true);
 	return (false);
 }
 
-static bool	_valid_key(t_minivault *minivault, char *key, bool *exist, bool *concat)
+static bool	_valid_key(t_minivault *minivault, char *key, \
+	bool *exist, bool *concat)
 {
 	char	*saved;
 
@@ -75,13 +77,7 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 		if (_valid_key(minivault, iter[FIRST_ELEM], &exist, &concat))
 			add_env_key_val(minivault, iter, exist, concat);
 		else
-		{
-			liberate_vector(iter);
-			err = exe_concat(NULL, "minivault: export: `", args->word, "': ",
-					"not a valid identifier\n", NULL);
-			_stat = FAILURE + (0 * write(STDERR_FILENO, err, ft_strlen(err)));
-			free(err);
-		}
+			handel_invalid_identifier(iter, args->word);
 		args = args->next;
 	}
 	return (_stat);

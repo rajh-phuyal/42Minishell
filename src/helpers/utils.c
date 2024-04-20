@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:27 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/20 13:54:46 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/20 15:24:43 by rajphuyal        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,25 @@ static void	_free_or_not_free(bool exist, char **vec)
 	free(vec);
 }
 
-void	add_env_key_val(t_minivault *minivault, char **iter, bool exist, bool concat)
+void	handel_invalid_identifier(char **iter, char *word)
+{
+	liberate_vector(iter);
+	err = exe_concat(NULL, "minivault: export: `", word, "': ",
+			"not a valid identifier\n", NULL);
+	_stat = FAILURE + (0 * write(STDERR_FILENO, err, ft_strlen(err)));
+	free(err);
+}
+
+void	add_env_key_val(t_minivault *minivault, char **iter, \
+	bool exist, bool concat)
 {
 	if (iter[FIRST_ELEM] && iter[SECOND_ELEM])
 	{
 		if (concat && exist)
 		{
 			set_env(minivault, iter[FIRST_ELEM], \
-					exe_concat(iter[SECOND_ELEM], get_env(minivault, iter[FIRST_ELEM]), \
+					exe_concat(iter[SECOND_ELEM], \
+					get_env(minivault, iter[FIRST_ELEM]), \
 					iter[SECOND_ELEM], NULL), (1 << 2));
 		}
 		else
