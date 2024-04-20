@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:22:42 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/20 15:23:26 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/04/20 14:30:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 	int		_stat;
 	bool	exist;
 	bool	concat;
-	char	*err;
 	char	**iter;
 
 	_stat = SUCCESS;
@@ -77,7 +76,7 @@ static int	add_args_to_env(t_minivault *minivault, t_word *args)
 		if (_valid_key(minivault, iter[FIRST_ELEM], &exist, &concat))
 			add_env_key_val(minivault, iter, exist, concat);
 		else
-			handel_invalid_identifier(iter, args->word);
+			_stat = handel_invalid_identifier(iter, args->word);
 		args = args->next;
 	}
 	return (_stat);

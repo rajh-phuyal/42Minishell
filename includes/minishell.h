@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/04/20 15:24:49 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/04/20 14:33:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void		_pwd(t_minivault *minivault, int out_fd);
 int			_cd(t_minivault *minivault, t_word *args);
 void		_echo(t_minivault *minivault, t_word *args, int out_fd);
 void		_unset(t_minivault *minivault, t_word *args);
-// void		_export(t_minivault *minivault, t_word *args, int out_fd);
 int			_export(t_minivault *minivault, t_word *args, int out_fd);
 void		_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
 
@@ -134,7 +133,7 @@ void		liberate_baobab( t_baobab *head);
 // utils
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
-void		handel_invalid_identifier(char **iter, char *word);
+int			handel_invalid_identifier(char **iter, char *word);
 void		add_env_key_val(t_minivault *minivault, char **iter, \
 				bool exist, bool concat);
 void		empty_fd_catcher(t_minivault *minivault);

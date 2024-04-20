@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rajphuyal <rajphuyal@student.42.fr>        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:27 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/20 15:24:43 by rajphuyal        ###   ########.fr       */
+/*   Updated: 2024/04/20 14:32:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,17 @@ static void	_free_or_not_free(bool exist, char **vec)
 	free(vec);
 }
 
-void	handel_invalid_identifier(char **iter, char *word)
+int	handel_invalid_identifier(char **iter, char *word)
 {
+	int		_stat;
+	char	*err;
+
 	liberate_vector(iter);
 	err = exe_concat(NULL, "minivault: export: `", word, "': ",
 			"not a valid identifier\n", NULL);
 	_stat = FAILURE + (0 * write(STDERR_FILENO, err, ft_strlen(err)));
 	free(err);
+	return (_stat);
 }
 
 void	add_env_key_val(t_minivault *minivault, char **iter, \
