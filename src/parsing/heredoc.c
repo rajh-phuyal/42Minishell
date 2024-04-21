@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/06 21:00:23 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/21 19:34:41 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ static void	start_heredoc(t_minivault *minivault, \
 				line = _str_expand(minivault, line);
 			ft_putendl_fd(line, doc->fds[WRITE]);
 		}
+		else if (line && !(*doc->delimiter))
+			return (handle_delimeter(minivault, command, doc, line));
 		else
 			ft_putendl_fd("", doc->fds[WRITE]);
 		if (line)

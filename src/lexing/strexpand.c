@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strexpand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:54 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/21 13:25:53 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/21 19:06:35 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 	{
 		if (*curr == DOLLAR[FIRST_ELEM])
 		{
-			if (!*(curr + 1) || *(curr + 1) == 39 || *(curr + 1) == 34)
+			if (!*(curr + 1) || *(curr + 1) == ' ' || \
+				*(curr + 1) == 39 || *(curr + 1) == 34)
 				break ;
 			if (data->expandable)
 			{
