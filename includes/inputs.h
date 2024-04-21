@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:30:43 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/21 14:11:08 by codespace        ###   ########.fr       */
+/*   Created: 2024/04/21 21:45:31 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 21:46:44 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_content_type
 	QUOTED,
 	PIPE,
 	REDIRECTION,
-}				t_content_type;
+}	t_content_type;
 
 typedef struct s_token
 {
@@ -48,7 +48,7 @@ typedef enum e_operation
 	LESS,
 	DGREAT,
 	DLESS
-}			t_operation;
+}	t_operation;
 
 typedef struct s_redir
 {
@@ -56,7 +56,7 @@ typedef struct s_redir
 	int				fd;
 	char			*word;
 	struct s_redir	*next;
-}					t_redir;
+}	t_redir;
 
 // declaration for expansion
 typedef struct s_strexp
@@ -65,24 +65,20 @@ typedef struct s_strexp
 	bool	quoted;
 	bool	singleq;
 	bool	expandable;
-}			t_strexp;
+}	t_strexp;
 
-/*
-TODO 	havig the node called word and the string
-TODO 	word aswell is confusing this could change
-*/
 typedef struct s_word
 {
 	char			*word;
 	struct s_word	*next;
 
-}					t_word;
+}	t_word;
 
 typedef struct s_inside
 {
 	bool	dquotes;
 	bool	squotes;
-}				t_inside;
+}	t_inside;
 
 typedef struct s_command
 {
@@ -96,18 +92,18 @@ typedef struct s_command
 	t_word		*words;
 	t_redir		*redir_in;
 	t_redir		*redir_out;
-}				t_command;
+}	t_command;
 
 typedef struct s_baobab
 {
 	t_command	**pipeline;
-}				t_baobab;
+}	t_baobab;
 
 typedef struct s_minivault	t_minivault;
 
 // lexing
 void		toggle_quotes(char input, bool *inside_double_quotes, \
-								bool *inside_single_quotes);
+				bool *inside_single_quotes);
 bool		is_single_quote(char c);
 bool		is_double_quote(char c);
 bool		is_space(char c);
@@ -121,7 +117,7 @@ bool		token_is_quoted(char *str);
 bool		check_syntax(t_minivault *minivault);
 
 t_command	*split_list(t_minivault *minivault, t_token *list, \
-			t_content_type type);
+				t_content_type type);
 
 // expansion utils
 char		*get_suffix(char *str);
@@ -132,7 +128,7 @@ void		_put_end_break(char *start, t_strexp *data);
 char		*build_or_not_build(char *_built, t_strexp *data);
 char		*update_built(char *built, char *value, char curr_char, char *pos);
 bool		unpack_var(t_strexp *data, bool quoted, \
-			bool singleq, bool expandable);
+				bool singleq, bool expandable);
 void		finilize_magic_str(char **v_iter, char *curr, \
 			char *_magic, t_strexp *data);
 
@@ -142,14 +138,12 @@ void		grow_baobab(t_minivault *minivault);
 t_baobab	*search(t_baobab *root, char *token);
 void		add_word(t_word **word_list, t_token *token);
 void		connector(t_baobab *node, t_baobab *parent, \
-			t_baobab *left, t_baobab *right);
+				t_baobab *left, t_baobab *right);
 void		add_redirection(t_minivault *minivault, \
-			t_command **command, t_token *token, t_token *next);
-
+				t_command **command, t_token *token, t_token *next);
 char		*get_exec_path(t_minivault *minivault, char *exec_name);
 int			assign_fd(t_minivault *minivault, t_command *command, \
-			t_operation operator, const char *file);
-
+				t_operation operator, const char *file);
 bool		owner_can_read(const char *file_path);
 bool		owner_can_write(const char *file_path);
 bool		owner_can_execute(const char *file_path);

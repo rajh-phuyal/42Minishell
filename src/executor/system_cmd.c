@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   system_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:24:03 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/21 18:39:07 by anshovah         ###   ########.fr       */
+/*   Created: 2024/04/21 21:57:13 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:13:45 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	get_list_size(t_word *head)
+static	size_t	get_list_size(t_word *head)
 {
 	t_word	*current;
 	size_t	size;
@@ -29,7 +29,7 @@ size_t	get_list_size(t_word *head)
 	return (size);
 }
 
-char	**get_arguments(t_word *words)
+static	char	**get_arguments(t_word *words)
 {
 	int		i;
 	int		list_size;

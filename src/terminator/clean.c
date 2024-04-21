@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 18:47:13 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/21 19:03:46 by anshovah         ###   ########.fr       */
+/*   Created: 2024/04/21 22:06:11 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:19:36 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	liberate_words(t_word *head)
+void	liberate_words(t_word *head)
 {
 	t_word	*tmp;
 
@@ -39,9 +39,9 @@ void	liberate_command(t_command *command)
 		close(command->infile_fd);
 	if (command->outfile_fd != STDOUT && command->outfile_fd != -1)
 		close(command->outfile_fd);
-	if (command->fd[0] > 1)
-		close(command->fd[0]);
-	if (command->fd[1] > 1)
-		close(command->fd[1]);
+	if (command->fd[WRITE] != STDIN)
+		close(command->fd[WRITE]);
+	if (command->fd[READ] != STDOUT)
+		close(command->fd[READ]);
 	free(command);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:24:43 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:24:44 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 22:02:17 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:02:18 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	check_open_quotes(t_minivault *minivault, char *input)
 }
 
 // attempting to create tokens based on the
-// received input str for the readline 
+// received input str for the readline
 bool	lexer(t_minivault *minivault, char *line)
 {
 	if (!check_open_quotes(minivault, line))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envsort.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:24:17 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:24:18 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:58:41 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 21:59:12 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	partition(char **data, int start, int end)
 	return (i + 1);
 }
 
-void	quicksort(char **data, int start, int end)
+static	void	quicksort(char **data, int start, int end)
 {
 	int	pivot;
 

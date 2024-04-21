@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/04/21 18:35:44 by anshovah         ###   ########.fr       */
+/*   Created: 2024/04/21 21:47:03 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:19:51 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void		call_debug(t_minivault *minivault);
 
 // the liberator
 void		liberate_envs(t_envs *head);
+void		liberate_words(t_word *head);
 void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
@@ -142,4 +143,5 @@ void		release_fds(t_minivault *minivault);
 void		catch_fd(t_minivault *minivault, int fd);
 int			get_status_owner_can_execute(const char *file_path);
 void		clean_exit(t_minivault *minivault, int status);
+
 #endif

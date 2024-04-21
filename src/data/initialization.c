@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:23:05 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/21 18:37:07 by anshovah         ###   ########.fr       */
+/*   Created: 2024/04/21 21:52:26 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:34:44 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_free_or_not(char **vec)
+static void	_free_or_not(char **vec, int start)
 {
 	int	i;
 
 	i = 0;
 	while (vec && vec[i])
 	{
-		if (i >= 1)
+		if (i >= start)
 			free(vec[i]);
 		i++;
 	}
@@ -47,11 +47,16 @@ static void	init_envs(t_minivault *minivault, char **envs)
 			value = ft_strdup(getenv(splitted[FIRST_ELEM]));
 		else
 			continue ;
-		if (!value)
+		if (!value && !splitted)
 			continue ;
+		else if (!value && splitted)
+		{
+			_free_or_not(splitted, 0);
+			continue ;
+		}
 		add_env_node(minivault, splitted[FIRST_ELEM], \
 			value, (1 << 2));
-		_free_or_not(splitted);
+		_free_or_not(splitted, 1);
 	}
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
 }
