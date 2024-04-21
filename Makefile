@@ -105,7 +105,7 @@ readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
 
 vrun: readline.supp
-	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=all --suppressions=readline.supp ./$(NAME)
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
 
 mrun:
 	@make -s && valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)

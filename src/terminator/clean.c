@@ -6,7 +6,7 @@
 /*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:06:11 by rphuyal           #+#    #+#             */
-/*   Updated: 2024/04/21 22:19:36 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/04/21 21:58:04 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	liberate_command(t_command *command)
 		close(command->infile_fd);
 	if (command->outfile_fd != STDOUT && command->outfile_fd != -1)
 		close(command->outfile_fd);
-	if (command->fd[WRITE] != STDIN)
-		close(command->fd[WRITE]);
-	if (command->fd[READ] != STDOUT)
+	if (command->fd[READ] != STDIN)
 		close(command->fd[READ]);
+	if (command->fd[WRITE] != STDOUT)
+		close(command->fd[WRITE]);
 	free(command);
 }
