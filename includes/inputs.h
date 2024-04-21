@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:30:43 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 21:08:25 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/21 14:11:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define WRITE 1
 # define READ 0
 # define DOLLAR "$"
+# define OLDPWD "OLDPWD"
 # define SHELLEVEL "SHLVL"
 # define PLACEHOLDER "\31"
 # define DOUBLEQUOTES "\""
