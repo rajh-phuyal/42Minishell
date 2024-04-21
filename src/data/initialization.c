@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:05 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/20 16:07:58 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/21 18:37:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	_free_or_not(char **vec)
 	i = 0;
 	while (vec && vec[i])
 	{
-		if (i >= 2)
+		if (i >= 1)
 			free(vec[i]);
 		i++;
 	}
@@ -35,25 +35,22 @@ to set both to false -> 0
 static void	init_envs(t_minivault *minivault, char **envs)
 {
 	int		i;
-	int		tmp;
+	char	*value;
 	char	**splitted;
 
 	i = -1;
+	value = NULL;
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		if (ft_strlen(splitted[FIRST_ELEM]) == ft_strlen(SHELLEVEL) && \
-			ft_strncmp(splitted[FIRST_ELEM], SHELLEVEL, \
-			ft_strlen(SHELLEVEL)) == 0)
-		{
-			tmp = ft_atoi(splitted[SECOND_ELEM]);
-			add_env_node(minivault, splitted[FIRST_ELEM], \
-				ft_itoa(tmp + 1), (1 << 2));
-			free(splitted[SECOND_ELEM]);
-		}
+		if (splitted && splitted[FIRST_ELEM])
+			value = ft_strdup(getenv(splitted[FIRST_ELEM]));
 		else
-			add_env_node(minivault, splitted[FIRST_ELEM], \
-				splitted[SECOND_ELEM], (1 << 2));
+			continue ;
+		if (!value)
+			continue ;
+		add_env_node(minivault, splitted[FIRST_ELEM], \
+			value, (1 << 2));
 		_free_or_not(splitted);
 	}
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
@@ -76,6 +73,7 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->baobab = NULL;
 	minivault->env_list = envs;
 	minivault->envs = NULL;
+	init_fds(minivault);
 	init_envs(minivault, envs);
 	init_cycle_vars(minivault);
 	minivault->path = NULL;

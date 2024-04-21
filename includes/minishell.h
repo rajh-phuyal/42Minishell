@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/04/20 14:33:16 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/21 18:35:44 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_minivault
 	char		**path;
 	char		**env_list;
 	int			is_exec;
+	int			_fds[FOPEN_MAX];
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
@@ -136,7 +137,9 @@ char		*exe_concat(char *prev, ...);
 int			handel_invalid_identifier(char **iter, char *word);
 void		add_env_key_val(t_minivault *minivault, char **iter, \
 				bool exist, bool concat);
-void		empty_fd_catcher(t_minivault *minivault);
+void		init_fds(t_minivault *minivault);
+void		release_fds(t_minivault *minivault);
+void		catch_fd(t_minivault *minivault, int fd);
 int			get_status_owner_can_execute(const char *file_path);
 void		clean_exit(t_minivault *minivault, int status);
 #endif

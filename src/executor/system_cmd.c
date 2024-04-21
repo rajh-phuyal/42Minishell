@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   system_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:24:03 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/22 01:58:02 by jalves-c         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:39:07 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	system_command(t_minivault *minivault, \
 	{
 		set_signals(SIG_STATE_CHILD);
 		arg = get_arguments(command->words);
-		dup2(out, STDOUT_FILENO);
-		dup2(in, STDIN_FILENO);
+		catch_fd(minivault, dup2(out, STDOUT_FILENO));
+		catch_fd(minivault, dup2(in, STDIN_FILENO));
 		close_pipes(in, out);
 		close_pipes(command->fd[0], command->fd[1]);
 		if (command->exec_path)

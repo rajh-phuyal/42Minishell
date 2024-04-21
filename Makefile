@@ -46,6 +46,7 @@ SRC =	src/core/main.c \
 		src/helpers/utils.c \
 		src/helpers/utils1.c \
 		src/helpers/envsort.c \
+		src/helpers/catcher.c \
 		src/terminator/reset.c \
 		src/terminator/clean.c \
 		src/terminator/liberation.c 
@@ -104,7 +105,7 @@ readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
 
 vrun: readline.supp
-	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+	@make -s && valgrind --leak-check=full --show-leak-kinds=all --track-fds=all --suppressions=readline.supp ./$(NAME)
 
 mrun:
 	@make -s && valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: anshovah <anshovah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:30:00 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/04/06 21:00:36 by codespace        ###   ########.fr       */
+/*   Updated: 2024/04/21 18:37:27 by anshovah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	cycle_reset(t_minivault *minivault)
 	else if (minivault->input)
 		liberate_vector(minivault->input);
 	reset_path(minivault);
+	release_fds(minivault);
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
