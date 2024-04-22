@@ -6,7 +6,7 @@
 /*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 21:52:26 by rphuyal           #+#    #+#             */
-/*   Updated: 2024/04/21 22:34:44 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:36:16 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	init_cycle_vars(t_minivault *minivault)
 
 int	init_minivault(t_minivault *minivault, char **envs)
 {
-	minivault->cmd_count = 0;
+	minivault->cmd_count = 1;
 	minivault->cycles = 1;
 	minivault->envs = NULL;
 	minivault->input = NULL;
