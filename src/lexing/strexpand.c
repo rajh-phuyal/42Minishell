@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strexpand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:24:54 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 22:50:38 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 22:02:47 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:02:48 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,18 @@ static void	process_string(char *curr, char **v_iter, t_minivault *minivault,
 	{
 		if (*curr == DOLLAR[FIRST_ELEM])
 		{
-			if (!*(curr + 1) || *(curr + 1) == 39 || *(curr + 1) == 34)
+			if (!*(curr + 1) || *(curr + 1) == ' ' || \
+				*(curr + 1) == 39 || *(curr + 1) == 34)
 				break ;
-			_put_end_break(curr + 1, data);
 			if (data->expandable)
 			{
+				_put_end_break(curr + 1, data);
 				data->pos = curr;
 				_magic = alchemy(minivault, data, curr + 1);
 				if (!_magic)
 					break ;
+				finilize_magic_str(v_iter, curr, _magic, data);
 			}
-			finilize_magic_str(v_iter, curr, _magic, data);
 			break ;
 		}
 		curr++;

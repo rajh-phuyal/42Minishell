@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:29:36 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 23:14:51 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 22:05:20 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:05:21 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	_check_sig_eof(t_minivault *minivault, t_command *command, \
-												t_heredoc *doc, char *input)
+		t_heredoc *doc, char *input)
 {
 	char	*cycle;
 
@@ -89,6 +89,8 @@ static void	start_heredoc(t_minivault *minivault, \
 				line = _str_expand(minivault, line);
 			ft_putendl_fd(line, doc->fds[WRITE]);
 		}
+		else if (line && !(*doc->delimiter))
+			return (handle_delimeter(minivault, command, doc, line));
 		else
 			ft_putendl_fd("", doc->fds[WRITE]);
 		if (line)

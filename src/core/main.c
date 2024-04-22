@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:22:54 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/22 04:01:00 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:51:05 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 21:51:38 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,4 @@ int	main(int argc, char **argv, char **envs)
 // Therefore, if you are trying to optimize it, and it fails (most surely),
 // please increase this counter as a warning for the next person:
 //
-// total_hours_wasted_here = 259
+// total_hours_wasted_here = 269

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   system_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:24:03 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/22 01:58:02 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:57:13 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:13:45 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	get_list_size(t_word *head)
+static	size_t	get_list_size(t_word *head)
 {
 	t_word	*current;
 	size_t	size;
@@ -29,7 +29,7 @@ size_t	get_list_size(t_word *head)
 	return (size);
 }
 
-char	**get_arguments(t_word *words)
+static	char	**get_arguments(t_word *words)
 {
 	int		i;
 	int		list_size;
@@ -62,8 +62,8 @@ void	system_command(t_minivault *minivault, \
 	{
 		set_signals(SIG_STATE_CHILD);
 		arg = get_arguments(command->words);
-		dup2(out, STDOUT_FILENO);
-		dup2(in, STDIN_FILENO);
+		catch_fd(minivault, dup2(out, STDOUT_FILENO));
+		catch_fd(minivault, dup2(in, STDIN_FILENO));
 		close_pipes(in, out);
 		close_pipes(command->fd[0], command->fd[1]);
 		if (command->exec_path)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:23:35 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/22 01:58:25 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:56:15 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 21:56:33 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ static void	wait_status(t_minivault *minivault, t_command **pipeline)
 			waitpid(-1, &status, 0);
 			if (WIFEXITED(status))
 				set_env(minivault, "?", ft_itoa(WEXITSTATUS(status)), (1 << 1));
+			else if (WIFSIGNALED(status))
+				set_env(minivault, "?", \
+					ft_itoa(status + BASESIGSTAT), (1 << 1));
 		}
 	}
 }

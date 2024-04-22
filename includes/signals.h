@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:31:05 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 17:05:47 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:47:27 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 21:47:57 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_sig_state
 	SIG_STATE_BUILTIN,
 	SIG_STATE_HD_CHILD,
 	SIG_STATE_IGNORE
-}		t_sig_state;
+}	t_sig_state;
 
 # define SIGNAL_EXIT_HD 2
 

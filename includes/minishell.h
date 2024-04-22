@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 17:04:34 by rajphuyal         #+#    #+#             */
-/*   Updated: 2024/02/21 23:04:48 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:47:03 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:19:51 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef enum e_status
 	QUOTESEXIT=2,
 	EXITNOTNUM=2,
 	CMDNOTFOUND=127,
+	BASESIGSTAT=128,
 	SIGINTERRUPT=130,
 }	t_status;
 
@@ -79,6 +80,7 @@ typedef struct s_minivault
 	char		**path;
 	char		**env_list;
 	int			is_exec;
+	int			_fds[FOPEN_MAX];
 	t_envs		*envs;
 	t_baobab	*baobab;
 	t_token		*tokens;
@@ -112,7 +114,6 @@ void		_pwd(t_minivault *minivault, int out_fd);
 int			_cd(t_minivault *minivault, t_word *args);
 void		_echo(t_minivault *minivault, t_word *args, int out_fd);
 void		_unset(t_minivault *minivault, t_word *args);
-// void		_export(t_minivault *minivault, t_word *args, int out_fd);
 int			_export(t_minivault *minivault, t_word *args, int out_fd);
 void		_exit_vault(t_minivault *minivault, t_word *args, int out_fd);
 
@@ -121,6 +122,7 @@ void		call_debug(t_minivault *minivault);
 
 // the liberator
 void		liberate_envs(t_envs *head);
+void		liberate_words(t_word *head);
 void		liberate_redir(t_redir *head);
 void		liberate_vector(char **vector);
 void		liberate_tokens(t_token *head);
@@ -133,8 +135,13 @@ void		liberate_baobab( t_baobab *head);
 // utils
 char		*concat_all(va_list args);
 char		*exe_concat(char *prev, ...);
-void		add_env_key_val(t_minivault *minivault, char **iter, bool exist);
-void		empty_fd_catcher(t_minivault *minivault);
+int			handel_invalid_identifier(char **iter, char *word);
+void		add_env_key_val(t_minivault *minivault, char **iter, \
+				bool exist, bool concat);
+void		init_fds(t_minivault *minivault);
+void		release_fds(t_minivault *minivault);
+void		catch_fd(t_minivault *minivault, int fd);
 int			get_status_owner_can_execute(const char *file_path);
 void		clean_exit(t_minivault *minivault, int status);
+
 #endif

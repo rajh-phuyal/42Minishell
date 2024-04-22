@@ -46,9 +46,10 @@ SRC =	src/core/main.c \
 		src/helpers/utils.c \
 		src/helpers/utils1.c \
 		src/helpers/envsort.c \
+		src/helpers/catcher.c \
 		src/terminator/reset.c \
 		src/terminator/clean.c \
-		src/terminator/liberation.c 
+		src/terminator/liberation.c
 
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
@@ -108,6 +109,5 @@ vrun: readline.supp
 
 mrun:
 	@make -s && valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
-
 
 .PHONY: all

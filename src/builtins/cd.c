@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:22:21 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/20 21:22:24 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:49:08 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 21:49:30 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,14 @@ static int	_display_err(t_builtin_err errnum, char *path)
 
 static int	_goto(t_minivault *minivault, char *path)
 {
+	char	*key;
 	char	buffer[PATH_MAX];
 
+	key = OLDPWD;
+	if (!get_env(minivault, OLDPWD))
+		key = ft_strdup(OLDPWD);
 	if (getcwd(buffer, sizeof(buffer)))
-		set_env(minivault, "OLDPWD", ft_strdup(buffer), (1 << 1));
+		set_env(minivault, key, ft_strdup(buffer), (1 << 1));
 	if (chdir(path) < 0)
 		return (_display_err(NOFILEORDIR, path));
 	clear_buff(buffer);

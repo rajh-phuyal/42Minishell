@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalves-c <jalves-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 21:23:05 by jalves-c          #+#    #+#             */
-/*   Updated: 2024/02/21 19:28:55 by jalves-c         ###   ########.fr       */
+/*   Created: 2024/04/21 21:52:26 by rphuyal           #+#    #+#             */
+/*   Updated: 2024/04/21 22:34:44 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	_free_or_not(char **vec)
+static void	_free_or_not(char **vec, int start)
 {
 	int	i;
 
 	i = 0;
 	while (vec && vec[i])
 	{
-		if (i >= 2)
+		if (i >= start)
 			free(vec[i]);
 		i++;
 	}
@@ -35,26 +35,28 @@ to set both to false -> 0
 static void	init_envs(t_minivault *minivault, char **envs)
 {
 	int		i;
-	int		tmp;
+	char	*value;
 	char	**splitted;
 
 	i = -1;
+	value = NULL;
 	while (envs[++i])
 	{
 		splitted = ft_split(envs[i], '=');
-		if (ft_strlen(splitted[FIRST_ELEM]) == ft_strlen(SHELLEVEL) && \
-			ft_strncmp(splitted[FIRST_ELEM], SHELLEVEL, \
-			ft_strlen(SHELLEVEL)) == 0)
-		{
-			tmp = ft_atoi(splitted[SECOND_ELEM]);
-			add_env_node(minivault, splitted[FIRST_ELEM], \
-				ft_itoa(tmp + 1), (1 << 2));
-			free(splitted[SECOND_ELEM]);
-		}
+		if (splitted && splitted[FIRST_ELEM])
+			value = ft_strdup(getenv(splitted[FIRST_ELEM]));
 		else
-			add_env_node(minivault, splitted[FIRST_ELEM], \
-				splitted[SECOND_ELEM], (1 << 2));
-		_free_or_not(splitted);
+			continue ;
+		if (!value && !splitted)
+			continue ;
+		else if (!value && splitted)
+		{
+			_free_or_not(splitted, 0);
+			continue ;
+		}
+		add_env_node(minivault, splitted[FIRST_ELEM], \
+			value, (1 << 2));
+		_free_or_not(splitted, 1);
 	}
 	add_env_node(minivault, ft_strdup(PREVEXITSTAT), ft_strdup("0"), (1 << 1));
 }
@@ -75,8 +77,12 @@ int	init_minivault(t_minivault *minivault, char **envs)
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
 	minivault->env_list = envs;
+	minivault->envs = NULL;
+	init_fds(minivault);
 	init_envs(minivault, envs);
 	init_cycle_vars(minivault);
-	minivault->path = ft_split(get_env(minivault, "PATH"), ':');
+	minivault->path = NULL;
+	if (get_env(minivault, "PATH"))
+		minivault->path = ft_split(get_env(minivault, "PATH"), ':');
 	return (0);
 }
