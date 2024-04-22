@@ -6,7 +6,7 @@
 /*   By: rphuyal <rphuyal@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 22:09:41 by rphuyal           #+#    #+#             */
-/*   Updated: 2024/04/21 22:09:42 by rphuyal          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:36:26 by rphuyal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	cycle_reset(t_minivault *minivault)
 		liberate_vector(minivault->input);
 	reset_path(minivault);
 	release_fds(minivault);
+	minivault->cmd_count = 1;
 	minivault->input = NULL;
 	minivault->tokens = NULL;
 	minivault->baobab = NULL;
